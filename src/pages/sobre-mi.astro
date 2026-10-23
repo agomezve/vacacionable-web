@@ -1,0 +1,111 @@
+---
+// Ruta: src/pages/sobre-mi.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalArticle from '../components/LegalArticle.astro';
+import { SITE, OWNER, LEGAL_UPDATED, CHANNEL, CHANNEL_NOTE, CURRENT_PROJECT, PROJECTS, HERRAMIENTAS } from '../config/site';
+import { FUENTE_BOE, ANIOS, LOCALES, COMUNIDADES } from '../lib/festivos';
+
+const title = 'Cómo funciona y sobre mí';
+const otherSites = PROJECTS.filter((p) => p.id !== CURRENT_PROJECT && p.id !== 'canal');
+const toc = [
+  { id: 'que-es', title: `Qué es ${SITE.name}` },
+  { id: 'datos', title: 'De dónde salen los festivos' },
+  { id: 'calculos', title: 'Cómo hacemos los cálculos' },
+  { id: 'limites', title: 'Lo que la web no sabe' },
+  { id: 'quien', title: 'Quién está detrás' },
+  { id: 'ia', title: 'Hecha con inteligencia artificial' },
+  { id: 'independencia', title: 'Independencia y financiación' },
+  { id: 'errores', title: 'Correcciones y contacto' },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={`Cómo funciona ${SITE.name}: festivos del BOE y de los ayuntamientos, cómo calculamos los puentes y las vacaciones, y quién está detrás.`}
+  schemaType="AboutPage"
+  breadcrumbs={[{ name: title }]}
+>
+  <LegalArticle
+    title={title}
+    lead="Te ayudamos a sacar el máximo partido a tus festivos y a tus vacaciones, con los datos oficiales y sin registrarte."
+    updated={LEGAL_UPDATED}
+    toc={toc}
+  >
+    <h2 id="que-es">Qué es {SITE.name}</h2>
+    <p>
+      Una web gratuita y sin registro con {HERRAMIENTAS.length} herramientas sobre festivos, puentes y vacaciones en
+      España: el calendario laboral de las {COMUNIDADES.length} comunidades y ciudades autónomas, un optimizador que te
+      dice qué días pedir, comparativas y guías sobre tus derechos.
+    </p>
+
+    <h2 id="datos">De dónde salen los festivos</h2>
+    <ul>
+      {
+        ANIOS.map((a) => (
+          <li>
+            <strong>Festivos nacionales y autonómicos de {a}:</strong> resolución de la Dirección General de Trabajo que
+            publica el BOE (<a href={FUENTE_BOE[a].url} rel="noopener" target="_blank">{FUENTE_BOE[a].id}</a>), incluidas
+            sus notas sobre las fiestas insulares de Canarias y el Valle de Arán.
+          </li>
+        ))
+      }
+      <li>
+        <strong>Festivos locales:</strong> los aprueba cada ayuntamiento y se publican después en el boletín de la
+        comunidad o de la provincia. Ahora mismo tenemos {LOCALES.length} municipios, cada uno con el enlace a su fuente y
+        su estado (aprobado por el pleno o ya publicado en el boletín).
+      </li>
+    </ul>
+
+    <h2 id="calculos">Cómo hacemos los cálculos</h2>
+    <ul>
+      <li><strong>Día libre:</strong> sábado, domingo o festivo. Si trabajas sábados, el sábado cuenta como laborable.</li>
+      <li><strong>Puente:</strong> el bloque más largo de días libres seguidos que contiene un festivo, pidiendo 0, 1, 2… días. Solo mostramos las opciones en las que cada día pedido te da al menos dos días libres.</li>
+      <li><strong>Optimizador:</strong> prueba todas las combinaciones de bloques del año y elige la que más días libres seguidos te da con los días que tienes.</li>
+      <li><strong>Lo que eliges no sale de tu navegador:</strong> todo se calcula en tu dispositivo. Solo recordamos tu comunidad en tu navegador para no preguntártela otra vez.</li>
+    </ul>
+
+    <h2 id="limites">Lo que la web no sabe</h2>
+    <p>
+      Tu convenio y tu empresa: algunos convenios dan días extra (24 y 31 de diciembre, fiestas patronales…) y las
+      fechas de las vacaciones se acuerdan con la empresa. Tampoco sabemos los festivos locales de los municipios que
+      aún no los han aprobado. Ante la duda, manda el boletín oficial.
+    </p>
+
+    <h2 id="quien">Quién está detrás</h2>
+    <p>
+      Soy <strong>{OWNER.name}</strong>, programador backend. {SITE.name} es un proyecto personal e independiente,
+      como mis otras webs:
+    </p>
+    <ul>
+      {otherSites.map((p) => (
+        <li>
+          <a href={p.url}>{p.name}</a>: {p.description.toLowerCase()}.
+        </li>
+      ))}
+    </ul>
+
+    <h2 id="ia">Hecha con inteligencia artificial</h2>
+    <p>
+      Esta web la he construido con <strong>Claude Code</strong>, una herramienta de inteligencia artificial que
+      escribe código, y cuento el proceso completo, errores incluidos, en mi canal de YouTube
+      <a href={CHANNEL.url} rel="noopener" target="_blank">{CHANNEL.name}</a>. Los festivos no los genera ninguna IA:
+      salen del BOE con un script y se comprueban a mano. Los textos los redacto con ayuda de IA y los reviso yo.
+    </p>
+    <p>
+      <a href={CHANNEL.url} rel="noopener" target="_blank"><strong>{CHANNEL_NOTE} →</strong></a>
+    </p>
+
+    <h2 id="independencia">Independencia y financiación</h2>
+    <p>
+      {SITE.name} es gratuito y se financia con publicidad de Google AdSense, siempre identificada como
+      «Publicidad». Los enlaces a ViajaChollo, otra de mis webs, son enlaces normales.
+    </p>
+
+    <h2 id="errores">Correcciones y contacto</h2>
+    <p>
+      Si ves un festivo mal o tu ayuntamiento ya ha publicado los suyos, escríbeme a
+      <a href={`mailto:${OWNER.email}`}>{OWNER.email}</a> o desde la página de <a href="/contacto">contacto</a>, con el
+      enlace al boletín, y lo añado.
+    </p>
+  </LegalArticle>
+</BaseLayout>

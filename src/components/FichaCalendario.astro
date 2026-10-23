@@ -1,0 +1,205 @@
+---
+// Ruta: src/components/FichaCalendario.astro
+// Ficha de calendario laboral de una comunidad o de una capital (ideas 2, 4, 7, 8, 9, 10, 17 y 18).
+import CabeceraPagina from './CabeceraPagina.astro';
+import CuentaAtras from './CuentaAtras.astro';
+import Leyenda from './Leyenda.astro';
+import TarjetaPuente from './TarjetaPuente.astro';
+import AdSlot from './AdSlot.astro';
+import Faq from './Faq.astro';
+import { ANIO, FUENTE_BOE, ETIQUETA_TIPO, calendario, laborables, puentes, resumenFestivos, fmtLargo, fmtMini, nombreMes, LOCALES } from '../lib/festivos';
+import { anioHtml } from '../lib/calendario-html';
+import { festivosDe, type Territorio } from '../lib/territorio';
+import { CONTEXT_LINKS, getProject } from '../config/site';
+import type { Crumb } from './Breadcrumbs.astro';
+
+interface Props {
+  t: Territorio;
+  breadcrumbs: Crumb[];
+}
+const { t, breadcrumbs } = Astro.props;
+const lista = festivosDe(t);
+const cal = calendario(ANIO, lista);
+const lab = laborables(ANIO, lista);
+const res = resumenFestivos(lista);
+const susPuentes = puentes(ANIO, lista);
+const maxMes = Math.max(...lab.meses);
+const fuente = FUENTE_BOE[ANIO];
+const otrosMunicipios = !t.capital ? LOCALES.filter((l) => l.comunidad === t.comunidad.slug && l.anio === ANIO && !l.capital) : [];
+const tieneLocales = !!t.locales || !!t.capital?.isla;
+const faltanLocales = !!t.capital && !t.locales;
+const optimizador = `/vacaciones?c=${t.comunidad.slug}${t.op.municipio ? `&m=${t.op.municipio}` : t.op.isla ? `&m=${encodeURIComponent(t.op.isla)}` : ''}`;
+const mejor = susPuentes.flatMap((p) => p.opciones).sort((a, b) => b.dias / b.pedir - a.dias / a.pedir || b.dias - a.dias)[0];
+
+const preguntas = [
+  {
+    q: `¿Cuántos festivos hay en ${t.nombre} en ${ANIO}?`,
+    a: `${lista.length} festivos${faltanLocales ? ' de ámbito nacional y autonómico; faltan las dos fiestas locales, que aún no tenemos' : ''}. De ellos, ${res.laborables} caen entre semana y ${res.enFinde.length} en sábado o domingo.`,
+  },
+  {
+    q: `¿Cuántos días laborables tiene ${ANIO} en ${t.nombreFrase}?`,
+    a: `${lab.total} días de lunes a viernes que no son festivo${faltanLocales ? ' (sin contar las fiestas locales; con ellas serían dos menos)' : ''}. El mes con más días de trabajo tiene ${maxMes}.`,
+  },
+  ...(mejor
+    ? [
+        {
+          q: `¿Cuál es el mejor puente de ${ANIO} en ${t.nombreFrase}?`,
+          a: `El que más rinde por día pedido: pidiendo ${mejor.pedir} día${mejor.pedir > 1 ? 's' : ''} (${mejor.fechasPedir.map(fmtMini).join(', ')}) libras ${mejor.dias} días seguidos, ${fmtMini(mejor.inicio)}–${fmtMini(mejor.fin)}.`,
+        },
+      ]
+    : []),
+];
+---
+
+<CabeceraPagina titulo={`Calendario laboral ${ANIO} de ${t.nombre}`} etiqueta={`Datos del BOE ${fuente.id}`} breadcrumbs={breadcrumbs}>
+  <p>
+    Los {lista.length} festivos de {ANIO} en {t.nombreFrase}, sus puentes, los días laborables de cada mes y una cuenta atrás al próximo.
+    {faltanLocales && <strong class="text-slate-800">Las dos fiestas locales de {t.capital!.nombre} aún no están aprobadas o no las tenemos.</strong>}
+  </p>
+</CabeceraPagina>
+
+<div class="mx-auto max-w-6xl space-y-12 px-4 py-10 sm:px-6">
+  <div class="grid gap-6 lg:grid-cols-[1fr_22rem]">
+    <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+      {
+        [
+          { v: lista.length, n: 'festivos', c: 'from-rose-500 to-rose-600 text-white' },
+          { v: res.laborables, n: 'entre semana', c: 'from-indigo-600 to-indigo-700 text-white' },
+          { v: res.enFinde.length, n: 'en fin de semana', c: 'from-slate-600 to-slate-700 text-white' },
+          { v: lab.total, n: 'días laborables', c: 'from-amber-400 to-amber-500 text-amber-950' },
+        ].map((d, i) => (
+          <div class:list={['aparece rounded-2xl bg-gradient-to-br p-4 shadow-lg', d.c]} style={`transition-delay:${i * 60}ms`}>
+            <span class="block text-4xl font-extrabold tabular-nums">{d.v}</span>
+            <span class="text-sm opacity-90">{d.n}</span>
+          </div>
+        ))
+      }
+      <div class="col-span-2 flex flex-wrap gap-2 sm:col-span-4">
+        <a href={optimizador} class="boton">✨ Qué días pedir en {ANIO}</a>
+        <a href={`/ics/${t.slug}.ics`} class="boton-secundario" download>📅 Añadir a mi calendario</a>
+        <a href={`/imprimir/${t.slug}`} class="boton-secundario">🖨️ Imprimir o PDF</a>
+      </div>
+    </div>
+    <CuentaAtras comunidad={t.comunidad.slug} municipio={t.op.municipio} isla={t.op.isla} />
+  </div>
+
+  <section>
+    <div class="flex flex-wrap items-end justify-between gap-3">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Los 12 meses de {ANIO}</h2>
+      <Leyenda extra={tieneLocales ? ['local'] : []} />
+    </div>
+    <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" set:html={anioHtml(cal)} />
+  </section>
+
+  <section class="grid gap-8 lg:grid-cols-2">
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Festivos de {ANIO} en {t.nombreFrase}</h2>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="tabla">
+          <thead><tr><th>Fecha</th><th>Festivo</th><th>Tipo</th></tr></thead>
+          <tbody>
+            {
+              lista.map((f) => (
+                <tr class:list={[res.enFinde.includes(f) && 'text-slate-400']}>
+                  <td class="mayuscula">{fmtLargo(f.fecha)}</td>
+                  <td>{f.nombre}{res.enFinde.includes(f) && <span class="ml-1 text-xs text-slate-400">(cae en fin de semana)</span>}</td>
+                  <td>
+                    <span class:list={['rounded-full px-2 py-0.5 text-xs font-semibold', { nacional: 'bg-rose-100 text-rose-800', autonomica: 'bg-amber-100 text-amber-900', insular: 'bg-sky-100 text-sky-800', local: 'bg-sky-100 text-sky-800' }[f.tipo]]}>
+                      {ETIQUETA_TIPO[f.tipo]}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="fuente mt-3">
+        Fuente: <a href={fuente.url} rel="noopener">BOE, {fuente.id}</a>.
+        {t.locales && <> Fiestas locales: <a href={t.locales.fuente.url} rel="noopener">{t.locales.fuente.texto}</a> (aprobadas por el pleno; pendientes de publicarse en el boletín oficial).</>}
+        {t.capital?.isla && <> Fiesta insular: nota 1 de la misma resolución del BOE.</>}
+      </p>
+    </div>
+    <div>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Días laborables por mes</h2>
+      <p class="mt-1 text-sm text-slate-500">De lunes a viernes, sin festivos{faltanLocales ? ' (sin las fiestas locales)' : ''}. Total: <strong>{lab.total}</strong>.</p>
+      <ul class="mt-4 space-y-1.5">
+        {
+          lab.meses.map((n, m) => (
+            <li class="grid grid-cols-[6rem_1fr_2rem] items-center gap-3 text-sm">
+              <span class="mayuscula text-slate-600">{nombreMes(m)}</span>
+              <span class="h-3 overflow-hidden rounded-full bg-slate-100">
+                <span class="aparece block h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500" style={`width:${(n / maxMes) * 100}%`} />
+              </span>
+              <span class="text-right font-semibold tabular-nums text-slate-900">{n}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <AdSlot />
+
+  <section>
+    <h2 class="text-2xl font-bold tracking-tight text-slate-900">Puentes de {ANIO} en {t.nombreFrase}</h2>
+    <p class="mt-1 text-slate-600">Cuántos días libras sin pedir nada y cuántos si pides los días de en medio.</p>
+    <div class="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {susPuentes.map((p) => <TarjetaPuente puente={p} />)}
+    </div>
+    {
+      res.enFinde.length > 0 && (
+        <p class="nota mt-5">
+          Caen en fin de semana y no dan día libre a quien trabaja de lunes a viernes: {res.enFinde.map((f) => `${f.nombre} (${fmtLargo(f.fecha)})`).join(', ')}.{' '}
+          <a class="font-semibold underline" href="/festivos-en-domingo-2027">Qué comunidades los pasan al lunes</a>.
+        </p>
+      )
+    }
+  </section>
+
+  {
+    !t.capital && (
+      <section>
+        <h2 class="text-2xl font-bold tracking-tight text-slate-900">Con las fiestas locales de tu ciudad</h2>
+        <p class="mt-1 text-slate-600">Cada ayuntamiento añade dos festivos. Elige tu capital{otrosMunicipios.length ? ' o tu municipio' : ''}:</p>
+        <ul class="mt-4 flex flex-wrap gap-2">
+          {t.comunidad.capitales.map((k) => (
+            <li>
+              <a href={`/calendario-laboral-2027/${t.comunidad.slug}/${k.slug}`} class="inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 transition hover:bg-indigo-600 hover:text-white">
+                {k.nombre}
+              </a>
+            </li>
+          ))}
+          {otrosMunicipios.map((l) => (
+            <li>
+              <a href={`/festivos-locales#${l.slug}`} class="inline-block rounded-full bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-800 ring-1 ring-sky-200 transition hover:bg-sky-600 hover:text-white">
+                {l.municipio}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  {
+    faltanLocales && (
+      <p class="nota">
+        Aún no tenemos las dos fiestas locales de {t.capital!.nombre} para {ANIO}. Los ayuntamientos suelen aprobarlas en el último trimestre del año anterior; en cuanto se publiquen las añadimos. Mientras, el calendario de arriba tiene los festivos nacionales y autonómicos.
+      </p>
+    )
+  }
+
+  <section class="grid gap-3 sm:grid-cols-2">
+    {
+      CONTEXT_LINKS.map((l) => (
+        <a href={`${getProject(l.project).url}${l.path}`} rel="noopener" class="aparece flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-sky-50 to-indigo-50 p-5 font-semibold text-slate-800 ring-1 ring-indigo-100 transition hover:ring-indigo-300">
+          {l.text}
+          <span aria-hidden="true">→</span>
+        </a>
+      ))
+    }
+  </section>
+
+  <Faq preguntas={preguntas} />
+</div>

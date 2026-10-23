@@ -1,0 +1,29 @@
+---
+// Ruta: src/components/CabeceraPagina.astro
+// Cabecera común de las herramientas y páginas de datos: migas, H1 y entradilla sobre un fondo animado.
+import Breadcrumbs, { type Crumb } from './Breadcrumbs.astro';
+
+interface Props {
+  titulo: string;
+  breadcrumbs: Crumb[];
+  /** Etiqueta pequeña sobre el H1 («Herramienta», «Datos del BOE»…). */
+  etiqueta?: string;
+}
+
+const { titulo, breadcrumbs, etiqueta } = Astro.props;
+---
+
+<section class="cabecera relative overflow-hidden border-b border-indigo-100 bg-gradient-to-br from-indigo-50 via-white to-amber-50">
+  <div class="mancha mancha-1" aria-hidden="true"></div>
+  <div class="mancha mancha-2" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-6xl px-4 pb-8 pt-6 sm:px-6 sm:pb-10">
+    <Breadcrumbs items={breadcrumbs} />
+    {etiqueta && <p class="mt-6 inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-1 text-xs font-bold uppercase tracking-wide text-indigo-700 ring-1 ring-indigo-200">{etiqueta}</p>}
+    <h1 class:list={['max-w-3xl text-3xl font-extrabold tracking-tight text-slate-900 sm:text-5xl', etiqueta ? 'mt-3' : 'mt-6']}>
+      {titulo}
+    </h1>
+    <div class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
+      <slot />
+    </div>
+  </div>
+</section>

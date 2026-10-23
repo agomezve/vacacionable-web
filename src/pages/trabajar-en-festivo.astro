@@ -1,0 +1,38 @@
+---
+// Ruta: src/pages/trabajar-en-festivo.astro
+// Idea 15: qué te corresponde si trabajas un festivo.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Faq from '../components/Faq.astro';
+
+const RD = 'https://www.boe.es/boe/dias/1983/07/29/pdfs/A20963-20964.pdf';
+const ET = 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430';
+const titulo = '¿Me pagan más si trabajo un festivo?';
+const breadcrumbs = [{ name: 'Trabajar en festivo' }];
+const preguntas = [
+  { q: '¿Cuánto más me tienen que pagar?', a: 'Si no te dan otro día de descanso a cambio, la norma general son las horas del festivo con al menos un 75 % de recargo. Tu convenio puede mejorarlo.' },
+  { q: '¿Me pueden dar un día libre en vez de pagármelo?', a: 'Sí: el propio Real Decreto 2001/1983 dice «salvo descanso compensatorio». Si te dan otro día de descanso, no hay recargo.' },
+  { q: '¿Y si mi trabajo es en hostelería, comercio o sanidad?', a: 'En los sectores que abren en festivos lo normal es que el convenio regule cómo se compensan. Búscalo en el boletín oficial de tu provincia o de tu comunidad.' },
+];
+---
+
+<BaseLayout title={`${titulo} Lo que dice la ley`} description="Si trabajas un festivo, la empresa te debe un día de descanso o pagarte esas horas con al menos un 75 % más. Lo que dice la ley y dónde mirar tu convenio." breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Tus derechos" breadcrumbs={breadcrumbs}>
+    <p>O te dan otro día de descanso, o te pagan esas horas con al menos un 75 % más. Así lo dice la norma.</p>
+  </CabeceraPagina>
+  <div class="mx-auto max-w-3xl space-y-10 px-4 py-10 sm:px-6">
+    <div class="grid gap-3 sm:grid-cols-2">
+      <div class="aparece rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 text-white shadow-lg"><p class="text-sm font-semibold">Opción 1</p><p class="mt-1 text-2xl font-extrabold">Un día de descanso a cambio</p></div>
+      <div class="aparece rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 p-6 text-white shadow-lg"><p class="text-sm font-semibold">Opción 2</p><p class="mt-1 text-2xl font-extrabold">Las horas con un 75 % más, como mínimo</p></div>
+    </div>
+    <div class="texto">
+      <h2>Lo que dice la norma</h2>
+      <p>El <a href={ET} rel="noopener">artículo 37.2 del Estatuto de los Trabajadores</a> establece que las fiestas laborales son retribuidas y no recuperables, con un máximo de 14 al año (dos de ellas, locales).</p>
+      <p>El <a href={RD} rel="noopener">artículo 47 del Real Decreto 2001/1983</a>, que sigue en vigor, dice que cuando por razones técnicas u organizativas no puedas disfrutar el festivo, la empresa te abonará, además del salario de la semana, las horas trabajadas ese día <strong>incrementadas en un 75 % como mínimo, salvo descanso compensatorio</strong>.</p>
+      <h2>Mira tu convenio</h2>
+      <p>Muchos convenios mejoran esa compensación o fijan cómo se reparte el trabajo en festivos. Lo encontrarás en el boletín oficial de tu provincia o de tu comunidad, o pídelo a tu empresa o a la representación de los trabajadores.</p>
+      <p class="fuente">Información general, no asesoramiento legal. Si tienes un caso concreto, consulta a un graduado social, a un sindicato o a la inspección de trabajo.</p>
+    </div>
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>

@@ -1,0 +1,83 @@
+---
+// Ruta: src/pages/festivos-en-domingo-2027.astro
+// Idea 18: festivos de 2027 que caen en sábado o domingo y qué comunidades los trasladan.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Faq from '../components/Faq.astro';
+import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, festivosComunes, esFinde, fmtLargo, ETIQUETA_TIPO } from '../lib/festivos';
+
+const comunesFinde = festivosComunes(ANIO).filter((f) => esFinde(f.fecha, 'lv'));
+const filas = COMUNIDADES.map((c) => {
+  const l = festivos(c.slug, ANIO);
+  return {
+    c,
+    pierde: l.filter((f) => esFinde(f.fecha, 'lv')),
+    traslados: l.filter((f) => /siguiente|sustituci/i.test(f.nombre)),
+  };
+});
+const conTraslado = filas.filter((f) => f.traslados.length);
+const titulo = `Festivos de ${ANIO} que caen en fin de semana`;
+const breadcrumbs = [{ name: 'Festivos en fin de semana' }];
+const preguntas = [
+  { q: '¿Si un festivo cae en domingo se pasa al lunes?', a: 'Solo si la comunidad lo decide. El Estatuto de los Trabajadores (artículo 37.2) y el Real Decreto 2001/1983 permiten a las comunidades trasladar al lunes los festivos que caen en domingo o sustituirlos por otros propios; cada una lo publica en su calendario y el BOE lo recoge.' },
+  { q: '¿Y si cae en sábado?', a: 'Para quien trabaja de lunes a viernes se pierde: no da un día libre extra. Para quien trabaja también los sábados, sí es un día de descanso. Algunos convenios compensan los festivos que caen en sábado; mira el tuyo.' },
+];
+---
+
+<BaseLayout title={`Festivos en fin de semana ${ANIO}: cuáles pasan al lunes`} description={`En ${ANIO} caen en fin de semana ${comunesFinde.map((f) => fmtLargo(f.fecha)).join(', ')}. Qué comunidades los trasladan y cuántos festivos pierde cada una.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Datos del BOE" breadcrumbs={breadcrumbs}>
+    <p>En toda España caen en fin de semana {comunesFinde.length} festivos nacionales. Solo {conTraslado.length} comunidades trasladan alguno a un día entre semana.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6">
+    <section class="grid gap-4 sm:grid-cols-3">
+      {
+        comunesFinde.map((f, i) => (
+          <div class="aparece rounded-2xl bg-gradient-to-br from-slate-700 to-slate-900 p-5 text-white shadow-lg" style={`transition-delay:${i * 80}ms`}>
+            <p class="text-sm mayuscula text-slate-300">{fmtLargo(f.fecha)}</p>
+            <p class="mt-1 text-xl font-bold">{f.nombre}</p>
+            <p class="mt-3 text-sm text-slate-300">{filas.filter((x) => x.pierde.some((p) => p.fecha === f.fecha)).length} de {COMUNIDADES.length} lo pierden</p>
+          </div>
+        ))
+      }
+    </section>
+
+    {
+      conTraslado.length > 0 && (
+        <section>
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900">Los que se trasladan</h2>
+          <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {conTraslado.map((f) => (
+              <li class="aparece tarjeta p-4">
+                <a href={`/calendario-laboral-2027/${f.c.slug}`} class="font-semibold text-indigo-700 hover:underline">{f.c.nombre}</a>
+                {f.traslados.map((t) => <p class="mt-1 text-sm text-slate-700"><span class="mayuscula">{fmtLargo(t.fecha)}</span>: {t.nombre}</p>)}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Festivos perdidos en cada comunidad</h2>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="tabla">
+          <thead><tr><th>Comunidad</th><th class="text-right">Pierde</th><th>Cuáles</th></tr></thead>
+          <tbody>
+            {
+              filas.sort((a, b) => b.pierde.length - a.pierde.length).map((f) => (
+                <tr>
+                  <td class="font-semibold"><a class="hover:text-indigo-700" href={`/calendario-laboral-2027/${f.c.slug}`}>{f.c.corto}</a></td>
+                  <td class="text-right font-bold">{f.pierde.length}</td>
+                  <td class="text-sm">{f.pierde.map((p) => `${p.nombre} (${fmtLargo(p.fecha)}, ${ETIQUETA_TIPO[p.tipo].toLowerCase()})`).join(' · ')}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="fuente mt-2">Para quien trabaja de lunes a viernes. Fuente: <a href={FUENTE_BOE[ANIO].url} rel="noopener">BOE {FUENTE_BOE[ANIO].id}</a>.</p>
+    </section>
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>

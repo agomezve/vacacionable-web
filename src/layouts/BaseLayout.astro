@@ -1,0 +1,121 @@
+---
+// Ruta: src/layouts/BaseLayout.astro
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import SEO, { type ArticleMeta, type SchemaType } from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import AdSenseScript from '../components/AdSenseScript.astro';
+import Analytics from '../components/Analytics.astro';
+import type { Crumb } from '../components/Breadcrumbs.astro';
+import { SITE, absoluteUrl, stripBase } from '../config/site';
+
+export interface Props {
+  title: string;
+  /** Titular visible (H1) si difiere del título SEO. */
+  heading?: string;
+  description: string;
+  /** URL canónica. Por defecto, la URL de la página actual sin ".html" ni barra final. */
+  canonicalURL?: URL | string;
+  /** Tipo de Schema.org de la página. Por defecto, WebPage. */
+  schemaType?: SchemaType;
+  breadcrumbs?: Crumb[];
+  /** Metadatos de artículo (solo con schemaType="Article"). */
+  article?: ArticleMeta;
+  /** Fecha de los datos de la página (precios), para dateModified en el JSON-LD. */
+  modified?: Date;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  heading,
+  description,
+  canonicalURL,
+  schemaType = 'WebPage',
+  breadcrumbs = [],
+  article,
+  modified,
+  noindex = false,
+} = Astro.props;
+
+// trailingSlash 'never' + build.format 'file': /ruta, nunca /ruta/ ni /ruta.html
+const currentPath = stripBase(Astro.url.pathname).replace(/\.html$/, '').replace(/\/index$/, '') || '/';
+// canonicalURL puede ser una URL absoluta o una ruta interna ('/contacto').
+const canonicalInput = canonicalURL ? String(canonicalURL) : currentPath;
+const canonical = new URL(/^https?:\/\//.test(canonicalInput) ? canonicalInput : absoluteUrl(canonicalInput));
+---
+
+<!doctype html>
+<html lang={SITE.lang} class="sin-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#4f46e5" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {SITE.googleSiteVerification && <meta name="google-site-verification" content={SITE.googleSiteVerification} />}
+    {SITE.bingSiteVerification && <meta name="msvalidate.01" content={SITE.bingSiteVerification} />}
+
+    <SEO
+      title={title}
+      heading={heading}
+      description={description}
+      canonicalURL={canonical}
+      schemaType={schemaType}
+      breadcrumbs={breadcrumbs}
+      article={article}
+      modified={modified}
+      noindex={noindex}
+    />
+
+    <!-- Google Analytics 4 con Consent Mode v2 (solo si GA4_ID está relleno en src/config/site.ts). -->
+    <Analytics />
+
+    <!--
+      Google AdSense
+      El script se inserta automáticamente cuando rellenas ADSENSE.clientId
+      ("ca-pub-XXXXXXXXXXXXXXXX") en src/config/site.ts. Mientras esté vacío, no se carga nada.
+      El consentimiento (RGPD) lo gestiona la CMP certificada de Google:
+      AdSense > Privacidad y mensajes > Mensaje de consentimiento.
+    -->
+    <AdSenseScript />
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <Header />
+    <main id="contenido" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      // Animación de aparición al hacer scroll. Sin JS (o con movimiento reducido) todo se ve desde el principio.
+      document.documentElement.classList.remove('sin-js');
+      const reducido = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const elementos = document.querySelectorAll<HTMLElement>('.aparece');
+      if (reducido || !('IntersectionObserver' in window)) elementos.forEach((e) => e.classList.add('visto'));
+      else {
+        const io = new IntersectionObserver(
+          (entradas) => entradas.forEach((e) => e.isIntersecting && (e.target.classList.add('visto'), io.unobserve(e.target))),
+          { rootMargin: '0px 0px -40px 0px' },
+        );
+        elementos.forEach((e) => io.observe(e));
+        // Respaldo: si el observador no llega a avisar (pestaña en segundo plano), se muestran al hacer scroll.
+        let pendiente = false;
+        addEventListener(
+          'scroll',
+          () => {
+            if (pendiente) return;
+            pendiente = true;
+            requestAnimationFrame(() => {
+              pendiente = false;
+              for (const e of document.querySelectorAll<HTMLElement>('.aparece:not(.visto)')) if (e.getBoundingClientRect().top < innerHeight) e.classList.add('visto');
+            });
+          },
+          { passive: true },
+        );
+      }
+    </script>
+  </body>
+</html>

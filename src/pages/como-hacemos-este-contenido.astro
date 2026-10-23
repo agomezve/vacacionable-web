@@ -1,0 +1,73 @@
+---
+// Ruta: src/pages/como-hacemos-este-contenido.astro
+// Transparencia: qué hace la IA, qué reviso yo, de dónde salen los datos y cada cuánto se actualizan.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalArticle from '../components/LegalArticle.astro';
+import { SITE, OWNER, AUTHOR, CHANNEL, CONTENT_PROCESS, LEGAL_UPDATED } from '../config/site';
+import { FUENTE_BOE, ANIOS } from '../lib/festivos';
+
+const title = CONTENT_PROCESS.title;
+const toc = [
+  { id: 'resumen', title: 'En pocas palabras' },
+  { id: 'ia', title: 'Qué hace la IA' },
+  { id: 'revision', title: 'Qué reviso yo' },
+  { id: 'datos', title: 'De dónde salen los datos' },
+  { id: 'actualizacion', title: 'Cada cuánto se actualiza' },
+  { id: 'errores', title: 'Si encuentras un error' },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={`Qué hace la IA en ${SITE.name}, qué revisa ${OWNER.name}, de dónde salen los festivos oficiales y cada cuánto se actualizan.`}
+  schemaType="AboutPage"
+  breadcrumbs={[{ name: title }]}
+>
+  <LegalArticle
+    title={title}
+    lead={`${SITE.name} se hace con ayuda de inteligencia artificial y con revisión humana. Los festivos, en cambio, no los toca ninguna IA: salen del BOE.`}
+    updated={LEGAL_UPDATED}
+    toc={toc}
+  >
+    <h2 id="resumen">En pocas palabras</h2>
+    <ul>
+      <li>La IA me ayuda a programar la web y a redactar las plantillas de texto.</li>
+      <li>Los festivos nacionales y autonómicos los lee un script directamente de la tabla del BOE.</li>
+      <li>Los festivos locales los añado a mano, solo con fuente, y digo si ya están en el boletín o solo aprobados por el pleno.</li>
+      <li>Los puentes, los días laborables y el optimizador se calculan con esos datos; no hay cifras escritas a mano.</li>
+    </ul>
+
+    <h2 id="ia">Qué hace la IA</h2>
+    <p>
+      La web la construí con un asistente de programación con IA, y el proceso completo está en mi canal de YouTube
+      <a href={CHANNEL.url} rel="noopener" target="_blank">{CHANNEL.name}</a>. La IA escribió el código que descarga el
+      BOE, calcula los puentes y genera las páginas, y me ayudó a redactar los textos.
+    </p>
+
+    <h2 id="revision">Qué reviso yo</h2>
+    <ol>
+      <li><strong>Los datos</strong>: que la tabla descargada coincide con la del BOE, comunidad por comunidad.</li>
+      <li><strong>Los cálculos</strong>: puentes y días laborables comprobados a mano con el calendario.</li>
+      <li><strong>Las guías legales</strong>: copiadas del Estatuto de los Trabajadores y del Real Decreto 2001/1983, con el enlace.</li>
+      <li><strong>Los textos</strong>: que se entienden y que no dicen nada que los datos no respalden.</li>
+    </ol>
+    <p>Más detalles en <a href={AUTHOR.href}>cómo funciona y sobre mí</a>.</p>
+
+    <h2 id="datos">De dónde salen los datos</h2>
+    <ul>
+      {ANIOS.map((a) => <li><strong>{a}:</strong> <a href={FUENTE_BOE[a].url} rel="noopener" target="_blank">BOE, {FUENTE_BOE[a].id}</a>.</li>)}
+      <li><strong>Festivos locales:</strong> el acuerdo del pleno o el boletín de cada municipio, enlazado en su ficha.</li>
+    </ul>
+
+    <h2 id="actualizacion">Cada cuánto se actualiza</h2>
+    <ul>
+      <li><strong>Festivos nacionales y autonómicos</strong>: una vez al año, cuando el BOE publica la resolución (suele ser en octubre).</li>
+      <li><strong>Festivos locales</strong>: según los aprueban los ayuntamientos y los publican los boletines.</li>
+    </ul>
+
+    <h2 id="errores">Si encuentras un error</h2>
+    <p>
+      Escríbeme a <a href={`mailto:${OWNER.email}`}>{OWNER.email}</a> o desde la página de <a href="/contacto">contacto</a>.
+    </p>
+  </LegalArticle>
+</BaseLayout>

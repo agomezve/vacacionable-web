@@ -1,0 +1,124 @@
+---
+// Ruta: src/pages/parejas.astro
+// Idea 12: dos personas en comunidades (o municipios) distintos: qué días libran juntas y qué pedir cada una.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import SelectorTerritorio from '../components/SelectorTerritorio.astro';
+import Faq from '../components/Faq.astro';
+import { ANIO } from '../lib/festivos';
+
+const titulo = `Vacaciones en pareja ${ANIO}: los días que libráis juntos`;
+const breadcrumbs = [{ name: 'Vacaciones en pareja' }];
+const preguntas = [
+  { q: '¿Para quién es?', a: 'Para parejas, familias o amigos que trabajan en comunidades o municipios con festivos distintos, por ejemplo una persona en Madrid y otra en Toledo.' },
+  { q: '¿Cómo calcula los días a pedir?', a: 'Busca bloques en los que los dos estéis libres a la vez y cuenta, para cada uno, los días laborables de ese bloque. Nunca pasa de los días de vacaciones que pongáis.' },
+];
+---
+
+<BaseLayout title={titulo} description={`Si trabajáis en comunidades distintas, mira qué festivos de ${ANIO} compartís y qué días pedir cada uno para coincidir de vacaciones.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Herramienta" breadcrumbs={breadcrumbs}>
+    <p>Cada uno pone dónde trabaja. Te enseñamos los festivos que compartís, los que no, y cómo enlazar vuestros días libres.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6">
+    <form class="grid gap-4 lg:grid-cols-[1fr_1fr_14rem]" onsubmit="return false" data-form>
+      <div class="tarjeta border-indigo-200 bg-indigo-50/50">
+        <p class="mb-3 font-bold text-indigo-800">Persona 1</p>
+        <SelectorTerritorio id="a" titulo="Trabaja en" />
+      </div>
+      <div class="tarjeta border-fuchsia-200 bg-fuchsia-50/50">
+        <p class="mb-3 font-bold text-fuchsia-800">Persona 2</p>
+        <SelectorTerritorio id="b" titulo="Trabaja en" memoria="vacacionable-pareja" inicial="castilla-la-mancha" />
+      </div>
+      <div class="tarjeta">
+        <label class="block">
+          <span class="etiqueta">Días de vacaciones de cada uno</span>
+          <input type="number" min="1" max="35" value="22" class="entrada text-center text-2xl font-bold" data-dias />
+        </label>
+      </div>
+    </form>
+
+    <div class="grid gap-3 sm:grid-cols-3" aria-live="polite">
+      <div class="rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 p-5 text-white shadow-lg"><span class="block text-4xl font-extrabold" data-n-ambos>—</span>festivos en común entre semana</div>
+      <div class="rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-600 p-5 text-white shadow-lg"><span class="block text-4xl font-extrabold" data-n-a>—</span>solo libra la persona 1</div>
+      <div class="rounded-2xl bg-gradient-to-br from-fuchsia-500 to-fuchsia-600 p-5 text-white shadow-lg"><span class="block text-4xl font-extrabold" data-n-b>—</span>solo libra la persona 2</div>
+    </div>
+
+    <section>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Vuestros bloques juntos</h2>
+      <p class="mt-1 text-slate-600" data-resumen></p>
+      <ol class="mt-4 grid gap-3 md:grid-cols-2" data-bloques></ol>
+    </section>
+
+    <section>
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <h2 class="text-xl font-bold text-slate-900">El año de los dos</h2>
+        <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600">
+          <li class="flex items-center gap-1.5"><span class="h-3.5 w-3.5 rounded bg-emerald-500"></span>Festivo de los dos</li>
+          <li class="flex items-center gap-1.5"><span class="h-3.5 w-3.5 rounded bg-indigo-500"></span>Solo persona 1</li>
+          <li class="flex items-center gap-1.5"><span class="h-3.5 w-3.5 rounded bg-fuchsia-500"></span>Solo persona 2</li>
+          <li class="flex items-center gap-1.5"><span class="h-3.5 w-3.5 rounded bg-white outline-2 outline-emerald-400"></span>Bloque juntos</li>
+        </ul>
+      </div>
+      <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" data-anio></div>
+    </section>
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>
+
+<script>
+  import { ANIO, calendario, festivos, optimizar, fmtRango, fmtMini, nombreDia, type Dia } from '../lib/festivos';
+  import { anioHtml, rango, type Marca } from '../lib/calendario-html';
+
+  const sel: Record<string, { comunidad: string; municipio: string; isla: string }> = {};
+  const dias = document.querySelector<HTMLInputElement>('[data-dias]')!;
+  const $ = (s: string) => document.querySelector<HTMLElement>(s)!;
+
+  const pintar = () => {
+    if (!sel.a || !sel.b) return;
+    const ca = calendario(ANIO, festivos(sel.a.comunidad, ANIO, sel.a));
+    const cb = calendario(ANIO, festivos(sel.b.comunidad, ANIO, sel.b));
+    // Calendario conjunto: libre solo si los dos libran.
+    const junto: Dia[] = ca.map((d, i) => ({ fecha: d.fecha, finde: d.finde && cb[i].finde, libre: d.libre && cb[i].libre, festivo: d.libre && cb[i].libre ? d.festivo ?? cb[i].festivo : undefined }));
+    const n = Math.max(1, Math.min(35, Number(dias.value) || 22));
+    // Cada uno gasta como mucho n días: el conjunto pide la unión, así que basta con limitarlo a n.
+    const plan = optimizar(junto, n);
+    const fa = new Set(ca.filter((d) => d.festivo && !d.finde).map((d) => d.fecha));
+    const fb = new Set(cb.filter((d) => d.festivo && !d.finde).map((d) => d.fecha));
+    const ambos = [...fa].filter((f) => fb.has(f));
+    $('[data-n-ambos]').textContent = String(ambos.length);
+    $('[data-n-a]').textContent = String([...fa].filter((f) => !fb.has(f)).length);
+    $('[data-n-b]').textContent = String([...fb].filter((f) => !fa.has(f)).length);
+
+    const trabaja = (cal: Dia[], f: string) => !cal.find((d) => d.fecha === f)!.libre;
+    $('[data-bloques]').innerHTML = plan.ventanas
+      .map((v, i) => {
+        const pa = v.fechasPedir.filter((f) => trabaja(ca, f));
+        const pb = v.fechasPedir.filter((f) => trabaja(cb, f));
+        const chips = (l: string[], c: string) => (l.length ? l.map((f) => `<span class="rounded-md ${c} px-1.5 py-0.5 text-xs font-semibold">${nombreDia(f).slice(0, 3)} ${fmtMini(f)}</span>`).join(' ') : '<span class="text-xs text-slate-400">nada</span>');
+        return `<li class="salta rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" style="animation-delay:${i * 40}ms">
+          <div class="flex items-start justify-between gap-3"><p class="font-bold text-slate-900">${fmtRango(v.inicio, v.fin)}</p><span class="rounded-full bg-emerald-600 px-2.5 py-0.5 text-sm font-bold text-white">${v.dias} días juntos</span></div>
+          <p class="mt-2 text-sm leading-7"><strong class="text-indigo-700">Persona 1 pide ${pa.length}:</strong> ${chips(pa, 'bg-indigo-50 text-indigo-800')}</p>
+          <p class="text-sm leading-7"><strong class="text-fuchsia-700">Persona 2 pide ${pb.length}:</strong> ${chips(pb, 'bg-fuchsia-50 text-fuchsia-800')}</p>
+        </li>`;
+      })
+      .join('');
+    const ta = plan.ventanas.reduce((s, v) => s + v.fechasPedir.filter((f) => trabaja(ca, f)).length, 0);
+    const tb = plan.ventanas.reduce((s, v) => s + v.fechasPedir.filter((f) => trabaja(cb, f)).length, 0);
+    $('[data-resumen]').textContent = `${plan.libres} días libres juntos en ${plan.ventanas.length} bloques. La persona 1 gasta ${ta} días y la persona 2, ${tb}.`;
+
+    const bloque = new Set(plan.ventanas.flatMap((v) => rango(v.inicio, v.fin)));
+    const marcas = (f: string): Marca[] => [
+      ...(fa.has(f) && fb.has(f) ? ['ambos' as const] : fa.has(f) ? ['solo-a' as const] : fb.has(f) ? ['solo-b' as const] : []),
+      ...(bloque.has(f) ? ['bloque' as const] : []),
+    ];
+    $('[data-anio]').innerHTML = anioHtml(ca, marcas);
+  };
+
+  document.addEventListener('territorio', (e) => {
+    const id = (e.target as HTMLElement).closest<HTMLElement>('[data-territorio]')!.dataset.territorio!;
+    sel[id] = (e as CustomEvent).detail;
+    pintar();
+  });
+  dias.addEventListener('input', pintar);
+</script>

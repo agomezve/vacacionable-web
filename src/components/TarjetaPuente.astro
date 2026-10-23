@@ -1,0 +1,12 @@
+---
+// Ruta: src/components/TarjetaPuente.astro
+// Un puente: sus festivos, lo que libras sin pedir nada y las opciones pidiendo días.
+import type { Puente } from '../lib/festivos';
+import { puenteHtml } from '../lib/puente-html';
+
+interface Props {
+  puente: Puente;
+}
+---
+
+<Fragment set:html={puenteHtml(Astro.props.puente)} />

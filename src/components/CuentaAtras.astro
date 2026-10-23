@@ -1,0 +1,87 @@
+---
+// Ruta: src/components/CuentaAtras.astro
+// Cuenta atrás al próximo festivo (idea 7) de un territorio fijo o del que elija el usuario (evento 'territorio').
+interface Props {
+  comunidad?: string;
+  municipio?: string;
+  isla?: string;
+  oscuro?: boolean;
+}
+const { comunidad = '', municipio = '', isla = '', oscuro = false } = Astro.props;
+---
+
+<div
+  data-cuenta-atras
+  data-comunidad={comunidad}
+  data-municipio={municipio}
+  data-isla={isla}
+  class:list={['rounded-3xl p-6 shadow-xl', oscuro ? 'bg-slate-900 text-white shadow-indigo-900/30' : 'bg-white text-slate-900 ring-1 ring-slate-200']}
+>
+  <p class:list={['text-sm font-semibold', oscuro ? 'text-indigo-200' : 'text-indigo-700']}>Tu próximo festivo</p>
+  <p class="mt-1 text-xl font-bold leading-snug" data-ca-nombre>Calculando…</p>
+  <p class:list={['text-sm', oscuro ? 'text-slate-300' : 'text-slate-500']} data-ca-fecha></p>
+  <div class="mt-4 grid grid-cols-4 gap-2 text-center" aria-live="polite">
+    {
+      ['días', 'horas', 'min', 'seg'].map((u) => (
+        <div class:list={['rounded-2xl py-3', oscuro ? 'bg-white/10' : 'bg-indigo-50']}>
+          <span class="block text-3xl font-extrabold tabular-nums sm:text-4xl" data-ca={u}>
+            –
+          </span>
+          <span class:list={['text-[11px] uppercase tracking-wide', oscuro ? 'text-slate-300' : 'text-slate-500']}>{u}</span>
+        </div>
+      ))
+    }
+  </div>
+  <p class:list={['mt-4 text-sm', oscuro ? 'text-slate-300' : 'text-slate-600']} data-ca-siguientes></p>
+</div>
+
+<script>
+  import { proximos, fmtLargo, hoyMadrid, ETIQUETA_TIPO } from '../lib/festivos';
+
+  for (const caja of document.querySelectorAll<HTMLElement>('[data-cuenta-atras]')) {
+    let t = { comunidad: caja.dataset.comunidad!, municipio: caja.dataset.municipio!, isla: caja.dataset.isla! };
+    const fijo = !!t.comunidad;
+    let objetivo = 0;
+    const set = (sel: string, v: string) => {
+      const el = caja.querySelector<HTMLElement>(sel)!;
+      if (el.textContent !== v) {
+        el.textContent = v;
+        el.classList.remove('cambia');
+        void el.offsetWidth;
+        el.classList.add('cambia');
+      }
+    };
+    const preparar = () => {
+      if (!t.comunidad) return;
+      // Desde mañana si hoy ya es festivo y ha empezado; el festivo empieza a las 00:00 hora de Madrid.
+      const lista = proximos(t.comunidad, hoyMadrid(), { municipio: t.municipio, isla: t.isla }, 4);
+      const [f, ...resto] = lista;
+      if (!f) {
+        set('[data-ca-nombre]', 'Aún no hay festivos publicados para después de hoy');
+        return;
+      }
+      const esHoy = f.fecha === hoyMadrid();
+      set('[data-ca-nombre]', esHoy ? `¡Hoy es festivo! ${f.nombre}` : f.nombre);
+      set('[data-ca-fecha]', `${fmtLargo(f.fecha)} de ${f.fecha.slice(0, 4)} · ${ETIQUETA_TIPO[f.tipo]}`);
+      caja.querySelector<HTMLElement>('[data-ca-siguientes]')!.textContent = resto.length ? `Después: ${resto.map((r) => `${r.nombre} (${fmtLargo(r.fecha)})`).join(' · ')}` : '';
+      // Medianoche en Madrid de ese día, expresada en hora UTC.
+      const offset = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Madrid', timeZoneName: 'longOffset' })
+        .formatToParts(new Date(`${f.fecha}T12:00:00Z`))
+        .find((p) => p.type === 'timeZoneName')!.value.replace('GMT', '') || '+00:00';
+      objetivo = esHoy ? 0 : new Date(`${f.fecha}T00:00:00${offset}`).getTime();
+      tick();
+    };
+    const tick = () => {
+      const ms = Math.max(0, objetivo - Date.now());
+      const s = Math.floor(ms / 1000);
+      set('[data-ca="días"]', String(Math.floor(s / 86400)));
+      set('[data-ca="horas"]', String(Math.floor((s % 86400) / 3600)).padStart(2, '0'));
+      set('[data-ca="min"]', String(Math.floor((s % 3600) / 60)).padStart(2, '0'));
+      set('[data-ca="seg"]', String(s % 60).padStart(2, '0'));
+      if (objetivo && ms === 0) preparar();
+    };
+    if (!fijo) document.addEventListener('territorio', (e) => ((t = (e as CustomEvent).detail), preparar()));
+    preparar();
+    setInterval(tick, 1000);
+  }
+</script>

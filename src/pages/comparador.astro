@@ -1,0 +1,111 @@
+---
+// Ruta: src/pages/comparador.astro
+// Idea 5: ranking de comunidades (festivos entre semana, puentes, días laborables y días libres con 22 de vacaciones).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, resumenFestivos, puentes, laborables, calendario, optimizar } from '../lib/festivos';
+
+const filas = COMUNIDADES.map((c) => {
+  const l = festivos(c.slug, ANIO);
+  const r = resumenFestivos(l);
+  const plan = optimizar(calendario(ANIO, l), 22);
+  return {
+    c,
+    entreSemana: r.laborables,
+    finde: r.enFinde.length,
+    puentes: puentes(ANIO, l).filter((p) => p.gratis || p.opciones.length).length,
+    laborables: laborables(ANIO, l).total,
+    libres: plan.libres,
+  };
+}).sort((a, b) => b.libres - a.libres || b.entreSemana - a.entreSemana);
+const max = Math.max(...filas.map((f) => f.libres));
+const min = Math.min(...filas.map((f) => f.libres));
+const titulo = `¿Qué comunidad tiene más festivos y puentes en ${ANIO}?`;
+const breadcrumbs = [{ name: 'Comparador de comunidades' }];
+const cols = [
+  { k: 'entreSemana', t: 'Festivos entre semana' },
+  { k: 'finde', t: 'En fin de semana' },
+  { k: 'puentes', t: 'Puentes' },
+  { k: 'laborables', t: 'Días laborables' },
+  { k: 'libres', t: 'Libras con 22 días' },
+] as const;
+---
+
+<BaseLayout title={`Comparador de comunidades ${ANIO}: festivos y puentes`} description={`Ranking de las 17 comunidades, Ceuta y Melilla: quién tiene más festivos entre semana, más puentes y más días libres con 22 de vacaciones en ${ANIO}.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Comparador" breadcrumbs={breadcrumbs}>
+    <p>Con los mismos 22 días de vacaciones, según dónde trabajes libras entre {min} y {max} días seguidos en bloques. Sin contar las fiestas locales.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6">
+    <section>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Días libres con 22 días de vacaciones</h2>
+      <p class="mt-1 text-sm text-slate-500">Resultado del <a class="text-indigo-700 underline" href="/vacaciones">optimizador</a> en modo «Puentes», de lunes a viernes.</p>
+      <ol class="mt-5 space-y-2">
+        {
+          filas.map((f, i) => (
+            <li class="aparece grid grid-cols-[1.5rem_8rem_1fr_2.5rem] items-center gap-3 text-sm" style={`transition-delay:${i * 30}ms`}>
+              <span class="text-right font-bold text-slate-400">{i + 1}</span>
+              <a href={`/calendario-laboral-2027/${f.c.slug}`} class="truncate font-semibold text-slate-800 hover:text-indigo-700">{f.c.corto}</a>
+              <span class="h-5 overflow-hidden rounded-full bg-slate-100">
+                <span class="block h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-emerald-400" style={`width:${(f.libres / max) * 100}%`} />
+              </span>
+              <span class="text-right font-extrabold tabular-nums text-slate-900">{f.libres}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">La tabla completa</h2>
+      <p class="mt-1 text-sm text-slate-500">Toca una columna para ordenar.</p>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="tabla" data-ordenable>
+          <thead>
+            <tr>
+              <th><button type="button" data-col="0">Comunidad</button></th>
+              {cols.map((c, i) => <th class="text-right"><button type="button" data-col={i + 1}>{c.t} ↕</button></th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              filas.map((f) => (
+                <tr>
+                  <td class="font-semibold"><a class="hover:text-indigo-700" href={`/calendario-laboral-2027/${f.c.slug}`}>{f.c.nombre}</a></td>
+                  {cols.map((c) => <td class="text-right">{f[c.k]}</td>)}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="fuente mt-2">Fuente: <a href={FUENTE_BOE[ANIO].url} rel="noopener">BOE {FUENTE_BOE[ANIO].id}</a>. Días laborables: de lunes a viernes sin festivos nacionales ni autonómicos.</p>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  for (const tabla of document.querySelectorAll<HTMLTableElement>('[data-ordenable]')) {
+    let col = -1, asc = false;
+    tabla.querySelectorAll<HTMLButtonElement>('[data-col]').forEach((b) =>
+      b.addEventListener('click', () => {
+        const c = Number(b.dataset.col);
+        asc = c === col ? !asc : c === 0;
+        col = c;
+        const cuerpo = tabla.tBodies[0];
+        const filas = [...cuerpo.rows].sort((x, y) => {
+          const a = x.cells[c].textContent!.trim(), z = y.cells[c].textContent!.trim();
+          const r = c === 0 ? a.localeCompare(z, 'es') : Number(a) - Number(z);
+          return asc ? r : -r;
+        });
+        filas.forEach((f, i) => {
+          f.classList.remove('salta');
+          void f.offsetWidth;
+          f.style.animationDelay = `${i * 15}ms`;
+          f.classList.add('salta');
+          cuerpo.append(f);
+        });
+      }),
+    );
+  }
+</script>

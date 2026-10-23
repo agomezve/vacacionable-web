@@ -1,0 +1,70 @@
+---
+// Ruta: src/pages/descargar.astro
+// Ideas 8 y 9: festivos para Google Calendar, iPhone y Outlook (.ics), y calendario para imprimir o guardar en PDF.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import { ANIO, COMUNIDADES } from '../lib/festivos';
+
+const titulo = `Calendario laboral ${ANIO} para el móvil y en PDF`;
+const breadcrumbs = [{ name: 'Descargar calendario' }];
+---
+
+<BaseLayout title={`Festivos ${ANIO} para Google Calendar, iPhone y PDF`} description={`Añade los festivos de ${ANIO} de tu comunidad o tu capital a Google Calendar, al iPhone o a Outlook, o imprímelos en una hoja. Gratis.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Descargas" breadcrumbs={breadcrumbs}>
+    <p>Un archivo .ics con los festivos de tu sitio: lo abres y se añaden a tu calendario. O una hoja para imprimir.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6">
+    <section class="grid gap-4 md:grid-cols-3">
+      {
+        [
+          { t: 'iPhone y Mac', p: 'Toca el archivo .ics y elige «Añadir todo». Se guardan en el calendario que elijas.' },
+          { t: 'Google Calendar', p: 'En el ordenador: Ajustes → Importar y exportar → Importar, y elige el archivo .ics que has descargado.' },
+          { t: 'Outlook', p: 'Abre el archivo .ics o, en Outlook web, Agregar calendario → Cargar desde archivo.' },
+        ].map((x, i) => (
+          <div class="aparece tarjeta" style={`transition-delay:${i * 60}ms`}>
+            <p class="text-sm font-bold text-indigo-700">Paso a paso</p>
+            <h2 class="mt-1 text-lg font-bold text-slate-900">{x.t}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-slate-600">{x.p}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section>
+      <label class="block max-w-sm">
+        <span class="etiqueta">Busca tu comunidad o tu capital</span>
+        <input type="search" class="entrada" placeholder="Sevilla, Galicia…" data-filtro />
+      </label>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          COMUNIDADES.map((c) => (
+            <article class="tarjeta p-4" data-bloque={`${c.nombre} ${c.capitales.map((k) => k.nombre).join(' ')}`.toLowerCase()}>
+              <h3 class="font-bold text-slate-900">{c.nombre}</h3>
+              <ul class="mt-3 space-y-1.5 text-sm">
+                {[{ slug: c.slug, nombre: `Toda la comunidad` }, ...c.capitales].map((k) => (
+                  <li class="flex items-center justify-between gap-2" data-fila={k.nombre.toLowerCase()}>
+                    <span class="text-slate-700">{k.nombre}</span>
+                    <span class="flex shrink-0 gap-1.5">
+                      <a href={`/ics/${k.slug}.ics`} download class="rounded-lg bg-indigo-600 px-2.5 py-1 text-xs font-bold text-white hover:bg-indigo-700">📅 .ics</a>
+                      <a href={`/imprimir/${k.slug}`} class="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-700 hover:bg-slate-200">🖨️ PDF</a>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const filtro = document.querySelector<HTMLInputElement>('[data-filtro]')!;
+  const norm = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+  filtro.addEventListener('input', () => {
+    const q = norm(filtro.value.trim());
+    document.querySelectorAll<HTMLElement>('[data-bloque]').forEach((b) => (b.hidden = !!q && !norm(b.dataset.bloque!).includes(q)));
+  });
+</script>

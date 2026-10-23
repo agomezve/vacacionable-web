@@ -1,0 +1,111 @@
+---
+// Ruta: src/pages/puentes-2027/[puente].astro
+// Idea 16 (una página por puente) + 20 (vuelos y alojamiento para esas fechas en ViajaChollo).
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CabeceraPagina from '../../components/CabeceraPagina.astro';
+import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, puentes, calendario, fmtLargo, fmtRango, fmtMini, nombreDia } from '../../lib/festivos';
+import { anioHtml, rango, type Marca } from '../../lib/calendario-html';
+import { PUENTES_2027 } from '../../data/puentes';
+import { puenteDe } from '../../lib/puente-html';
+import { CONTEXT_LINKS, getProject } from '../../config/site';
+
+export function getStaticPaths() {
+  return PUENTES_2027.map((f) => ({ params: { puente: f.slug }, props: { f } }));
+}
+const { f } = Astro.props;
+const filas = COMUNIDADES.map((c) => {
+  const lista = festivos(c.slug, ANIO);
+  return { c, lista, p: puenteDe(f, puentes(ANIO, lista)) };
+});
+// Agrupa las comunidades con el mismo resultado.
+const grupos = new Map<string, { comunidades: string[]; p: (typeof filas)[number]['p']; slug: string }>();
+for (const { c, p } of filas) {
+  const clave = p ? JSON.stringify([p.festivos.map((x) => x.fecha), p.gratis?.inicio, p.gratis?.fin, p.opciones.map((o) => [o.inicio, o.fin])]) : 'nada';
+  const g = grupos.get(clave) ?? { comunidades: [], p, slug: c.slug };
+  g.comunidades.push(c.corto);
+  grupos.set(clave, g);
+}
+const conPuente = [...grupos.values()].filter((g) => g.p).sort((a, b) => b.comunidades.length - a.comunidades.length);
+const sinPuente = grupos.get('nada')?.comunidades ?? [];
+// Mes del puente con la mejor opción de la comunidad más común marcada.
+const ref = conPuente[0];
+const mejor = ref?.p?.opciones.at(-1) ?? ref?.p?.gratis;
+const mes = Number(f.desde.slice(5, 7)) - 1;
+const pedir = new Set(mejor?.fechasPedir ?? []);
+const bloque = new Set(mejor ? rango(mejor.inicio, mejor.fin) : []);
+const marcas = (d: string): Marca[] => [...(pedir.has(d) ? ['pedir' as const] : []), ...(bloque.has(d) ? ['bloque' as const] : [])];
+const calRef = calendario(ANIO, ref ? filas.find((x) => x.c.slug === ref.slug)!.lista : festivos('madrid', ANIO));
+const titulo = `Puente de ${f.nombre} ${ANIO}: qué días pedir`;
+const breadcrumbs = [{ name: 'Puentes 2027', href: '/puentes-2027' }, { name: f.nombre }];
+const otros = PUENTES_2027.filter((x) => x.slug !== f.slug);
+---
+
+<BaseLayout title={titulo} description={f.resumen.length > 110 ? f.resumen : `${f.resumen} Qué días pedir en tu comunidad para librar más.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta={fmtLargo(f.desde)} breadcrumbs={breadcrumbs}>
+    <p>{f.resumen}</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-12 px-4 py-10 sm:px-6">
+    {
+      mejor && (
+        <section class="grid items-start gap-6 lg:grid-cols-[1fr_20rem]">
+          <div class="aparece rounded-3xl bg-gradient-to-br from-indigo-700 to-violet-700 p-6 text-white shadow-xl sm:p-8">
+            <p class="text-sm font-semibold text-indigo-200">En {ref.comunidades.length === COMUNIDADES.length ? 'toda España' : ref.comunidades.join(', ')}</p>
+            <p class="mt-2 text-4xl font-extrabold leading-tight sm:text-5xl">
+              {mejor.pedir ? `Pide ${mejor.pedir}, libra ${mejor.dias}` : `${mejor.dias} días sin pedir nada`}
+            </p>
+            <p class="mt-3 text-lg text-indigo-100">
+              {fmtRango(mejor.inicio, mejor.fin)}
+              {mejor.pedir > 0 && <> pidiendo {mejor.fechasPedir.map((d) => `el ${nombreDia(d)} ${fmtMini(d)}`).join(' y ')}</>}.
+            </p>
+          </div>
+          <div set:html={anioHtml(calRef, marcas, [mes])} />
+        </section>
+      )
+    }
+
+    <section>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Comunidad por comunidad</h2>
+      <div class="mt-5 grid gap-4 md:grid-cols-2">
+        {
+          conPuente.map((g) => (
+            <article class="aparece tarjeta">
+              <p class="text-sm font-semibold text-indigo-700">{g.comunidades.length === COMUNIDADES.length ? 'Toda España' : g.comunidades.join(' · ')}</p>
+              <p class="mt-1 text-sm text-slate-500">{g.p!.festivos.map((x) => `${x.nombre} (${nombreDia(x.fecha)} ${fmtMini(x.fecha)})`).join(', ')}</p>
+              <ul class="mt-3 space-y-2 text-sm">
+                {g.p!.gratis && <li class="rounded-xl bg-slate-50 p-2.5"><strong>{g.p!.gratis.dias} días</strong> sin pedir nada, {fmtRango(g.p!.gratis.inicio, g.p!.gratis.fin)}.</li>}
+                {g.p!.opciones.map((o) => (
+                  <li class="rounded-xl bg-emerald-50 p-2.5">
+                    Pide <strong>{o.fechasPedir.map((d) => `${nombreDia(d).slice(0, 3)} ${fmtMini(d)}`).join(', ')}</strong> → <strong>{o.dias} días</strong>, {fmtRango(o.inicio, o.fin)}.
+                  </li>
+                ))}
+                {!g.p!.gratis && !g.p!.opciones.length && <li class="rounded-xl bg-slate-50 p-2.5 text-slate-600">Un día suelto, sin puente que compense.</li>}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+      {sinPuente.length > 0 && <p class="nota mt-5">Sin festivo entre semana en estas fechas: {sinPuente.join(', ')}.</p>}
+      <p class="fuente mt-3">Sin fiestas locales, que pueden alargar el puente en tu municipio. Fuente: <a href={FUENTE_BOE[ANIO].url} rel="noopener">BOE {FUENTE_BOE[ANIO].id}</a>.</p>
+    </section>
+
+    <section class="grid gap-3 sm:grid-cols-2">
+      {
+        CONTEXT_LINKS.map((l) => (
+          <a href={`${getProject(l.project).url}${l.path}`} rel="noopener" class="aparece flex items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-amber-50 to-sky-50 p-5 font-semibold text-slate-800 ring-1 ring-amber-200 transition hover:ring-amber-400">
+            {l.text}
+            <span aria-hidden="true">→</span>
+          </a>
+        ))
+      }
+    </section>
+
+    <section>
+      <h2 class="text-xl font-bold text-slate-900">Otros puentes de {ANIO}</h2>
+      <ul class="mt-3 flex flex-wrap gap-2">
+        {otros.map((x) => <li><a href={`/puentes-2027/${x.slug}`} class="inline-block rounded-full bg-white px-4 py-2 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-indigo-600 hover:text-white">{x.nombre}</a></li>)}
+      </ul>
+      <a href="/vacaciones" class="boton mt-6">✨ Planifica todo el año con el optimizador</a>
+    </section>
+  </div>
+</BaseLayout>

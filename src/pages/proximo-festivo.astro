@@ -1,0 +1,39 @@
+---
+// Ruta: src/pages/proximo-festivo.astro
+// Idea 7: cuenta atrás al próximo festivo y lista de los siguientes.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import SelectorTerritorio from '../components/SelectorTerritorio.astro';
+import CuentaAtras from '../components/CuentaAtras.astro';
+
+const titulo = '¿Cuánto falta para el próximo festivo?';
+const breadcrumbs = [{ name: 'Cuenta atrás' }];
+---
+
+<BaseLayout title={`Cuenta atrás para el próximo festivo 2027`} description="Cuenta atrás en días, horas, minutos y segundos hasta tu próximo festivo, con los festivos de tu comunidad y de tu municipio, según el BOE." breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Cuenta atrás" breadcrumbs={breadcrumbs}>
+    <p>Elige tu comunidad: la cuenta atrás va en directo, hasta la medianoche del próximo festivo.</p>
+  </CabeceraPagina>
+  <div class="mx-auto max-w-3xl space-y-6 px-4 py-10 sm:px-6">
+    <div class="tarjeta"><SelectorTerritorio id="cuenta" /></div>
+    <CuentaAtras oscuro />
+    <section>
+      <h2 class="text-xl font-bold text-slate-900">Los siguientes</h2>
+      <ol class="mt-3 space-y-2" data-lista></ol>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  import { proximos, hoyMadrid, fmtLargo, diasEntre, ETIQUETA_TIPO } from '../lib/festivos';
+  document.addEventListener('territorio', (e) => {
+    const t = (e as CustomEvent).detail;
+    const hoy = hoyMadrid();
+    document.querySelector('[data-lista]')!.innerHTML = proximos(t.comunidad, hoy, { municipio: t.municipio, isla: t.isla }, 12)
+      .map((f, i) => {
+        const n = diasEntre(hoy, f.fecha);
+        return `<li class="salta flex items-center justify-between gap-3 rounded-xl bg-white p-3 ring-1 ring-slate-200" style="animation-delay:${i * 40}ms"><span><strong class="text-slate-900">${f.nombre}</strong><span class="block text-sm text-slate-500">${fmtLargo(f.fecha)} de ${f.fecha.slice(0, 4)} · ${ETIQUETA_TIPO[f.tipo]}</span></span><span class="shrink-0 rounded-full bg-indigo-50 px-3 py-1 text-sm font-bold text-indigo-700">${n === 0 ? 'hoy' : `en ${n} día${n > 1 ? 's' : ''}`}</span></li>`;
+      })
+      .join('');
+  });
+</script>

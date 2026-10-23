@@ -1,0 +1,2413 @@
+{
+ "generado": "2026-10-23",
+ "anios": {
+  "2026": {
+   "id": "BOE-A-2025-21667",
+   "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2025-21667",
+   "regiones": [
+    "Andalucía",
+    "Aragón",
+    "Asturias",
+    "Illes Balears",
+    "Canarias",
+    "Cantabria",
+    "Castilla-La Mancha",
+    "Castilla y León",
+    "Cataluña",
+    "Extremadura",
+    "Galicia",
+    "Com. Madrid",
+    "Región Murcia",
+    "C. Foral Navarra",
+    "País Vasco",
+    "La Rioja",
+    "Comunitat Valenciana",
+    "Ciudad de Ceuta",
+    "Ciudad de Melilla"
+   ],
+   "festivos": {
+    "Andalucía": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-02-28",
+      "nombre": "Día de Andalucía",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Aragón": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-23",
+      "nombre": "San Jorge/Día de Aragón",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Asturias": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-09-08",
+      "nombre": "Día de Asturias",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Illes Balears": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-03-02",
+      "nombre": "Lunes siguiente al Día de les Illes Balears",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-06",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-26",
+      "nombre": "San Esteban",
+      "codigo": "***"
+     }
+    ],
+    "Canarias": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-30",
+      "nombre": "Día de Canarias",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Cantabria": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-07-28",
+      "nombre": "Día de las Instituciones de Cantabria",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-09-15",
+      "nombre": "La Bien Aparecida",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Castilla-La Mancha": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-06",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-06-04",
+      "nombre": "Corpus Christi",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Castilla y León": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-23",
+      "nombre": "Fiesta de Castilla y León",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Cataluña": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-06",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-06-24",
+      "nombre": "San Juan",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-09-11",
+      "nombre": "Fiesta Nacional de Cataluña",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-26",
+      "nombre": "San Esteban",
+      "codigo": "***"
+     }
+    ],
+    "Extremadura": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-09-08",
+      "nombre": "Día de Extremadura",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Galicia": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-06-24",
+      "nombre": "San Juan",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-07-25",
+      "nombre": "Santiago Apóstol/Día Nacional de Galicia",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Com. Madrid": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-02",
+      "nombre": "Fiesta de la Comunidad de Madrid",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Región Murcia": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-06-09",
+      "nombre": "Día de la Región de Murcia",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "C. Foral Navarra": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-06",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-11-02",
+      "nombre": "Día siguiente a Todos los Santos",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "País Vasco": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-06",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-07-25",
+      "nombre": "Santiago Apóstol/Día Nacional de Galicia",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "La Rioja": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-06",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-06-09",
+      "nombre": "Día de la Rioja",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Comunitat Valenciana": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-04-06",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-06-24",
+      "nombre": "San Juan",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-09",
+      "nombre": "Día de la Comunitat Valenciana",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Ciudad de Ceuta": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-27",
+      "nombre": "Fiesta Sacrificio-Eidul Adha",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-05",
+      "nombre": "Nuestra Señora de África",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-09-02",
+      "nombre": "Día de Ceuta",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Ciudad de Melilla": [
+     {
+      "fecha": "2026-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-03-20",
+      "nombre": "Fiesta del Eid Fitr",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-04-02",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-04-03",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-05-27",
+      "nombre": "Fiesta Sacrificio-Aid al Adha",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2026-08-15",
+      "nombre": "Asunción de la Virgen",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-07",
+      "nombre": "Lunes siguiente al Día de la Constitución Española",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2026-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2026-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ]
+   },
+   "notas": [
+    "1. En la Comunidad Autónoma de Canarias, el Decreto 61/2025, de 28 de abril, por el que se determina el calendario de fiestas laborales de la Comunidad Autónoma de Canarias para el año 2026 (BOC de 5 de mayo de 2025) dispone que: «En las islas de El Hierro, Fuerteventura, Gran Canaria, La Gomera, La Palma, Lanzarote, La Graciosa y Tenerife, las fiestas laborales serán, además, las siguientes: en El Hierro: el 24 de septiembre, festividad de Nuestra Señora de los Reyes; en Fuerteventura: el 18 de septiembre, festividad de Nuestra Señora de la Peña; en Gran Canaria: el 8 de septiembre, festividad de Nuestra Señora del Pino; en La Gomera: el 5 de octubre, festividad de Nuestra Señora de Guadalupe; en La Palma: el 5 de agosto, festividad de Nuestra Señora de Las Nieves; en Lanzarote y La Graciosa: el 15 de septiembre, festividad de Nuestra Señora de los Volcanes; en Tenerife: el 2 de febrero, festividad de la Virgen de la Candelaria».",
+    "2. En la Comunidad Autónoma de Cataluña, la Orden EMT/66/2025, de 30 de abril, por la que se establece el calendario oficial de fiestas laborales en Cataluña para el año 2026 (DOGC de 6 de mayo de 2025) dispone que: «En el territorio de Arán, la fiesta del día 26 de diciembre (Sant Esteve) queda sustituida por la de 17 de junio (Fiesta de Arán), miércoles»."
+   ]
+  },
+  "2027": {
+   "id": "BOE-A-2026-21254",
+   "url": "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-21254",
+   "regiones": [
+    "Andalucía",
+    "Aragón",
+    "Asturias",
+    "Illes Balears",
+    "Canarias",
+    "Cantabria",
+    "Castilla-La Mancha",
+    "Castilla y León",
+    "Cataluña",
+    "Extremadura",
+    "Galicia",
+    "Com. de Madrid",
+    "Región Murcia",
+    "C. Foral Navarra",
+    "País Vasco",
+    "La Rioja",
+    "Comunitat Valenciana",
+    "Ciudad de Ceuta",
+    "Ciudad de Melilla"
+   ],
+   "festivos": {
+    "Andalucía": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-01",
+      "nombre": "Día de Andalucía",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-08-16",
+      "nombre": "Lunes siguiente a asunción de la Virgen",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Aragón": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-04-23",
+      "nombre": "San Jorge/Día de Aragón",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-08-16",
+      "nombre": "Lunes siguiente a asunción de la Virgen",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Asturias": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-08-16",
+      "nombre": "Lunes siguiente a asunción de la Virgen",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-09-08",
+      "nombre": "Día de Asturias",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Illes Balears": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-01",
+      "nombre": "Día de les Illes Balears",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-03-29",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Canarias": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-08-16",
+      "nombre": "Lunes siguiente a asunción de la Virgen",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Cantabria": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-07-28",
+      "nombre": "Día de las Instituciones de Cantabria",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-09-15",
+      "nombre": "La Bien Aparecida",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Castilla-La Mancha": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-27",
+      "nombre": "Corpus Christi",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-31",
+      "nombre": "Día de Castilla-La Mancha",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Castilla y León": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-04-23",
+      "nombre": "Fiesta de Castilla y León",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-08-16",
+      "nombre": "Lunes siguiente a asunción de la Virgen",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Cataluña": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-03-29",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-06-24",
+      "nombre": "Día de San Juan",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-09-11",
+      "nombre": "Fiesta Nacional de Cataluña",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Extremadura": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-09-08",
+      "nombre": "Día de Extremadura",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-11",
+      "nombre": "Sustitución 15 de agosto",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Galicia": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-17",
+      "nombre": "Día de las Letras Gallegas",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Com. de Madrid": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-08-16",
+      "nombre": "Lunes siguiente a asunción de la Virgen",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Región Murcia": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-06-09",
+      "nombre": "Día de la Región de Murcia",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "C. Foral Navarra": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-03-29",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "País Vasco": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-03-29",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-10-07",
+      "nombre": "Aniversario 1er Gobierno Euskadi",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "La Rioja": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-03-29",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-06-09",
+      "nombre": "Día de La Rioja",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Comunitat Valenciana": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-19",
+      "nombre": "San José",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-03-29",
+      "nombre": "Lunes de Pascua",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-10-09",
+      "nombre": "Día de la Comunitat Valenciana",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Ciudad de Ceuta": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-17",
+      "nombre": "Eidul Adha-Fiesta Sacrificio",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-08-05",
+      "nombre": "Nuestra Señora de África",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ],
+    "Ciudad de Melilla": [
+     {
+      "fecha": "2027-01-01",
+      "nombre": "Año Nuevo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-01-06",
+      "nombre": "Epifanía del Señor",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-10",
+      "nombre": "Fiesta del Eid Fitr",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-03-25",
+      "nombre": "Jueves Santo",
+      "codigo": "**"
+     },
+     {
+      "fecha": "2027-03-26",
+      "nombre": "Viernes Santo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-01",
+      "nombre": "Fiesta del Trabajo",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-05-17",
+      "nombre": "Fiesta Sacrificio-Aid Al Adha",
+      "codigo": "***"
+     },
+     {
+      "fecha": "2027-10-12",
+      "nombre": "Fiesta Nacional de España",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-11-01",
+      "nombre": "Todos los Santos",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-06",
+      "nombre": "Día de la Constitución Española",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-08",
+      "nombre": "Inmaculada Concepción",
+      "codigo": "*"
+     },
+     {
+      "fecha": "2027-12-25",
+      "nombre": "Natividad del Señor",
+      "codigo": "*"
+     }
+    ]
+   },
+   "notas": [
+    "1. En la Comunidad Autónoma de Canarias, el Decreto 115/2026, de 29 de junio, por el que se determina el calendario de fiestas laborales de la Comunidad Autónoma de Canarias para el año 2027 (BOC de 3 de julio de 2026) dispone que: «En las islas de El Hierro, Fuerteventura, Gran Canaria, La Gomera, La Palma, Lanzarote y La Graciosa, y Tenerife, las fiestas laborales serán, además, las siguientes: en El Hierro: el 24 de septiembre, festividad de Nuestra Señora de los Reyes; en Fuerteventura: el 17 de septiembre, festividad de Nuestra Señora de la Peña; en Gran Canaria: el 8 de septiembre, festividad de Nuestra Señora del Pino; en La Gomera: el 4 de octubre, festividad de Nuestra Señora de Guadalupe; en La Palma: el 5 de agosto, festividad de Nuestra Señora de Las Nieves; en Lanzarote y La Graciosa: el 15 de septiembre, festividad de Nuestra Señora de los Volcanes; en Tenerife: el 2 de febrero, festividad de la Virgen de la Candelaria».",
+    "2. En la Comunidad Autónoma de Cataluña, la Orden EMT/52/2026, de 25 de marzo, por la que se establece el calendario oficial de fiestas laborales en Cataluña para el año 2027 (DOGC de 1 de abril de 2026) dispone que: «En el territorio de Arán, la fiesta del día 29 de marzo (Pasqua Florida) queda sustituida por la de 17 de junio (Fiesta de Arán), jueves»."
+   ]
+  }
+ }
+}

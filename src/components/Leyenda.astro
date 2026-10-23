@@ -1,0 +1,28 @@
+---
+// Ruta: src/components/Leyenda.astro
+// Leyenda de colores de los calendarios.
+interface Props {
+  extra?: ('pedir' | 'bloque' | 'escolar' | 'local')[];
+}
+const { extra = [] } = Astro.props;
+const items = [
+  { c: 'bg-rose-500', t: 'Festivo nacional' },
+  { c: 'bg-amber-400', t: 'Festivo autonómico' },
+  ...(extra.includes('local') ? [{ c: 'bg-sky-500', t: 'Local o insular' }] : []),
+  { c: 'bg-slate-100 ring-1 ring-slate-200', t: 'Fin de semana' },
+  ...(extra.includes('pedir') ? [{ c: 'bg-emerald-500', t: 'Pide vacaciones' }] : []),
+  ...(extra.includes('bloque') ? [{ c: 'bg-white outline-2 outline-emerald-400', t: 'Días libres seguidos' }] : []),
+  ...(extra.includes('escolar') ? [{ c: 'bg-white outline-2 outline-dashed outline-violet-500', t: 'Vacaciones del cole' }] : []),
+];
+---
+
+<ul class="flex flex-wrap gap-x-4 gap-y-2 text-xs text-slate-600">
+  {
+    items.map((i) => (
+      <li class="flex items-center gap-1.5">
+        <span class:list={['inline-block h-3.5 w-3.5 rounded', i.c]} aria-hidden="true" />
+        {i.t}
+      </li>
+    ))
+  }
+</ul>

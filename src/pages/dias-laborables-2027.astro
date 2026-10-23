@@ -1,0 +1,77 @@
+---
+// Ruta: src/pages/dias-laborables-2027.astro
+// Idea 10: días laborables de 2027 por comunidad y mes, como mapa de calor.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Faq from '../components/Faq.astro';
+import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, laborables, nombreMes } from '../lib/festivos';
+
+const filas = COMUNIDADES.map((c) => ({ c, lv: laborables(ANIO, festivos(c.slug, ANIO), 'lv'), ls: laborables(ANIO, festivos(c.slug, ANIO), 'ls') }));
+const todos = filas.flatMap((f) => f.lv.meses);
+const lo = Math.min(...todos), hi = Math.max(...todos);
+const tono = (n: number) => {
+  const p = hi === lo ? 0 : (n - lo) / (hi - lo);
+  return ['bg-emerald-100 text-emerald-900', 'bg-lime-100 text-lime-900', 'bg-amber-100 text-amber-900', 'bg-orange-200 text-orange-900', 'bg-rose-200 text-rose-900'][Math.min(4, Math.floor(p * 5))];
+};
+const totales = filas.map((f) => f.lv.total);
+const titulo = `Días laborables ${ANIO} por comunidad y mes`;
+const breadcrumbs = [{ name: 'Días laborables 2027' }];
+const madrid = filas.find((f) => f.c.slug === 'madrid')!;
+const preguntas = [
+  { q: `¿Cuántos días laborables tiene ${ANIO}?`, a: `Entre ${Math.min(...totales)} y ${Math.max(...totales)} de lunes a viernes según la comunidad, antes de restar las dos fiestas locales de tu municipio. En la Comunidad de Madrid, ${madrid.lv.total}.` },
+  { q: '¿Cuántas horas se trabajan en el año?', a: 'Depende de tu convenio. Como referencia, multiplica tus días laborables por tus horas diarias y réstale las vacaciones: con 8 horas, cada día laborable son 8 horas.' },
+];
+---
+
+<BaseLayout title={titulo} description={`Cuántos días laborables tiene cada mes de ${ANIO} en cada comunidad, de lunes a viernes y de lunes a sábado. Con los festivos del BOE.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Datos del BOE" breadcrumbs={breadcrumbs}>
+    <p>Verde: meses con menos días de trabajo. Rojo: los que más. Sin las dos fiestas locales de cada municipio.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6">
+    <div class="flex gap-2" role="tablist">
+      <button class="pastilla border-indigo-700 bg-indigo-700 text-white" data-j="lv" type="button">Lunes a viernes</button>
+      <button class="pastilla" data-j="ls" type="button">Lunes a sábado</button>
+    </div>
+    {
+      (['lv', 'ls'] as const).map((j) => (
+        <div class:list={['overflow-x-auto rounded-2xl border border-slate-200 bg-white', j === 'ls' && 'hidden']} data-tabla={j}>
+          <table class="tabla text-center">
+            <thead>
+              <tr>
+                <th class="sticky left-0 z-10">Comunidad</th>
+                {[...Array(12).keys()].map((m) => <th class="text-center capitalize">{nombreMes(m).slice(0, 3)}</th>)}
+                <th class="text-center">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filas.map((f) => (
+                <tr>
+                  <td class="sticky left-0 bg-white text-left font-semibold"><a class="hover:text-indigo-700" href={`/calendario-laboral-2027/${f.c.slug}`}>{f.c.corto}</a></td>
+                  {f[j].meses.map((n) => <td class:list={['font-semibold', j === 'lv' && tono(n)]}>{n}</td>)}
+                  <td class="font-extrabold text-slate-900">{f[j].total}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))
+    }
+    <p class="fuente">Fuente: <a href={FUENTE_BOE[ANIO].url} rel="noopener">BOE {FUENTE_BOE[ANIO].id}</a>.</p>
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>
+
+<script>
+  const botones = document.querySelectorAll<HTMLButtonElement>('[data-j]');
+  botones.forEach((b) =>
+    b.addEventListener('click', () => {
+      botones.forEach((x) => {
+        x.classList.toggle('bg-indigo-700', x === b);
+        x.classList.toggle('text-white', x === b);
+        x.classList.toggle('border-indigo-700', x === b);
+      });
+      document.querySelectorAll<HTMLElement>('[data-tabla]').forEach((t) => t.classList.toggle('hidden', t.dataset.tabla !== b.dataset.j));
+    }),
+  );
+</script>

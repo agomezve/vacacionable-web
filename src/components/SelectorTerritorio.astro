@@ -1,0 +1,82 @@
+---
+// Ruta: src/components/SelectorTerritorio.astro
+// Selector de comunidad + municipio (si tenemos sus festivos locales) o isla (Canarias).
+// Lanza el evento 'territorio' en el formulario con { comunidad, municipio, isla } y recuerda la elección.
+import { COMUNIDADES, LOCALES, ANIO } from '../lib/festivos';
+import { ISLAS_CANARIAS } from '../data/territorios';
+
+interface Props {
+  id: string;
+  /** Clave de localStorage (por defecto la compartida por toda la web). */
+  memoria?: string;
+  titulo?: string;
+  inicial?: string;
+}
+const { id, memoria = 'vacacionable-territorio', titulo = 'Tu comunidad', inicial = 'madrid' } = Astro.props;
+const municipios = LOCALES.filter((l) => l.anio === ANIO).map((l) => ({ slug: l.slug, nombre: l.municipio, comunidad: l.comunidad }));
+const islas = ISLAS_CANARIAS[ANIO].map((i) => i.isla);
+---
+
+<div class="grid gap-3 sm:grid-cols-2" data-territorio={id} data-memoria={memoria} data-municipios={JSON.stringify(municipios)} data-islas={JSON.stringify(islas)}>
+  <label class="block">
+    <span class="etiqueta">{titulo}</span>
+    <select class="entrada" data-comunidad>
+      {COMUNIDADES.map((c) => <option value={c.slug} selected={c.slug === inicial}>{c.nombre}</option>)}
+    </select>
+  </label>
+  <label class="block">
+    <span class="etiqueta" data-etiqueta-local>Tu municipio</span>
+    <select class="entrada" data-local>
+      <option value="">Sin festivos locales</option>
+    </select>
+    <span class="ayuda" data-ayuda-local>Solo salen los municipios con sus festivos de {ANIO} ya aprobados.</span>
+  </label>
+</div>
+
+<script>
+  type Muni = { slug: string; nombre: string; comunidad: string };
+  for (const caja of document.querySelectorAll<HTMLElement>('[data-territorio]')) {
+    const com = caja.querySelector<HTMLSelectElement>('[data-comunidad]')!;
+    const loc = caja.querySelector<HTMLSelectElement>('[data-local]')!;
+    const etiqueta = caja.querySelector<HTMLElement>('[data-etiqueta-local]')!;
+    const ayuda = caja.querySelector<HTMLElement>('[data-ayuda-local]')!;
+    const municipios: Muni[] = JSON.parse(caja.dataset.municipios!);
+    const islas: string[] = JSON.parse(caja.dataset.islas!);
+    const clave = caja.dataset.memoria!;
+
+    const rellenar = () => {
+      const canarias = com.value === 'canarias';
+      const lista = canarias ? islas.map((i) => ({ v: i, t: i })) : municipios.filter((m) => m.comunidad === com.value).map((m) => ({ v: m.slug, t: m.nombre }));
+      etiqueta.textContent = canarias ? 'Tu isla' : 'Tu municipio';
+      ayuda.hidden = canarias;
+      loc.innerHTML = `<option value="">${canarias ? 'Sin fiesta insular' : lista.length ? 'Otro municipio (sin festivos locales)' : 'Aún no hay festivos locales aprobados'}</option>`;
+      for (const o of lista) loc.add(new Option(o.t, o.v));
+      loc.disabled = lista.length === 0;
+    };
+    const avisar = () => {
+      const valor = { comunidad: com.value, municipio: com.value === 'canarias' ? '' : loc.value, isla: com.value === 'canarias' ? loc.value : '' };
+      try {
+        localStorage.setItem(clave, JSON.stringify(valor));
+      } catch {}
+      caja.dispatchEvent(new CustomEvent('territorio', { detail: valor, bubbles: true }));
+    };
+
+    // Elección guardada o la de la URL (?c=madrid&m=leganes).
+    let guardado: { comunidad?: string; municipio?: string; isla?: string } = {};
+    try {
+      guardado = JSON.parse(localStorage.getItem(clave) ?? '{}');
+    } catch {}
+    const url = new URLSearchParams(location.search);
+    const inicial = url.get('c') ?? guardado.comunidad;
+    if (inicial && [...com.options].some((o) => o.value === inicial)) com.value = inicial;
+    rellenar();
+    const local = url.get('m') ?? guardado.municipio ?? guardado.isla;
+    if (local && [...loc.options].some((o) => o.value === local)) loc.value = local;
+
+    com.addEventListener('change', () => (rellenar(), avisar()));
+    loc.addEventListener('change', avisar);
+    // Primer aviso cuando todos los scripts de la página ya han registrado sus oyentes: los scripts de Astro
+    // son módulos y siempre se ejecutan antes de DOMContentLoaded.
+    document.addEventListener('DOMContentLoaded', avisar, { once: true });
+  }
+</script>

@@ -1,0 +1,66 @@
+---
+// Ruta: src/pages/2026-vs-2027.astro
+// Idea 19: cuántos festivos entre semana y días laborables ganas o pierdes de 2026 a 2027.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import { COMUNIDADES, FUENTE_BOE, festivos, resumenFestivos, laborables, puentes } from '../lib/festivos';
+
+const filas = COMUNIDADES.map((c) => {
+  const a = festivos(c.slug, 2026), b = festivos(c.slug, 2027);
+  return {
+    c,
+    es26: resumenFestivos(a).laborables, es27: resumenFestivos(b).laborables,
+    lab26: laborables(2026, a).total, lab27: laborables(2027, b).total,
+    p26: puentes(2026, a).filter((p) => p.gratis || p.opciones.length).length, p27: puentes(2027, b).filter((p) => p.gratis || p.opciones.length).length,
+  };
+}).sort((x, y) => (y.es27 - y.es26) - (x.es27 - x.es26));
+const dif = (n: number) => (n > 0 ? `+${n}` : String(n));
+const color = (n: number, bueno: 'mas' | 'menos') => (n === 0 ? 'text-slate-500' : (n > 0) === (bueno === 'mas') ? 'text-emerald-700' : 'text-rose-700');
+const ganan = filas.filter((f) => f.es27 > f.es26).length;
+const pierden = filas.filter((f) => f.es27 < f.es26).length;
+const titulo = '2026 frente a 2027: ¿cuál tiene más festivos entre semana?';
+const breadcrumbs = [{ name: '2026 frente a 2027' }];
+---
+
+<BaseLayout title={titulo} description="Comparamos los festivos entre semana, los puentes y los días laborables de 2026 y de 2027 en cada comunidad, con los datos del BOE." breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Comparativa" breadcrumbs={breadcrumbs}>
+    <p>En {ganan} comunidades hay más festivos entre semana en 2027 que en 2026; en {pierden}, menos. Verde: mejor para quien trabaja.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-6 px-4 py-10 sm:px-6">
+    <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Comunidad</th>
+            <th class="text-right">Festivos entre semana 2026</th>
+            <th class="text-right">2027</th>
+            <th class="text-right">Diferencia</th>
+            <th class="text-right">Días laborables 2026</th>
+            <th class="text-right">2027</th>
+            <th class="text-right">Puentes 2026 → 2027</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            filas.map((f) => (
+              <tr class="aparece">
+                <td class="font-semibold"><a class="hover:text-indigo-700" href={`/calendario-laboral-2027/${f.c.slug}`}>{f.c.corto}</a></td>
+                <td class="text-right">{f.es26}</td>
+                <td class="text-right">{f.es27}</td>
+                <td class:list={['text-right font-extrabold', color(f.es27 - f.es26, 'mas')]}>{dif(f.es27 - f.es26)}</td>
+                <td class="text-right">{f.lab26}</td>
+                <td class:list={['text-right font-semibold', color(f.lab27 - f.lab26, 'menos')]}>{f.lab27}</td>
+                <td class="text-right">{f.p26} → {f.p27}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="fuente">
+      Sin fiestas locales. Fuentes: <a href={FUENTE_BOE[2026].url} rel="noopener">BOE {FUENTE_BOE[2026].id}</a> (2026) y <a href={FUENTE_BOE[2027].url} rel="noopener">BOE {FUENTE_BOE[2027].id}</a> (2027).
+    </p>
+    <a href="/vacaciones" class="boton">✨ Planifica 2027 con el optimizador</a>
+  </div>
+</BaseLayout>

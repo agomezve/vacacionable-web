@@ -1,0 +1,96 @@
+---
+// Ruta: src/pages/puentes-2027.astro
+// Idea 4: todos los puentes de 2027 de tu comunidad, y la tabla de puentes de toda España.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import SelectorTerritorio from '../components/SelectorTerritorio.astro';
+import Faq from '../components/Faq.astro';
+import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, puentes, fmtMini } from '../lib/festivos';
+import { PUENTES_2027 } from '../data/puentes';
+import { puenteDe } from '../lib/puente-html';
+
+const titulo = `Puentes ${ANIO}: todos, con los días que hay que pedir`;
+const breadcrumbs = [{ name: 'Puentes 2027' }];
+const tabla = COMUNIDADES.map((c) => {
+  const ps = puentes(ANIO, festivos(c.slug, ANIO));
+  return { c, celdas: PUENTES_2027.map((f) => puenteDe(f, ps)) };
+});
+const preguntas = [
+  { q: `¿Cuál es el mejor puente de ${ANIO}?`, a: 'El de diciembre: el 6 cae en lunes y el 8 en miércoles, así que pidiendo solo el martes 7 libras del sábado 4 al miércoles 8, cinco días seguidos, en toda España.' },
+  { q: `¿Hay puente de mayo en ${ANIO}?`, a: 'No para quien libra los fines de semana: el 1 de mayo cae en sábado y, según el BOE, ninguna comunidad lo pasa al lunes. Si trabajas los sábados, ese día sí lo libras.' },
+  { q: '¿Qué significa «pide 1 y libras 4»?', a: 'Que pidiendo un día de vacaciones, enlazas un festivo con el fin de semana y te quedan cuatro días seguidos sin trabajar.' },
+];
+---
+
+<BaseLayout title={titulo} description={`Los puentes de ${ANIO} de tu comunidad: cuántos días libras sin pedir nada y cuántos pidiendo uno o dos días. Con los festivos del BOE.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Puentes" breadcrumbs={breadcrumbs}>
+    <p>Elige tu comunidad: te ordenamos sus puentes con lo que libras sin pedir nada y pidiendo uno, dos o tres días.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-12 px-4 py-10 sm:px-6">
+    <div class="tarjeta"><SelectorTerritorio id="puentes" /></div>
+    <section aria-live="polite">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900" data-titulo>Tus puentes de {ANIO}</h2>
+      <div class="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-puentes></div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Los puentes en toda España</h2>
+      <p class="mt-1 text-slate-600">Días seguidos que libras con la mejor opción de cada puente (entre paréntesis, los días que pides). Toca un puente para ver el detalle.</p>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th class="sticky left-0 z-10">Comunidad</th>
+              {PUENTES_2027.map((f) => <th><a class="hover:text-indigo-700" href={`/puentes-2027/${f.slug}`}>{f.nombre}</a></th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {
+              tabla.map(({ c, celdas }) => (
+                <tr>
+                  <td class="sticky left-0 bg-white font-semibold"><a class="hover:text-indigo-700" href={`/calendario-laboral-2027/${c.slug}`}>{c.corto}</a></td>
+                  {celdas.map((p) => {
+                    const m = p?.opciones.at(-1) ?? p?.gratis;
+                    return (
+                      <td class:list={['text-center', m ? (m.dias >= 5 ? 'bg-emerald-50 font-bold text-emerald-800' : 'text-slate-800') : 'text-slate-300']}>
+                        {m ? <>{m.dias}{m.pedir ? <span class="text-xs font-normal text-slate-500"> ({m.pedir})</span> : ''}</> : '—'}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="fuente mt-2">Sin fiestas locales. Fuente: <a href={FUENTE_BOE[ANIO].url} rel="noopener">BOE {FUENTE_BOE[ANIO].id}</a>.</p>
+    </section>
+
+    <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        PUENTES_2027.map((f) => (
+          <a href={`/puentes-2027/${f.slug}`} class="aparece rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 p-5 text-white shadow-lg transition hover:-translate-y-1 hover:shadow-xl">
+            <p class="text-xs font-bold uppercase tracking-wide text-indigo-100">{fmtMini(f.desde)}</p>
+            <h3 class="mt-1 text-lg font-bold">Puente de {f.nombre} {ANIO}</h3>
+            <p class="mt-2 text-sm text-indigo-100">{f.resumen}</p>
+          </a>
+        ))
+      }
+    </section>
+
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>
+
+<script>
+  import { ANIO, festivos, puentes, conArticulo } from '../lib/festivos';
+  import { puenteHtml } from '../lib/puente-html';
+
+  document.addEventListener('territorio', (e) => {
+    const t = (e as CustomEvent).detail;
+    const ps = puentes(ANIO, festivos(t.comunidad, ANIO, { municipio: t.municipio, isla: t.isla }));
+    document.querySelector('[data-titulo]')!.textContent = `${ps.length} puentes y festivos entre semana en ${conArticulo(t.comunidad)}`;
+    document.querySelector('[data-puentes]')!.innerHTML = ps.map((p, i) => puenteHtml(p, i * 50)).join('');
+  });
+</script>

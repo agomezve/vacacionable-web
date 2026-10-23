@@ -1,0 +1,98 @@
+---
+// Ruta: src/components/Footer.astro
+import { SITE, CURRENT_PROJECT, HERRAMIENTAS, LEGAL_LINKS, PROJECTS, SITE_LINKS, CHANNEL } from '../config/site';
+import { COMUNIDADES } from '../lib/festivos';
+
+const year = new Date().getFullYear();
+const otherProjects = PROJECTS.filter((p) => p.id !== CURRENT_PROJECT);
+---
+
+<footer class="mt-16 bg-slate-950 text-slate-300">
+  <div class="border-b border-slate-800">
+    <p class="mx-auto max-w-6xl px-4 py-5 text-sm leading-relaxed sm:px-6">
+      <span aria-hidden="true">🎬</span> <strong class="text-slate-50">Cómo hice esta web:</strong>
+      la construí con IA (Claude Code) y enseño el proceso y los números reales en mi canal de YouTube.
+      <a href={CHANNEL.url} rel="noopener" target="_blank" class="font-semibold text-slate-50 underline hover:text-indigo-300">
+        Ver {CHANNEL.name} <span aria-hidden="true">→</span>
+      </a>
+    </p>
+  </div>
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-5">
+    <div>
+      <p class="text-lg font-extrabold text-slate-50">Vacacion<span class="text-indigo-400">able</span></p>
+      <p class="mt-2 text-sm leading-relaxed">{SITE.tagline}.</p>
+      <p class="mt-4 text-xs leading-relaxed text-slate-400">
+        Datos: resolución de fiestas laborales del BOE de cada año y acuerdos de los ayuntamientos, siempre con su
+        fuente. No somos una web oficial: ante la duda, manda el boletín.
+      </p>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold text-slate-50">Calendario 2027</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        {
+          COMUNIDADES.slice(0, 10).map((c) => (
+            <li>
+              <a href={`/calendario-laboral-2027/${c.slug}`} class="hover:text-indigo-300">
+                {c.corto}
+              </a>
+            </li>
+          ))
+        }
+        <li><a href="/calendario-laboral-2027" class="font-semibold text-indigo-300 hover:underline">Ver las {COMUNIDADES.length} →</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold text-slate-50">Herramientas</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        {
+          HERRAMIENTAS.slice(0, 9).map((h) => (
+            <li>
+              <a href={h.href} class="hover:text-indigo-300">{h.titulo}</a>
+            </li>
+          ))
+        }
+        <li><a href="/herramientas" class="font-semibold text-indigo-300 hover:underline">Ver todas →</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold text-slate-50">Información</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        {
+          [...SITE_LINKS, ...LEGAL_LINKS].map((link) => (
+            <li>
+              <a href={link.href} class="hover:text-indigo-300">
+                {link.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold text-slate-50">Otros proyectos</p>
+      <ul class="mt-3 space-y-2 text-sm">
+        {
+          otherProjects.map((project) => (
+            <li>
+              <a href={project.url} class="hover:text-indigo-300">
+                {project.name}
+              </a>
+              <span class="block text-xs text-slate-400">{project.description}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-slate-800">
+    <p class="mx-auto max-w-6xl px-4 py-6 text-xs text-slate-400 sm:px-6">
+      © {year} {SITE.name}. Proyecto independiente. La información es orientativa: tus días de vacaciones y el trabajo en
+      festivos dependen también de tu convenio y de tu empresa.
+    </p>
+  </div>
+</footer>

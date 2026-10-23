@@ -1,0 +1,196 @@
+---
+// Ruta: src/pages/index.astro
+// Portada: el gancho (cuántos días libras con tus vacaciones), la tira del año, la cuenta atrás y todas las herramientas.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SelectorTerritorio from '../components/SelectorTerritorio.astro';
+import CuentaAtras from '../components/CuentaAtras.astro';
+import Icono from '../components/Icono.astro';
+import Faq from '../components/Faq.astro';
+import { SITE, HERRAMIENTAS } from '../config/site';
+import { PUENTES_2027 } from '../data/puentes';
+import { ANIO, COMUNIDADES, FUENTE_BOE, calendario, festivos, festivosComunes, optimizar, resumenFestivos, fmtMini } from '../lib/festivos';
+import { tiraHtml } from '../lib/tira';
+
+// Valores por defecto (Comunidad de Madrid, 22 días); el navegador los recalcula para la comunidad elegida.
+const listaInicial = festivos('madrid', ANIO);
+const calInicial = calendario(ANIO, listaInicial);
+const planInicial = optimizar(calInicial, 22);
+const comunes = festivosComunes(ANIO);
+const enFindeComunes = resumenFestivos(comunes).enFinde;
+const grupos = [...new Set(HERRAMIENTAS.map((h) => h.grupo))];
+
+const preguntas = [
+  {
+    q: `¿Cuántos festivos hay en ${ANIO}?`,
+    a: `Doce en cada comunidad: los nacionales y autonómicos que publica el BOE (resolución ${FUENTE_BOE[ANIO].id}), más dos fiestas locales que fija cada ayuntamiento. Canarias tiene once en la tabla del BOE más la fiesta de cada isla.`,
+  },
+  {
+    q: `¿Qué festivos caen en fin de semana en ${ANIO}?`,
+    a: `En toda España, ${enFindeComunes.map((f) => `${f.nombre} (${fmtMini(f.fecha)})`).join(', ')}. Algunas comunidades pasan alguno al lunes; lo tienes en la página de festivos en fin de semana.`,
+  },
+  {
+    q: '¿De dónde salen los datos?',
+    a: 'Del Boletín Oficial del Estado y, para los festivos locales, de lo que aprueba cada ayuntamiento. En cada página está el enlace a la fuente.',
+  },
+];
+---
+
+<BaseLayout title={SITE.homeTitle} description={SITE.description}>
+  <section class="relative overflow-hidden bg-gradient-to-br from-indigo-950 via-indigo-800 to-indigo-600 text-white">
+    <div class="mancha mancha-1 opacity-40" aria-hidden="true"></div>
+    <div class="mancha mancha-2 opacity-30" aria-hidden="true"></div>
+    <div class="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-[1.15fr_1fr] lg:items-center">
+      <div>
+        <p class="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-indigo-100 ring-1 ring-white/20">
+          <span class="h-2 w-2 animate-pulse rounded-full bg-emerald-400"></span> Festivos de {ANIO} del BOE
+        </p>
+        <h1 class="mt-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
+          Con <span class="text-amber-300" data-h-pides>{planInicial.pedidos}</span> días de vacaciones, libra
+          <span class="relative inline-block whitespace-nowrap text-emerald-300"><span data-h-libras>{planInicial.libres}</span> días</span> en {ANIO}.
+        </h1>
+        <p class="mt-5 max-w-xl text-lg leading-relaxed text-indigo-100">
+          Elige tu comunidad y te decimos qué días pedir para enlazar festivos y fines de semana. <span data-h-donde>En la Comunidad de Madrid</span>, en <span data-h-bloques>{planInicial.ventanas.length}</span> bloques.
+        </p>
+        <form class="mt-6 rounded-3xl bg-white p-4 text-slate-900 shadow-2xl shadow-indigo-950/40 sm:p-5" action="/vacaciones" method="get" data-hero>
+          <SelectorTerritorio id="portada" />
+          <div class="mt-4 flex flex-wrap items-center gap-3">
+            <label class="flex items-center gap-2 text-sm font-semibold">
+              Tengo
+              <input type="number" name="d" min="1" max="35" value="22" class="entrada w-20 py-2 text-center" data-h-dias aria-label="Días de vacaciones" />
+              días
+            </label>
+            <button class="boton flex-1 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700" type="submit">
+              Ver qué días pedir <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <input type="hidden" name="c" value="madrid" data-h-c />
+          <input type="hidden" name="m" value="" data-h-m />
+        </form>
+      </div>
+      <CuentaAtras oscuro />
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <div class="aparece flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-wide text-indigo-600">Tu {ANIO} en una tira</p>
+        <h2 class="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">365 días, un cuadrado por día</h2>
+      </div>
+      <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600">
+        <li class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-[3px] bg-rose-500"></span>Nacional</li>
+        <li class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-[3px] bg-amber-400"></span>Autonómico</li>
+        <li class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-[3px] bg-sky-500"></span>Local o insular</li>
+        <li class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-[3px] bg-emerald-500"></span>Días que pedir</li>
+        <li class="flex items-center gap-1.5"><span class="h-3 w-3 rounded-[3px] bg-slate-300/60"></span>Fin de semana</li>
+      </ul>
+    </div>
+    <div class="aparece mt-5 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div class="tira min-w-[640px]" style="grid-template-columns: repeat(53, minmax(0, 1fr));" data-tira set:html={tiraHtml(calInicial, new Set(planInicial.ventanas.flatMap((v) => v.fechasPedir)))} />
+    </div>
+  </section>
+
+  <section class="bg-slate-50 py-12">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="aparece flex flex-wrap items-end justify-between gap-3">
+        <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Los puentes de {ANIO}</h2>
+        <a href="/puentes-2027" class="font-semibold text-indigo-700 hover:text-indigo-900">Ver todos con tu comunidad →</a>
+      </div>
+      <div class="mt-6 flex snap-x gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]">
+        {
+          PUENTES_2027.map((p, i) => (
+            <a
+              href={`/puentes-2027/${p.slug}`}
+              class="aparece group w-72 shrink-0 snap-start rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-indigo-300 hover:shadow-lg"
+              style={`transition-delay:${i * 40}ms`}
+            >
+              <p class="text-xs font-bold uppercase tracking-wide text-indigo-600">{fmtMini(p.desde)}</p>
+              <h3 class="mt-1 text-lg font-bold text-slate-900 group-hover:text-indigo-800">{p.nombre}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-slate-600">{p.resumen}</p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <h2 class="aparece text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Todas las herramientas</h2>
+    {
+      grupos.map((g) => (
+        <div class="mt-8">
+          <h3 class="text-sm font-bold uppercase tracking-wide text-slate-500">{g}</h3>
+          <ul class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {HERRAMIENTAS.filter((h) => h.grupo === g).map((h) => (
+              <li class="aparece">
+                <a href={h.href} class="group flex h-full gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md">
+                  <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-700 transition group-hover:bg-indigo-600 group-hover:text-white">
+                    <Icono nombre={h.icono} class="h-5 w-5" />
+                  </span>
+                  <span>
+                    <span class="block font-semibold text-slate-900">{h.titulo}</span>
+                    <span class="mt-0.5 block text-sm leading-snug text-slate-600">{h.texto}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="bg-gradient-to-br from-amber-50 to-indigo-50 py-12">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <h2 class="aparece text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">Calendario laboral {ANIO} por comunidad</h2>
+      <ul class="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+        {
+          COMUNIDADES.map((c) => (
+            <li class="aparece">
+              <a href={`/calendario-laboral-2027/${c.slug}`} class="block rounded-xl bg-white px-3 py-2.5 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 transition hover:bg-indigo-600 hover:text-white hover:ring-indigo-600">
+                {c.corto}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>
+
+<script>
+  import { ANIO, calendario, festivos, optimizar, conArticulo } from '../lib/festivos';
+  import { tiraHtml } from '../lib/tira';
+
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
+  const diasInput = $<HTMLInputElement>('[data-h-dias]');
+  let t = { comunidad: 'madrid', municipio: '', isla: '' };
+
+  const pintar = () => {
+    const n = Math.min(35, Math.max(1, Number(diasInput.value) || 22));
+    const cal = calendario(ANIO, festivos(t.comunidad, ANIO, { municipio: t.municipio, isla: t.isla }));
+    const plan = optimizar(cal, n);
+    for (const [sel, v] of [
+      ['[data-h-pides]', plan.pedidos],
+      ['[data-h-libras]', plan.libres],
+      ['[data-h-bloques]', plan.ventanas.length],
+    ] as const) {
+      const el = $(sel);
+      el.textContent = String(v);
+      el.classList.remove('cambia');
+      void el.offsetWidth;
+      el.classList.add('cambia');
+    }
+    $('[data-h-donde]').textContent = `En ${conArticulo(t.comunidad)}`;
+    $('[data-tira]').innerHTML = tiraHtml(cal, new Set(plan.ventanas.flatMap((v) => v.fechasPedir)));
+    $<HTMLInputElement>('[data-h-c]').value = t.comunidad;
+    $<HTMLInputElement>('[data-h-m]').value = t.municipio || t.isla;
+  };
+
+  document.addEventListener('territorio', (e) => ((t = (e as CustomEvent).detail), pintar()));
+  diasInput.addEventListener('input', pintar);
+</script>

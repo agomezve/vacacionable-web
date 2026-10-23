@@ -1,0 +1,70 @@
+---
+// Ruta: src/pages/dias-de-vacaciones.astro
+// Idea 14: cuántos días de vacaciones te tocan (30 naturales del ET, en proporción si no trabajas el año entero).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Faq from '../components/Faq.astro';
+import { ANIO } from '../lib/festivos';
+
+const ET = 'https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430';
+const titulo = '¿Cuántos días de vacaciones me tocan?';
+const breadcrumbs = [{ name: 'Días de vacaciones' }];
+const preguntas = [
+  { q: '¿Son 30 días naturales o 22 laborables?', a: 'El Estatuto habla de un mínimo de 30 días naturales. Muchos convenios lo expresan en días laborables (habitualmente 22 o 23). Lo que manda es tu convenio o tu contrato, siempre que no baje del mínimo legal.' },
+  { q: '¿Me pueden pagar las vacaciones en vez de disfrutarlas?', a: 'No, salvo cuando termina el contrato y quedan días sin disfrutar: entonces se pagan en el finiquito.' },
+  { q: '¿Con cuánta antelación tengo que saber mis fechas?', a: 'El Estatuto dice que conocerás las fechas al menos dos meses antes del comienzo del disfrute.' },
+];
+---
+
+<BaseLayout title={`${titulo} Calculadora ${ANIO}`} description="Calcula tus días de vacaciones según el Estatuto de los Trabajadores: 30 días naturales al año, en proporción si entraste o sales a mitad de año." breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Tus derechos" breadcrumbs={breadcrumbs}>
+    <p>El mínimo legal son 30 días naturales al año. Si no trabajas el año entero, lo habitual es calcularlos en proporción.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[22rem_1fr]">
+    <form class="tarjeta h-fit space-y-4" onsubmit="return false" data-form>
+      <label class="block"><span class="etiqueta">Días al año según tu convenio</span><input type="number" class="entrada" value="30" min="30" max="60" data-base /><span class="ayuda">Naturales. Si tu convenio da más, pon esa cifra.</span></label>
+      <label class="block"><span class="etiqueta">Empiezas (o empezaste) el</span><input type="date" class="entrada" value={`${ANIO}-01-01`} data-ini /></label>
+      <label class="block"><span class="etiqueta">Terminas el</span><input type="date" class="entrada" value={`${ANIO}-12-31`} data-fin /></label>
+    </form>
+    <section class="space-y-6" aria-live="polite">
+      <div class="grid gap-3 sm:grid-cols-2">
+        <div class="rounded-2xl bg-gradient-to-br from-indigo-600 to-violet-600 p-6 text-white shadow-lg"><span class="block text-5xl font-extrabold tabular-nums" data-nat>30</span>días naturales</div>
+        <div class="rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 text-white shadow-lg"><span class="block text-5xl font-extrabold tabular-nums" data-lab>22</span>días laborables, aproximadamente</div>
+      </div>
+      <p class="text-sm text-slate-600" data-explica></p>
+      <a href="/vacaciones" class="boton" data-ir>✨ Ver qué días pedir con esos días</a>
+      <div class="texto">
+        <h2>Lo que dice la ley</h2>
+        <p>El <a href={ET} rel="noopener">artículo 38 del Estatuto de los Trabajadores</a> fija que las vacaciones anuales retribuidas son las que se pacten en convenio o contrato y que <strong>nunca pueden ser menos de 30 días naturales</strong>. No se pueden cambiar por dinero.</p>
+        <p>Las fechas se acuerdan entre la empresa y la persona trabajadora, según el calendario de vacaciones de la empresa. Si no hay acuerdo, decide el juzgado de lo social.</p>
+        <h3>Si coinciden con una baja</h3>
+        <p>Si tus vacaciones coinciden con una incapacidad temporal por embarazo, parto, lactancia o con el permiso por nacimiento, tienes derecho a disfrutarlas en otra fecha. Si coinciden con otra baja que te impide disfrutarlas, puedes hacerlo cuando termine, siempre que no hayan pasado más de 18 meses desde el final del año en que se generaron.</p>
+        <p class="fuente">Este cálculo es orientativo. Lo que te corresponde lo fija tu convenio: búscalo en el boletín oficial de tu provincia o pregunta a tu empresa.</p>
+      </div>
+    </section>
+  </div>
+  <div class="mx-auto max-w-6xl px-4 sm:px-6"><Faq preguntas={preguntas} /></div>
+</BaseLayout>
+
+<script>
+  import { diasEntre } from '../lib/festivos';
+  const form = document.querySelector<HTMLFormElement>('[data-form]')!;
+  const q = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
+  const pintar = () => {
+    const base = Number(q<HTMLInputElement>('[data-base]').value) || 30;
+    const ini = q<HTMLInputElement>('[data-ini]').value, fin = q<HTMLInputElement>('[data-fin]').value;
+    if (!ini || !fin || fin < ini) return;
+    const anio = Number(ini.slice(0, 4));
+    const total = diasEntre(`${anio}-01-01`, `${anio}-12-31`) + 1;
+    const dias = Math.min(total, diasEntre(ini, fin) + 1);
+    const nat = (base * dias) / total;
+    const lab = (nat * 22) / 30;
+    q('[data-nat]').textContent = nat.toLocaleString('es-ES', { maximumFractionDigits: 1 });
+    q('[data-lab]').textContent = lab.toLocaleString('es-ES', { maximumFractionDigits: 1 });
+    q('[data-explica]').textContent = `${base} días × ${dias} días trabajados ÷ ${total} días del año. Los laborables son una equivalencia aproximada (30 naturales ≈ 22 laborables); muchas empresas redondean al alza.`;
+    q<HTMLAnchorElement>('[data-ir]').href = `/vacaciones?d=${Math.round(lab)}`;
+  };
+  form.addEventListener('input', pintar);
+  pintar();
+</script>

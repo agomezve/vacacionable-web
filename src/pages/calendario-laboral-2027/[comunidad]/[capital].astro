@@ -1,0 +1,43 @@
+---
+// Ruta: src/pages/calendario-laboral-2027/[comunidad]/[capital].astro
+// Idea 17: una ficha por capital de provincia, con sus fiestas locales si ya están aprobadas.
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FichaCalendario from '../../../components/FichaCalendario.astro';
+import { ANIO, COMUNIDADES } from '../../../lib/festivos';
+import { territorio, cabe } from '../../../lib/territorio';
+
+export function getStaticPaths() {
+  return COMUNIDADES.flatMap((c) => c.capitales.map((k) => ({ params: { comunidad: c.slug, capital: k.slug } })));
+}
+const t = territorio(Astro.params.capital!)!;
+const breadcrumbs = [
+  { name: 'Calendario laboral 2027', href: '/calendario-laboral-2027' },
+  { name: t.comunidad.corto, href: `/calendario-laboral-2027/${t.comunidad.slug}` },
+  { name: t.nombre },
+];
+const locales = t.locales ? `, con sus fiestas locales (${t.locales.dias.map((d) => d.nombre).join(' y ')})` : '';
+const title = cabe(
+  [`Calendario laboral ${ANIO} ${t.nombre}: festivos locales y puentes`, `Calendario laboral ${ANIO} ${t.nombre}: festivos y puentes`, `Calendario laboral ${ANIO} ${t.nombre}`, `Festivos ${ANIO} ${t.nombre}`],
+  0,
+  60,
+);
+const description = cabe(
+  [
+    `Festivos de ${ANIO} en ${t.nombre}${locales}. Puentes, días laborables por mes, cuenta atrás y calendario para el móvil o en PDF.`,
+    `Festivos de ${ANIO} en ${t.nombre}${locales}. Puentes, días laborables por mes y calendario para el móvil.`,
+    `Festivos de ${ANIO} en ${t.nombre} (${t.comunidad.corto}) según el BOE: puentes, días laborables por mes, cuenta atrás y calendario para el móvil o en PDF.`,
+    `Festivos de ${ANIO} en ${t.nombre} según el BOE: puentes, días laborables por mes, cuenta atrás y calendario para el móvil o en PDF.`,
+    `Festivos de ${ANIO} en ${t.nombre}: puentes, días laborables por mes, cuenta atrás y calendario para el móvil.`,
+  ],
+  120,
+  155,
+);
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={breadcrumbs}
+>
+  <FichaCalendario t={t} breadcrumbs={breadcrumbs} />
+</BaseLayout>

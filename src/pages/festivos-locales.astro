@@ -1,0 +1,82 @@
+---
+// Ruta: src/pages/festivos-locales.astro
+// Idea 3: buscador de festivos locales de 2027 (solo los que tienen fuente) y estado de las capitales.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Faq from '../components/Faq.astro';
+import { ANIO, COMUNIDADES, LOCALES, fmtLargo, comunidad } from '../lib/festivos';
+
+const locales = LOCALES.filter((l) => l.anio === ANIO).sort((a, b) => a.municipio.localeCompare(b.municipio, 'es'));
+const capitalesSin = COMUNIDADES.flatMap((c) => c.capitales.filter((k) => !locales.some((l) => l.capital === k.slug)).map((k) => ({ c, k })));
+const titulo = `Festivos locales ${ANIO}`;
+const breadcrumbs = [{ name: 'Festivos locales' }];
+const preguntas = [
+  { q: '¿Cuántos festivos locales hay?', a: 'Dos por municipio. Los aprueba el pleno de cada ayuntamiento y se publican en el boletín oficial de la comunidad o de la provincia.' },
+  { q: '¿Por qué no sale mi municipio?', a: `Porque aún no ha aprobado sus fiestas locales de ${ANIO} o no hemos encontrado una fuente fiable. Solo añadimos las que tienen fuente.` },
+];
+---
+
+<BaseLayout title={`${titulo}: busca tu municipio`} description={`Busca tu municipio y mira sus dos fiestas locales de ${ANIO}, con la fuente de cada una. Se van añadiendo según las aprueban los ayuntamientos.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Buscador" breadcrumbs={breadcrumbs}>
+    <p>Tenemos {locales.length} municipios con sus fiestas de {ANIO} aprobadas. Vamos añadiendo más según las publican los ayuntamientos.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-5xl space-y-10 px-4 py-10 sm:px-6">
+    <label class="block max-w-md">
+      <span class="etiqueta">Tu municipio</span>
+      <input type="search" class="entrada py-3 text-lg" placeholder="Escribe para buscar…" data-buscar autofocus />
+    </label>
+
+    <ul class="grid gap-4 sm:grid-cols-2" data-lista>
+      {
+        locales.map((l) => (
+          <li id={l.slug} class="aparece tarjeta scroll-mt-24 target:ring-2 target:ring-indigo-500" data-nombre={l.municipio}>
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <h2 class="text-lg font-bold text-slate-900">{l.municipio}</h2>
+                <p class="text-sm text-slate-500">{comunidad(l.comunidad)?.nombre}</p>
+              </div>
+              <span class="rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-900">{l.estado === 'pleno' ? 'Aprobado por el pleno' : 'En el boletín oficial'}</span>
+            </div>
+            <ul class="mt-3 space-y-1.5">
+              {l.dias.map((d) => (
+                <li class="flex items-center gap-2 text-sm">
+                  <span class="h-3 w-3 rounded bg-sky-500" />
+                  <span class="mayuscula font-semibold text-slate-800">{fmtLargo(d.fecha)}</span>
+                  <span class="text-slate-600">· {d.nombre}</span>
+                </li>
+              ))}
+            </ul>
+            <p class="fuente mt-3">Fuente: <a href={l.fuente.url} rel="noopener">{l.fuente.texto}</a></p>
+            <a href={`/vacaciones?c=${l.comunidad}&m=${l.slug}`} class="mt-3 inline-block text-sm font-semibold text-indigo-700 hover:underline">Qué días pedir en {l.municipio} →</a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="hidden rounded-xl bg-slate-50 p-4 text-slate-600" data-vacio>No tenemos aún las fiestas locales de ese municipio para {ANIO}.</p>
+
+    <section>
+      <h2 class="text-xl font-bold text-slate-900">Capitales sin fiestas locales de {ANIO} todavía</h2>
+      <p class="mt-1 text-sm text-slate-500">{capitalesSin.length} de 52. Sus fichas ya tienen los festivos nacionales y autonómicos.</p>
+      <ul class="mt-3 flex flex-wrap gap-1.5">
+        {capitalesSin.map(({ c, k }) => <li><a href={`/calendario-laboral-2027/${c.slug}/${k.slug}`} class="inline-block rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-700 hover:bg-indigo-600 hover:text-white">{k.nombre}</a></li>)}
+      </ul>
+    </section>
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>
+
+<script>
+  const q = document.querySelector<HTMLInputElement>('[data-buscar]')!;
+  const norm = (s: string) => s.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
+  q.addEventListener('input', () => {
+    const v = norm(q.value.trim());
+    let n = 0;
+    document.querySelectorAll<HTMLElement>('[data-nombre]').forEach((li) => {
+      const ok = !v || norm(li.dataset.nombre!).includes(v);
+      li.hidden = !ok;
+      if (ok) n++;
+    });
+    document.querySelector('[data-vacio]')!.classList.toggle('hidden', n > 0);
+  });
+</script>

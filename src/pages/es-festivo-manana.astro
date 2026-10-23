@@ -1,0 +1,94 @@
+---
+// Ruta: src/pages/es-festivo-manana.astro
+// Idea 6: ¿es festivo mañana (u hoy, o el día que elijas) en tu comunidad?
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import SelectorTerritorio from '../components/SelectorTerritorio.astro';
+import Faq from '../components/Faq.astro';
+import { ANIOS } from '../lib/festivos';
+
+const titulo = '¿Es festivo mañana?';
+const breadcrumbs = [{ name: '¿Es festivo mañana?' }];
+const preguntas = [
+  { q: '¿Qué festivos tiene en cuenta?', a: `Los nacionales y autonómicos del BOE de ${ANIOS.join(' y ')}, y los locales de los municipios que ya los tienen aprobados. Si tu municipio no sale, puede haber una fiesta local que no vemos.` },
+  { q: '¿A qué hora cambia de día?', a: 'A medianoche en hora peninsular (Madrid). En Canarias es una hora menos.' },
+];
+---
+
+<BaseLayout title={`${titulo} Compruébalo en tu comunidad`} description="Mira al momento si mañana, hoy o cualquier otro día es festivo en tu comunidad o en tu municipio, con los festivos oficiales del BOE." breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Al momento" breadcrumbs={breadcrumbs}>
+    <p>Elige tu comunidad y te lo decimos. También puedes preguntar por cualquier otro día.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6">
+    <div class="tarjeta"><SelectorTerritorio id="manana" /></div>
+
+    <div class="grid gap-4 sm:grid-cols-2" aria-live="polite">
+      {
+        ['Mañana', 'Hoy'].map((n) => (
+          <div class="rounded-3xl p-6 text-center shadow-xl transition-colors duration-500" data-caja={n}>
+            <p class="text-sm font-semibold uppercase tracking-wide opacity-80">{n}</p>
+            <p class="cambia mt-2 text-6xl font-black sm:text-7xl" data-si-no>…</p>
+            <p class="mt-2 text-lg font-semibold" data-que></p>
+            <p class="text-sm mayuscula opacity-80" data-fecha></p>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="tarjeta">
+      <label class="block max-w-xs">
+        <span class="etiqueta">¿Y otro día?</span>
+        <input type="date" class="entrada" data-otro min={`${ANIOS[0]}-01-01`} max={`${ANIOS.at(-1)}-12-31`} />
+      </label>
+      <p class="mt-3 text-lg" data-otro-res></p>
+    </div>
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>
+
+<script>
+  import { festivos, hoyMadrid, sumarDias, fmtLargo, diaSemana, ETIQUETA_TIPO, ANIOS, conArticulo } from '../lib/festivos';
+
+  let t = { comunidad: 'madrid', municipio: '', isla: '' };
+  const otro = document.querySelector<HTMLInputElement>('[data-otro]')!;
+
+  const consulta = (fecha: string) => {
+    const f = festivos(t.comunidad, Number(fecha.slice(0, 4)), { municipio: t.municipio, isla: t.isla }).find((x) => x.fecha === fecha);
+    const d = diaSemana(fecha);
+    return { f, finde: d === 0 || d === 6, sinDatos: !ANIOS.includes(Number(fecha.slice(0, 4))) };
+  };
+
+  const pintar = () => {
+    const hoy = hoyMadrid();
+    for (const [n, fecha] of [['Mañana', sumarDias(hoy, 1)], ['Hoy', hoy]] as const) {
+      const caja = document.querySelector<HTMLElement>(`[data-caja="${n}"]`)!;
+      const r = consulta(fecha);
+      const si = !!r.f;
+      caja.className = `rounded-3xl p-6 text-center shadow-xl transition-colors duration-500 ${si ? 'bg-gradient-to-br from-rose-500 to-rose-600 text-white' : r.finde ? 'bg-gradient-to-br from-slate-600 to-slate-700 text-white' : 'bg-white text-slate-900 ring-1 ring-slate-200'}`;
+      const sn = caja.querySelector<HTMLElement>('[data-si-no]')!;
+      sn.textContent = r.sinDatos ? '¿?' : si ? 'Sí' : 'No';
+      sn.classList.remove('cambia');
+      void sn.offsetWidth;
+      sn.classList.add('cambia');
+      caja.querySelector('[data-que]')!.textContent = r.sinDatos
+        ? 'Aún no hay calendario oficial de ese año'
+        : si
+          ? `${r.f!.nombre} · ${ETIQUETA_TIPO[r.f!.tipo]}`
+          : r.finde
+            ? 'No es festivo, pero es fin de semana'
+            : `Día laborable en ${conArticulo(t.comunidad)}`;
+      caja.querySelector('[data-fecha]')!.textContent = fmtLargo(fecha);
+    }
+    if (otro.value) {
+      const r = consulta(otro.value);
+      document.querySelector('[data-otro-res]')!.innerHTML = r.sinDatos
+        ? 'Aún no hay calendario oficial de ese año.'
+        : r.f
+          ? `🎉 <strong>Sí</strong>: ${fmtLargo(otro.value)} es <strong>${r.f.nombre}</strong> (${ETIQUETA_TIPO[r.f.tipo].toLowerCase()}).`
+          : `<strong>No</strong>, ${fmtLargo(otro.value)} no es festivo${r.finde ? ' (es fin de semana)' : ''}.`;
+    }
+  };
+  document.addEventListener('territorio', (e) => ((t = (e as CustomEvent).detail), pintar()));
+  otro.addEventListener('input', pintar);
+</script>

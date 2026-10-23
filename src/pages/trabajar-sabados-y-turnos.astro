@@ -1,0 +1,38 @@
+---
+// Ruta: src/pages/trabajar-sabados-y-turnos.astro
+// Idea 13: festivos para quien trabaja los sábados o a turnos.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Faq from '../components/Faq.astro';
+import { ANIO, festivosComunes, fmtLargo, diaSemana } from '../lib/festivos';
+
+const sabados = festivosComunes(ANIO).filter((f) => diaSemana(f.fecha) === 6);
+const domingos = festivosComunes(ANIO).filter((f) => diaSemana(f.fecha) === 0);
+const titulo = `Si trabajas los sábados o a turnos: tus festivos de ${ANIO}`;
+const breadcrumbs = [{ name: 'Sábados y turnos' }];
+const preguntas = [
+  { q: '¿Qué pasa si el festivo cae en mi día libre?', a: 'Depende de tu convenio y de cómo esté hecho tu cuadrante: muchos convenios con turnos rotativos lo compensan con otro día. Es lo primero que hay que mirar.' },
+  { q: '¿Cómo uso el optimizador si trabajo a turnos?', a: 'Elige «De lunes a sábado» si libras solo el domingo. Si tus libranzas rotan, el optimizador no puede saberlas: úsalo como guía y ajusta con tu cuadrante.' },
+];
+---
+
+<BaseLayout title={titulo} description={`En ${ANIO}, ${sabados.map((f) => f.nombre).join(' y ')} caen en sábado: si trabajas los sábados, los libras. Qué cambia en tus puentes y en tu convenio.`} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Tus derechos" breadcrumbs={breadcrumbs}>
+    <p>Si trabajas los sábados, los festivos que caen en sábado sí te dan un día libre. En {ANIO} hay {sabados.length} en toda España.</p>
+  </CabeceraPagina>
+  <div class="mx-auto max-w-3xl space-y-10 px-4 py-10 sm:px-6">
+    <div class="grid gap-3 sm:grid-cols-2">
+      {sabados.map((f) => <div class="aparece rounded-2xl bg-gradient-to-br from-rose-500 to-rose-600 p-5 text-white shadow-lg"><p class="text-sm mayuscula opacity-90">{fmtLargo(f.fecha)}</p><p class="text-xl font-bold">{f.nombre}</p></div>)}
+    </div>
+    <a href="/vacaciones?j=ls" class="boton">✨ Optimizador para quien trabaja de lunes a sábado</a>
+    <div class="texto">
+      <h2>De lunes a sábado</h2>
+      <p>Los festivos nacionales de {ANIO} que caen en sábado ({sabados.map((f) => fmtLargo(f.fecha)).join(' y ')}) son días libres para ti, mientras que quien trabaja de lunes a viernes no gana nada. {domingos.length > 0 && `En cambio, ${domingos.map((f) => `${f.nombre} (${fmtLargo(f.fecha)})`).join(' y ')} cae en domingo: si ya descansas ese día no ganas nada, salvo donde la comunidad lo pasa al lunes.`}</p>
+      <p>Como el sábado es día de trabajo, cada puente te cuesta un día más de vacaciones. Por eso el optimizador cambia sus propuestas cuando eliges esa jornada.</p>
+      <h2>A turnos</h2>
+      <p>Si tus días libres rotan, que un festivo te caiga en libranza o en turno depende del cuadrante. Si te toca trabajarlo, tienes derecho a un descanso compensatorio o a cobrar esas horas con recargo: lo explicamos en <a href="/trabajar-en-festivo">¿Me pagan si trabajo un festivo?</a>.</p>
+      <p class="fuente">Información general. Lo que te corresponde lo concreta tu convenio colectivo.</p>
+    </div>
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+// Ruta: src/pages/calendario-laboral-2027/[comunidad].astro
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FichaCalendario from '../../components/FichaCalendario.astro';
+import { ANIO, COMUNIDADES } from '../../lib/festivos';
+import { territorio, festivosDe, cabe } from '../../lib/territorio';
+
+export function getStaticPaths() {
+  return COMUNIDADES.map((c) => ({ params: { comunidad: c.slug } }));
+}
+const t = territorio(Astro.params.comunidad!)!;
+const n = festivosDe(t).length;
+const title = cabe([`Calendario laboral ${ANIO} ${t.comunidad.corto}: festivos y puentes`, `Calendario laboral ${ANIO} ${t.comunidad.corto}: festivos`, `Calendario laboral ${ANIO} ${t.comunidad.corto}`], 0, 60);
+const description = cabe(
+  [
+    `Los ${n} festivos de ${ANIO} en ${t.nombreFrase} según el BOE, sus puentes, los días laborables de cada mes y el calendario para descargar.`,
+    `Los ${n} festivos de ${ANIO} en ${t.nombreFrase} según el BOE, sus puentes y los días laborables de cada mes.`,
+    `Los ${n} festivos de ${ANIO} en ${t.comunidad.corto}: puentes, días laborables por mes y calendario para descargar.`,
+  ],
+  120,
+  155,
+);
+const breadcrumbs = [{ name: 'Calendario laboral 2027', href: '/calendario-laboral-2027' }, { name: t.comunidad.corto }];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={breadcrumbs}
+>
+  <FichaCalendario t={t} breadcrumbs={breadcrumbs} />
+</BaseLayout>

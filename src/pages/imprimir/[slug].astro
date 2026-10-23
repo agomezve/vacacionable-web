@@ -1,0 +1,37 @@
+---
+// Ruta: src/pages/imprimir/[slug].astro
+// Idea 9: calendario en una hoja para imprimir o guardar como PDF desde el navegador.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Leyenda from '../../components/Leyenda.astro';
+import { ANIO, FUENTE_BOE, calendario, fmtMini } from '../../lib/festivos';
+import { anioHtml } from '../../lib/calendario-html';
+import { territorios, territorio, festivosDe } from '../../lib/territorio';
+
+export function getStaticPaths() {
+  return territorios().map((t) => ({ params: { slug: t.slug } }));
+}
+const t = territorio(Astro.params.slug!)!;
+const lista = festivosDe(t);
+---
+
+<BaseLayout title={`Imprimir calendario laboral ${ANIO} ${t.nombre}`} description={`Calendario de festivos de ${ANIO} de ${t.nombre} en una hoja, para imprimir.`} noindex canonicalURL={t.ruta}>
+  <div class="mx-auto max-w-5xl px-4 py-6 sm:px-6 print:max-w-none print:p-0">
+    <div class="no-imprimir mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-indigo-50 p-4">
+      <p class="text-sm text-indigo-900">Pulsa el botón y elige «Guardar como PDF» si lo quieres en archivo. Sale mejor en horizontal.</p>
+      <div class="flex gap-2">
+        <a href={t.ruta} class="boton-secundario py-2 text-sm">← Volver</a>
+        <button class="boton py-2 text-sm" onclick="window.print()">🖨️ Imprimir</button>
+      </div>
+    </div>
+    <div class="flex items-end justify-between gap-4">
+      <h1 class="text-2xl font-extrabold text-slate-900">Calendario laboral {ANIO} · {t.nombre}</h1>
+      <p class="text-xs text-slate-500">vacacionable.aarongomezvera.es</p>
+    </div>
+    <div class="mt-2"><Leyenda extra={['local']} /></div>
+    <div class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4 print:grid-cols-4" set:html={anioHtml(calendario(ANIO, lista))} />
+    <p class="mt-4 text-xs leading-relaxed text-slate-600">
+      {lista.map((f) => `${fmtMini(f.fecha)}: ${f.nombre}`).join(' · ')}
+    </p>
+    <p class="mt-2 text-[10px] text-slate-400">Fuente: BOE {FUENTE_BOE[ANIO].id}{t.locales ? `; fiestas locales: ${t.locales.fuente.texto}` : ''}.</p>
+  </div>
+</BaseLayout>

@@ -1,0 +1,227 @@
+---
+// Ruta: src/pages/vacaciones.astro
+// Idea 1 (optimizador) + 13 (si trabajas sábados): qué días pedir para librar más en 2027.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import SelectorTerritorio from '../components/SelectorTerritorio.astro';
+import Leyenda from '../components/Leyenda.astro';
+import Faq from '../components/Faq.astro';
+import { ANIO } from '../lib/festivos';
+
+const titulo = `Optimizador de vacaciones ${ANIO}: qué días pedir`;
+const preguntas = [
+  {
+    q: '¿Cómo decide qué días pedir?',
+    a: 'Prueba todas las combinaciones de bloques de días libres del año (festivos, fines de semana y los días que pedirías) y se queda con la que te da más días libres seguidos sin pasarte de los días de vacaciones que tienes.',
+  },
+  {
+    q: '¿Qué festivos tiene en cuenta?',
+    a: `Los nacionales y autonómicos de ${ANIO} que publica el BOE, más los locales de tu municipio si ya están aprobados y los tenemos. Si tu municipio no sale, añade tú sus dos fiestas locales cuando se publiquen: el resultado puede mejorar.`,
+  },
+  {
+    q: '¿Me tienen que dar esos días?',
+    a: 'No necesariamente. Las fechas de las vacaciones se acuerdan con la empresa según el convenio y el calendario de vacaciones (artículo 38 del Estatuto de los Trabajadores). Esto es un plan para proponerlo, no un derecho a esas fechas concretas.',
+  },
+  {
+    q: '¿Y si trabajo los sábados?',
+    a: 'Cambia la jornada a «De lunes a sábado». Entonces el sábado cuenta como día de trabajo y un festivo que cae en sábado sí te da un día libre.',
+  },
+];
+---
+
+<BaseLayout
+  title={titulo}
+  description={`Pon tu comunidad y cuántos días de vacaciones tienes, y te decimos qué días pedir en ${ANIO} para librar el máximo de días seguidos. Con los festivos del BOE.`}
+  breadcrumbs={[{ name: 'Optimizador de vacaciones' }]}
+>
+  <CabeceraPagina titulo={titulo} etiqueta="Herramienta" breadcrumbs={[{ name: 'Optimizador de vacaciones' }]}>
+    <p>Dinos dónde trabajas y cuántos días tienes. Te devolvemos qué días pedir, en qué bloques y cuántos días libras en total.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[22rem_1fr]">
+    <form class="tarjeta h-fit space-y-6 lg:sticky lg:top-24" data-form onsubmit="return false">
+      <SelectorTerritorio id="opt" />
+
+      <div>
+        <div class="flex items-end justify-between">
+          <span class="etiqueta">Días de vacaciones que te quedan</span>
+          <output class="text-4xl font-extrabold tabular-nums text-indigo-700" data-dias-valor>22</output>
+        </div>
+        <input type="range" min="1" max="35" value="22" class="mt-2 w-full accent-indigo-600" data-dias aria-label="Días de vacaciones" />
+        <span class="ayuda">Días laborables. Si tu convenio habla de 30 días naturales, suelen equivaler a 22 laborables.</span>
+      </div>
+
+      <fieldset>
+        <legend class="etiqueta">¿Cómo te gustan?</legend>
+        <div class="grid grid-cols-3 gap-2">
+          <label class="pastilla flex-col text-center"><input type="radio" name="estilo" value="puentes" class="sr-only" checked /><span aria-hidden="true">🌉</span>Puentes</label>
+          <label class="pastilla flex-col text-center"><input type="radio" name="estilo" value="equilibrado" class="sr-only" /><span aria-hidden="true">⚖️</span>Mezcla</label>
+          <label class="pastilla flex-col text-center"><input type="radio" name="estilo" value="largas" class="sr-only" /><span aria-hidden="true">🏖️</span>Largas</label>
+        </div>
+        <span class="ayuda" data-estilo-ayuda></span>
+      </fieldset>
+
+      <fieldset>
+        <legend class="etiqueta">Tu jornada</legend>
+        <div class="grid grid-cols-2 gap-2">
+          <label class="pastilla"><input type="radio" name="jornada" value="lv" class="sr-only" checked />Lunes a viernes</label>
+          <label class="pastilla"><input type="radio" name="jornada" value="ls" class="sr-only" />Lunes a sábado</label>
+        </div>
+      </fieldset>
+
+      <label class="flex items-start gap-3 text-sm text-slate-700">
+        <input type="checkbox" class="mt-0.5 h-4 w-4 accent-indigo-600" data-desde-hoy />
+        <span>Solo a partir de hoy (si ya estamos en {ANIO})</span>
+      </label>
+    </form>
+
+    <section aria-live="polite" class="min-w-0 space-y-8">
+      <div class="grid gap-3 sm:grid-cols-3">
+        <div class="rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 p-5 text-white shadow-lg shadow-emerald-500/20">
+          <span class="text-sm font-medium text-emerald-50">Pides</span>
+          <span class="block text-4xl font-extrabold tabular-nums" data-r-pides>—</span>
+          <span class="text-sm text-emerald-50">días de vacaciones</span>
+        </div>
+        <div class="rounded-2xl bg-gradient-to-br from-indigo-600 to-indigo-700 p-5 text-white shadow-lg shadow-indigo-600/20">
+          <span class="text-sm font-medium text-indigo-100">Libras</span>
+          <span class="block text-4xl font-extrabold tabular-nums" data-r-libras>—</span>
+          <span class="text-sm text-indigo-100">días seguidos en total</span>
+        </div>
+        <div class="rounded-2xl bg-gradient-to-br from-amber-400 to-amber-500 p-5 text-amber-950 shadow-lg shadow-amber-400/20">
+          <span class="text-sm font-medium">Cada día pedido rinde</span>
+          <span class="block text-4xl font-extrabold tabular-nums" data-r-rinde>—</span>
+          <span class="text-sm">días libres</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-2xl font-bold tracking-tight text-slate-900">Tu plan para {ANIO}</h2>
+          <div class="flex gap-2">
+            <button type="button" class="boton-secundario px-3 py-2 text-sm" data-compartir>🔗 Copiar enlace</button>
+            <button type="button" class="boton px-3 py-2 text-sm" data-ics>📅 Añadir al calendario</button>
+          </div>
+        </div>
+        <ol class="mt-4 grid gap-3 md:grid-cols-2" data-bloques></ol>
+        <p class="mt-3 hidden rounded-xl bg-amber-50 p-4 text-sm text-amber-900" data-sobran></p>
+      </div>
+
+      <div>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-xl font-bold tracking-tight text-slate-900">Tu año, de un vistazo</h2>
+          <Leyenda extra={['local', 'pedir', 'bloque']} />
+        </div>
+        <div class="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" data-anio></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>
+
+<script>
+  import { ANIO, calendario, festivos, optimizar, fmtCorto, fmtRango, nombreDia, hoyMadrid, type Jornada } from '../lib/festivos';
+  import { anioHtml, rango, type Marca } from '../lib/calendario-html';
+  import { descargarIcs } from '../lib/ics';
+
+  const ESTILOS = {
+    puentes: { minLargo: 4, maxLargo: 16, ayuda: 'Muchos fines de semana largos: bloques de 4 días o más.' },
+    equilibrado: { minLargo: 6, maxLargo: 16, ayuda: 'Bloques de 6 días o más: menos escapadas, más largas.' },
+    largas: { minLargo: 9, maxLargo: 23, ayuda: 'Bloques de 9 días o más: semanas enteras enlazadas con festivos.' },
+  } as const;
+
+  const form = document.querySelector<HTMLFormElement>('[data-form]')!;
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector<T>(s)!;
+  const dias = $<HTMLInputElement>('[data-dias]');
+  let territorio = { comunidad: 'madrid', municipio: '', isla: '' };
+  let ultimoPlan: ReturnType<typeof optimizar> | null = null;
+
+  // Parámetros de un enlace compartido.
+  const url = new URLSearchParams(location.search);
+  if (url.get('d')) dias.value = url.get('d')!;
+  for (const n of ['estilo', 'jornada'] as const) {
+    const v = url.get(n === 'estilo' ? 'e' : 'j');
+    const r = form.querySelector<HTMLInputElement>(`input[name="${n}"][value="${v}"]`);
+    if (r) r.checked = true;
+  }
+
+  function calcular() {
+    const n = Number(dias.value);
+    $('[data-dias-valor]').textContent = String(n);
+    const estilo = (new FormData(form).get('estilo') ?? 'puentes') as keyof typeof ESTILOS;
+    const jornada = (new FormData(form).get('jornada') ?? 'lv') as Jornada;
+    $('[data-estilo-ayuda]').textContent = ESTILOS[estilo].ayuda;
+    const lista = festivos(territorio.comunidad, ANIO, { municipio: territorio.municipio, isla: territorio.isla });
+    const cal = calendario(ANIO, lista, jornada);
+    const hoy = hoyMadrid();
+    const desde = $<HTMLInputElement>('[data-desde-hoy]').checked && hoy.startsWith(String(ANIO)) ? cal.findIndex((d) => d.fecha >= hoy) : 0;
+    const plan = optimizar(cal, n, { minLargo: ESTILOS[estilo].minLargo, maxLargo: ESTILOS[estilo].maxLargo, desde });
+    ultimoPlan = plan;
+
+    const anima = (sel: string, texto: string) => {
+      const el = $(sel);
+      el.textContent = texto;
+      el.classList.remove('cambia');
+      void el.offsetWidth;
+      el.classList.add('cambia');
+    };
+    anima('[data-r-pides]', String(plan.pedidos));
+    anima('[data-r-libras]', String(plan.libres));
+    anima('[data-r-rinde]', plan.pedidos ? (plan.libres / plan.pedidos).toLocaleString('es-ES', { maximumFractionDigits: 1 }) : '—');
+
+    $('[data-bloques]').innerHTML = plan.ventanas
+      .map((v, i) => {
+        const fest = v.festivos.map((f) => f.nombre).join(', ');
+        const pedir = v.fechasPedir.map((f) => `<span class="rounded-md bg-emerald-50 px-1.5 py-0.5 font-semibold text-emerald-800 ring-1 ring-emerald-200">${nombreDia(f).slice(0, 3)} ${fmtCorto(f)}</span>`).join(' ');
+        return `<li class="salta rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" style="animation-delay:${i * 40}ms">
+          <div class="flex items-start justify-between gap-3">
+            <p class="font-bold text-slate-900">${fmtRango(v.inicio, v.fin)}</p>
+            <span class="shrink-0 rounded-full bg-indigo-600 px-2.5 py-0.5 text-sm font-bold text-white">${v.dias} días</span>
+          </div>
+          ${fest ? `<p class="mt-1 text-sm text-slate-500">${fest}</p>` : ''}
+          <p class="mt-3 text-sm leading-7 text-slate-700">Pide ${v.pedir} día${v.pedir > 1 ? 's' : ''}: ${pedir}</p>
+        </li>`;
+      })
+      .join('') || '<li class="text-slate-500">Con estos ajustes no hay bloques posibles. Prueba otro estilo o más días.</li>';
+
+    const sobran = n - plan.pedidos;
+    const aviso = $('[data-sobran]');
+    aviso.classList.toggle('hidden', sobran <= 0);
+    aviso.textContent = sobran > 0 ? `Te sobran ${sobran} día${sobran > 1 ? 's' : ''}: no hay más bloques de ese tamaño que compensen. Úsalos sueltos o cambia a otro estilo.` : '';
+
+    const pedir = new Set(plan.ventanas.flatMap((v) => v.fechasPedir));
+    const bloque = new Set(plan.ventanas.flatMap((v) => rango(v.inicio, v.fin)));
+    const marcas = (f: string): Marca[] => [...(pedir.has(f) ? ['pedir' as const] : []), ...(bloque.has(f) ? ['bloque' as const] : []), ...(f === hoy ? ['hoy' as const] : [])];
+    $('[data-anio]').innerHTML = anioHtml(cal, marcas);
+
+    const q = new URLSearchParams({ c: territorio.comunidad, d: String(n), e: estilo, j: jornada });
+    if (territorio.municipio || territorio.isla) q.set('m', territorio.municipio || territorio.isla);
+    history.replaceState(null, '', `?${q}`);
+  }
+
+  document.addEventListener('territorio', (e) => {
+    territorio = (e as CustomEvent).detail;
+    calcular();
+  });
+  form.addEventListener('input', calcular);
+
+  $('[data-compartir]').addEventListener('click', async (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    try {
+      await navigator.clipboard.writeText(location.href);
+      b.textContent = '✅ Enlace copiado';
+    } catch {
+      b.textContent = '❌ No se pudo copiar';
+    }
+    setTimeout(() => (b.textContent = '🔗 Copiar enlace'), 2000);
+  });
+  $('[data-ics]').addEventListener('click', () => {
+    if (!ultimoPlan) return;
+    descargarIcs(
+      `vacaciones-${ANIO}.ics`,
+      ultimoPlan.ventanas.map((v) => ({ inicio: v.inicio, fin: v.fin, titulo: `🌴 Libre ${v.dias} días (pide ${v.pedir})`, descripcion: `Días que pedir: ${v.fechasPedir.map(fmtCorto).join(', ')}` })),
+    );
+  });
+</script>

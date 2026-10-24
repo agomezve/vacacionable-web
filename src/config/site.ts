@@ -24,7 +24,7 @@ export const SITE = {
    * Pega solo el valor de content="…". Vacío: no se añade la etiqueta.
    */
   googleSiteVerification: 'VEgHMvTc1woUEyADkY8YfFlDgO5vJnkj9IHhNX_gAlI',
-  bingSiteVerification: '',
+  bingSiteVerification: 'E034624449B5B3E1E75EFD689A3D6A72',
 } as const;
 
 /**

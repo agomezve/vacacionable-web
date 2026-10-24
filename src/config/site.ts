@@ -23,7 +23,7 @@ export const SITE = {
    * Código de verificación de Google Search Console (método "Etiqueta HTML").
    * Pega solo el valor de content="…". Vacío: no se añade la etiqueta.
    */
-  googleSiteVerification: '',
+  googleSiteVerification: 'VEgHMvTc1woUEyADkY8YfFlDgO5vJnkj9IHhNX_gAlI',
   bingSiteVerification: '',
 } as const;
 
@@ -184,7 +184,7 @@ export function isNewsletterEnabled(): boolean {
  * Google Analytics 4 ("G-XXXXXXXXXX"). Vacío: no se carga nada.
  * Con Consent Mode v2 todo empieza denegado; la CMP de Google (AdSense) actualiza el consentimiento.
  */
-export const GA4_ID = '';
+export const GA4_ID = 'G-FZV26QZ1Q3';
 
 export function isAnalyticsEnabled(): boolean {
   return /^G-[A-Z0-9]+$/.test(GA4_ID.trim());

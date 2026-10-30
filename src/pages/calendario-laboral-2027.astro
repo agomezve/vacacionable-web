@@ -3,18 +3,21 @@
 // Índice de comunidades y capitales, con un mapa de calor de festivos entre semana.
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CabeceraPagina from '../components/CabeceraPagina.astro';
-import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, resumenFestivos, puentes, laborables } from '../lib/festivos';
+import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, festivosComunes, fmtLargo, resumenFestivos, puentes, laborables } from '../lib/festivos';
 
 const filas = COMUNIDADES.map((c) => {
   const l = festivos(c.slug, ANIO);
   return { c, res: resumenFestivos(l), lab: laborables(ANIO, l).total, puentes: puentes(ANIO, l).filter((p) => p.gratis || p.opciones.length).length };
 });
-const titulo = `Calendario laboral ${ANIO} por comunidades`;
+const titulo = `Calendario laboral ${ANIO} y festivos ${ANIO} por comunidades`;
+// Festivos de toda España, para responder arriba a «festivos 2027»
+const comunes = festivosComunes(ANIO);
 const breadcrumbs = [{ name: 'Calendario laboral 2027' }];
 ---
 
 <BaseLayout title={titulo} description={`Elige tu comunidad o tu capital y mira sus festivos de ${ANIO}, sus puentes y los días laborables de cada mes. Con los datos del BOE.`} breadcrumbs={breadcrumbs}>
   <CabeceraPagina titulo={titulo} etiqueta="Datos del BOE" breadcrumbs={breadcrumbs}>
+    <p>Festivos {ANIO} en toda España ({comunes.length}): {comunes.map((f, i) => <>{i ? ', ' : ''}<strong>{fmtLargo(f.fecha)}</strong> ({f.nombre})</>)}. Cada comunidad suma los suyos: elígela abajo.</p>
     <p>Las 17 comunidades, Ceuta, Melilla y las 52 capitales de provincia. Fuente: <a class="underline" href={FUENTE_BOE[ANIO].url} rel="noopener">BOE {FUENTE_BOE[ANIO].id}</a>.</p>
   </CabeceraPagina>
 

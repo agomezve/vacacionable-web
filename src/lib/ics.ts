@@ -39,7 +39,7 @@ export function ics(nombre: string, eventos: Evento[], uidBase = 'vacacionable')
     'X-WR-TIMEZONE:Europe/Madrid',
     ...eventos.flatMap((e, i) => [
       'BEGIN:VEVENT',
-      `UID:${uidBase}-${fecha(e.inicio)}-${i}@vacacionable.aarongomezvera.es`,
+      `UID:${uidBase}-${fecha(e.inicio)}-${i}@vacacionable.iaencrudo.es`,
       `DTSTAMP:${sello}`,
       `DTSTART;VALUE=DATE:${fecha(e.inicio)}`,
       `DTEND;VALUE=DATE:${fecha(sumarDias(e.fin ?? e.inicio, 1))}`,

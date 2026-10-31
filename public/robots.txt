@@ -3,4 +3,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vacacionable.aarongomezvera.es/sitemap-index.xml
+Sitemap: https://vacacionable.iaencrudo.es/sitemap-index.xml

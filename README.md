@@ -1,7 +1,7 @@
 # Vacacionable
 
 Festivos, puentes y vacaciones de 2027: qué días pedir para librar más, con los festivos del BOE.
-https://vacacionable.aarongomezvera.es
+https://vacacionable.iaencrudo.es
 
 - **Stack:** Astro 7 + Tailwind 4, salida estática en GitHub Pages (`.github/workflows/deploy.yml`).
 - **Datos:**

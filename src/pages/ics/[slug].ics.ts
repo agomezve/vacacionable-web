@@ -13,7 +13,7 @@ export const GET: APIRoute = ({ params }) => {
   const t = territorio(params.slug!)!;
   const cuerpo = ics(
     `Festivos ${ANIO} ${t.nombre}`,
-    festivosDe(t).map((f) => ({ inicio: f.fecha, titulo: `🎉 ${f.nombre}`, descripcion: 'Festivo según Vacacionable (vacacionable.aarongomezvera.es)' })),
+    festivosDe(t).map((f) => ({ inicio: f.fecha, titulo: `🎉 ${f.nombre}`, descripcion: 'Festivo según Vacacionable (vacacionable.iaencrudo.es)' })),
     `festivos-${t.slug}`,
   );
   return new Response(cuerpo, { headers: { 'Content-Type': 'text/calendar; charset=utf-8' } });

@@ -12,6 +12,8 @@ const toc = [
   { id: 'ia', title: 'Qué hace la IA' },
   { id: 'revision', title: 'Qué reviso yo' },
   { id: 'datos', title: 'De dónde salen los datos' },
+  { id: 'calculos', title: 'Cómo se calcula cada cifra' },
+  { id: 'limites', title: 'Lo que estos cálculos no saben' },
   { id: 'actualizacion', title: 'Cada cuánto se actualiza' },
   { id: 'errores', title: 'Si encuentras un error' },
 ];
@@ -57,6 +59,42 @@ const toc = [
     <ul>
       {ANIOS.map((a) => <li><strong>{a}:</strong> <a href={FUENTE_BOE[a].url} rel="noopener" target="_blank">BOE, {FUENTE_BOE[a].id}</a>.</li>)}
       <li><strong>Festivos locales:</strong> el acuerdo del pleno o el boletín de cada municipio, enlazado en su ficha.</li>
+    </ul>
+
+    <h2 id="calculos">Cómo se calcula cada cifra</h2>
+    <ul>
+      <li>
+        <strong>Día libre</strong>: un festivo de tu calendario o un fin de semana. Con jornada de lunes a viernes,
+        sábado y domingo; con jornada de lunes a sábado, solo el domingo.
+      </li>
+      <li>
+        <strong>Días laborables</strong>: los días del año que no son libres, contados mes a mes.
+      </li>
+      <li>
+        <strong>Festivos «perdidos»</strong>: los que caen en un día que ya era libre (casi siempre, en domingo).
+      </li>
+      <li>
+        <strong>Puentes</strong>: se agrupan los festivos que caen en día laborable y están a 5 días o menos entre sí
+        (por ejemplo, el 6 y el 8 de diciembre). Para cada grupo se buscan los tramos seguidos de días libres que lo
+        contienen, de hasta 16 días, y se elige el más largo pidiendo 0, 1, 2, 3 o 4 días. Una opción solo sale si
+        cada día pedido da al menos 2 días libres y alarga en 2 días o más la opción anterior.
+      </li>
+      <li>
+        <strong>Rentabilidad</strong>: días libres seguidos divididos entre días de vacaciones pedidos.
+      </li>
+      <li>
+        <strong>Optimizador de vacaciones</strong>: de todos los tramos de 4 a 16 días que no se solapan (en el <a href="/vacaciones">planificador</a> puedes pedir bloques de 6 o 9 días como mínimo, y de hasta 23) (con al
+        menos un día laborable entre uno y otro), elige la combinación que da más días libres seguidos sin pasarse de
+        los días de vacaciones que tienes. Es un problema de la mochila resuelto de forma exacta, no a ojo; si dos
+        planes empatan, se queda con el que gasta menos días.
+      </li>
+    </ul>
+
+    <h2 id="limites">Lo que estos cálculos no saben</h2>
+    <ul>
+      <li>Tu convenio: si te da días extra (24 y 31 de diciembre, días de asuntos propios) o si trabajas por turnos, el cálculo no los conoce.</li>
+      <li>Los festivos locales de tu municipio, salvo los de las capitales que tienen ficha.</li>
+      <li>Si tu empresa te dejará coger esos días: las vacaciones se acuerdan con ella.</li>
     </ul>
 
     <h2 id="actualizacion">Cada cuánto se actualiza</h2>

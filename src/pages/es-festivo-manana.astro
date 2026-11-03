@@ -27,9 +27,16 @@ const frase = (lista: typeof enManana) =>
 const respuesta = enManana.length
   ? `Mañana, ${fmtLargo(manana)}, es ${frase(enManana)}.`
   : `Mañana, ${fmtLargo(manana)}, no es festivo en ninguna comunidad.${proximo ? ` El próximo festivo es el ${fmtLargo(proximo)}, ${frase(enProximo)}.` : ''}`;
-const tituloSeo = enManana.length
-  ? `¿Mañana es festivo? Sí, ${enTodas ? 'en toda España' : `en ${enManana.length} ${enManana.length === 1 ? 'comunidad' : 'comunidades'}`}: mira la tuya`
-  : '¿Mañana es festivo? Sí o no en tu comunidad, al momento';
+// El título, con la búsqueda que más impresiones trae: «en qué comunidades es festivo mañana»
+const pregunta = '¿En qué comunidades es festivo mañana?';
+const soloEn = enManana.length === 1 ? `${pregunta} Solo en ${enManana[0].c.nombre}` : '';
+const tituloSeo = !enManana.length
+  ? `${pregunta} Lista al día`
+  : enTodas
+    ? `${pregunta} En toda España`
+    : soloEn && soloEn.length <= 60
+      ? soloEn
+      : `${pregunta} En ${enManana.length}, mira cuáles`;
 // La descripción, corta (120-155 caracteres): cuántas comunidades, sin la lista
 const cuantas = (n: number) => (n === COMUNIDADES.length ? 'en toda España' : `en ${n} ${n === 1 ? 'comunidad' : 'comunidades'}`);
 const corta = enManana.length

@@ -5,6 +5,10 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  # Cada noche, para que «¿Mañana es festivo?» lleve escrita la respuesta del día siguiente
+  # (23:05 UTC: 00:05 en Madrid en invierno, 01:05 en verano).
+  schedule:
+    - cron: '5 23 * * *'
 
 permissions:
   contents: read

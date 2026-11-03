@@ -5,9 +5,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CabeceraPagina from '../components/CabeceraPagina.astro';
 import SelectorTerritorio from '../components/SelectorTerritorio.astro';
 import Faq from '../components/Faq.astro';
-import { ANIOS } from '../lib/festivos';
+import { ANIOS, COMUNIDADES, festivos, hoyMadrid, sumarDias, fmtLargo } from '../lib/festivos';
 
 const titulo = '¿Mañana es festivo?';
+
+// La respuesta de mañana ya va escrita en el HTML (y en el título y la descripción que ve Google).
+// El despliegue programado reconstruye la web cada noche; el script de abajo la corrige si va con retraso.
+const dondeEs = (fecha: string) =>
+  ANIOS.includes(Number(fecha.slice(0, 4)))
+    ? COMUNIDADES.map((c) => ({ c, f: festivos(c.slug, Number(fecha.slice(0, 4))).find((x) => x.fecha === fecha) })).filter((x) => x.f)
+    : [];
+const manana = sumarDias(hoyMadrid(), 1);
+const enManana = dondeEs(manana);
+const enTodas = enManana.length === COMUNIDADES.length;
+const proximo = Array.from({ length: 120 }, (_, i) => sumarDias(manana, i + 1)).find((f) => dondeEs(f).length);
+const enProximo = proximo ? dondeEs(proximo) : [];
+const frase = (lista: typeof enManana) =>
+  lista.length === COMUNIDADES.length
+    ? `festivo en toda España (${lista[0].f!.nombre})`
+    : `festivo en ${lista.length} ${lista.length === 1 ? 'comunidad' : 'comunidades'}: ${lista.map((x) => x.c.nombre).join(', ')}`;
+const respuesta = enManana.length
+  ? `Mañana, ${fmtLargo(manana)}, es ${frase(enManana)}.`
+  : `Mañana, ${fmtLargo(manana)}, no es festivo en ninguna comunidad.${proximo ? ` El próximo festivo es el ${fmtLargo(proximo)}, ${frase(enProximo)}.` : ''}`;
+const tituloSeo = enManana.length
+  ? `¿Mañana es festivo? Sí, ${enTodas ? 'en toda España' : `en ${enManana.length} ${enManana.length === 1 ? 'comunidad' : 'comunidades'}`}: mira la tuya`
+  : '¿Mañana es festivo? Sí o no en tu comunidad, al momento';
+// La descripción, corta (120-155 caracteres): cuántas comunidades, sin la lista
+const cuantas = (n: number) => (n === COMUNIDADES.length ? 'en toda España' : `en ${n} ${n === 1 ? 'comunidad' : 'comunidades'}`);
+const corta = enManana.length
+  ? `Mañana, ${fmtLargo(manana)}, es festivo ${cuantas(enManana.length)}. Mira si lo es en la tuya o en tu municipio, con los festivos del BOE.`
+  : `Mañana, ${fmtLargo(manana)}, no es festivo en ninguna comunidad.${proximo ? ` Próximo festivo: ${fmtLargo(proximo)}.` : ''} Mira tu comunidad o municipio.`;
+const descripcion =
+  corta.length >= 120 && corta.length <= 155
+    ? corta
+    : '¿Mañana es festivo? Mira en qué comunidades es fiesta mañana y compruébalo al momento en tu comunidad o tu municipio, con los festivos oficiales del BOE.';
 const breadcrumbs = [{ name: '¿Es festivo mañana?' }];
 const preguntas = [
   { q: '¿En qué comunidades es festivo mañana?', a: 'La lista de arriba lo dice cada día, con los festivos nacionales y autonómicos del BOE. Las fiestas locales cambian de un municipio a otro: elige el tuyo en el buscador.' },
@@ -17,8 +48,9 @@ const preguntas = [
 ];
 ---
 
-<BaseLayout title={`${titulo} En qué comunidades es fiesta mañana`} description="¿Mañana es festivo? Mira en qué comunidades es fiesta mañana y compruébalo al momento en tu comunidad o tu municipio, con los festivos oficiales del BOE." breadcrumbs={breadcrumbs}>
+<BaseLayout title={tituloSeo} description={descripcion} breadcrumbs={breadcrumbs}>
   <CabeceraPagina titulo={titulo} etiqueta="Al momento" breadcrumbs={breadcrumbs}>
+    <p class="text-lg font-semibold" data-respuesta>{respuesta}</p>
     <p>Elige tu comunidad y te decimos si mañana es festivo. Abajo tienes en qué comunidades es fiesta mañana, y puedes preguntar por cualquier otro día.</p>
   </CabeceraPagina>
 
@@ -123,6 +155,21 @@ const preguntas = [
         : `<ul class="list-disc space-y-1 pl-5">${con.map(li).join('')}</ul>`;
   };
   pintarDonde(sumarDias(hoyMadrid(), 1), 'donde', 'Mañana');
+  // Si la página se construyó otro día, la frase de arriba ya no vale: se rehace con el día de hoy
+  {
+    const dondeEs = (f: string) =>
+      ANIOS.includes(Number(f.slice(0, 4))) ? COMUNIDADES.map((c) => ({ c, f: festivos(c.slug, Number(f.slice(0, 4))).find((x) => x.fecha === f) })).filter((x) => x.f) : [];
+    const frase = (lista: ReturnType<typeof dondeEs>) =>
+      lista.length === COMUNIDADES.length
+        ? `festivo en toda España (${lista[0].f!.nombre})`
+        : `festivo en ${lista.length} ${lista.length === 1 ? 'comunidad' : 'comunidades'}: ${lista.map((x) => x.c.nombre).join(', ')}`;
+    const manana = sumarDias(hoyMadrid(), 1);
+    const en = dondeEs(manana);
+    const proximo = Array.from({ length: 120 }, (_, i) => sumarDias(manana, i + 1)).find((f) => dondeEs(f).length);
+    document.querySelector('[data-respuesta]')!.textContent = en.length
+      ? `Mañana, ${fmtLargo(manana)}, es ${frase(en)}.`
+      : `Mañana, ${fmtLargo(manana)}, no es festivo en ninguna comunidad.${proximo ? ` El próximo festivo es el ${fmtLargo(proximo)}, ${frase(dondeEs(proximo))}.` : ''}`;
+  }
   // El viernes de esta semana (hoy, si es viernes; el siguiente, si ya es fin de semana)
   pintarDonde(sumarDias(hoyMadrid(), (5 - diaSemana(hoyMadrid()) + 7) % 7), 'viernes', 'Este viernes');
 

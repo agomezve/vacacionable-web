@@ -1,0 +1,88 @@
+---
+// Ruta: src/pages/puente-diciembre-2026.astro
+// Puente de la Constitución y la Inmaculada de 2026: el 6 cae en domingo y cada comunidad decide si el lunes 7 es festivo.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CabeceraPagina from '../components/CabeceraPagina.astro';
+import Faq from '../components/Faq.astro';
+import { COMUNIDADES, FUENTE_BOE, festivos, fmtLargo } from '../lib/festivos';
+
+const ANIO_PUENTE = 2026;
+const DESDE = `${ANIO_PUENTE}-12-01`;
+const HASTA = `${ANIO_PUENTE}-12-13`;
+const LUNES = `${ANIO_PUENTE}-12-07`;
+
+const filas = COMUNIDADES.map((c) => {
+  const dic = festivos(c.slug, ANIO_PUENTE).filter((f) => f.fecha >= DESDE && f.fecha <= HASTA);
+  return { c, dic, lunes: dic.some((f) => f.fecha === LUNES) };
+});
+const conLunes = filas.filter((f) => f.lunes);
+const sinLunes = filas.filter((f) => !f.lunes);
+const nombres = (l: typeof filas) => l.map((f) => f.c.corto).join(', ');
+
+const titulo = `Puente de diciembre ${ANIO_PUENTE}`;
+const breadcrumbs = [{ name: titulo }];
+const preguntas = [
+  {
+    q: `¿Cuándo es el puente de diciembre de ${ANIO_PUENTE}?`,
+    a: `El 6 de diciembre (Día de la Constitución) cae en domingo y el 8 (Inmaculada Concepción) en martes. Donde el lunes 7 es festivo, el puente va del sábado 5 al martes 8: 4 días sin pedir vacaciones. Es así en ${conLunes.length} de ${COMUNIDADES.length} territorios. En el resto, el lunes 7 es laborable y hace falta pedirlo para tener esos 4 días.`,
+  },
+  {
+    q: `¿En qué comunidades es festivo el lunes 7 de diciembre de ${ANIO_PUENTE}?`,
+    a: conLunes.length ? `${nombres(conLunes)}. Así lo recoge el BOE ${FUENTE_BOE[ANIO_PUENTE].id}.` : `En ninguna, según el BOE ${FUENTE_BOE[ANIO_PUENTE].id}.`,
+  },
+  {
+    q: '¿Y si en mi comunidad el lunes 7 no es festivo?',
+    a: `Para quien trabaja de lunes a viernes, pidiendo solo el lunes 7 se juntan 4 días libres (del sábado 5 al martes 8). Ten en cuenta también los festivos locales de tu municipio: cada ayuntamiento elige dos y alguno puede caer esos días.`,
+  },
+];
+const descripcion = `El 6 de diciembre de ${ANIO_PUENTE} cae en domingo y el lunes 7 es festivo en ${conLunes.length} de ${COMUNIDADES.length} territorios. Dónde hay puente de 4 días, según el BOE.`;
+---
+
+<BaseLayout title={`Puente de diciembre ${ANIO_PUENTE}: dónde es festivo el lunes 7`} description={descripcion} breadcrumbs={breadcrumbs}>
+  <CabeceraPagina titulo={titulo} etiqueta="Datos del BOE" breadcrumbs={breadcrumbs}>
+    <p>El Día de la Constitución cae en domingo y la Inmaculada en martes. El lunes 7 es festivo en {conLunes.length} de {COMUNIDADES.length} territorios: allí el puente va del sábado 5 al martes 8, 4 días sin pedir vacaciones. En los otros {sinLunes.length}, pidiendo el lunes 7 se consiguen los mismos 4 días.</p>
+  </CabeceraPagina>
+
+  <div class="mx-auto max-w-6xl space-y-10 px-4 py-10 sm:px-6">
+    <section class="grid gap-4 sm:grid-cols-2">
+      <div class="aparece rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-800 p-5 text-white shadow-lg">
+        <p class="text-sm mayuscula text-emerald-100">Lunes 7, festivo</p>
+        <p class="mt-1 text-3xl font-bold">{conLunes.length} territorios</p>
+        <p class="mt-3 text-sm text-emerald-50">{nombres(conLunes) || 'Ninguno'}</p>
+      </div>
+      <div class="aparece rounded-2xl bg-gradient-to-br from-slate-700 to-slate-900 p-5 text-white shadow-lg" style="transition-delay:80ms">
+        <p class="text-sm mayuscula text-slate-300">Lunes 7, laborable</p>
+        <p class="mt-1 text-3xl font-bold">{sinLunes.length} territorios</p>
+        <p class="mt-3 text-sm text-slate-300">{nombres(sinLunes) || 'Ninguno'}</p>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900">Festivos del 1 al 13 de diciembre en cada comunidad</h2>
+      <div class="mt-4 overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+        <table class="tabla">
+          <thead><tr><th>Comunidad</th><th>Puente</th><th>Festivos</th></tr></thead>
+          <tbody>
+            {
+              filas.map((f) => (
+                <tr>
+                  <td class="font-semibold">{f.c.corto}</td>
+                  <td class="text-sm">{f.lunes ? 'Del 5 al 8: 4 días libres' : 'Pidiendo el lunes 7: 4 días libres'}</td>
+                  <td class="text-sm">{f.dic.map((d) => `${d.nombre} (${fmtLargo(d.fecha)})`).join(' · ')}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+      <p class="fuente mt-2">Para quien trabaja de lunes a viernes. Sin festivos locales, que fija cada ayuntamiento. Fuente: <a href={FUENTE_BOE[ANIO_PUENTE].url} rel="noopener">BOE {FUENTE_BOE[ANIO_PUENTE].id}</a>.</p>
+    </section>
+
+    <section class="tarjeta p-5">
+      <h2 class="text-xl font-bold text-slate-900">¿Y mañana?</h2>
+      <p class="mt-2 text-slate-700">Para saber si mañana es fiesta en tu comunidad, mira <a class="font-semibold text-indigo-700 hover:underline" href="/es-festivo-manana">¿Mañana es festivo?</a>, y para el siguiente día libre, <a class="font-semibold text-indigo-700 hover:underline" href="/proximo-festivo">el próximo festivo</a>. Los puentes del año que viene están en <a class="font-semibold text-indigo-700 hover:underline" href="/puentes-2027">puentes de 2027</a>.</p>
+    </section>
+
+    <Faq preguntas={preguntas} />
+  </div>
+</BaseLayout>

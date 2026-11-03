@@ -216,6 +216,7 @@ export const NAV_LINKS = [
 /** Todas las herramientas y páginas de datos, en el orden de /herramientas. `grupo` las agrupa. */
 export const HERRAMIENTAS = [
   { href: '/vacaciones', titulo: 'Optimizador de vacaciones', texto: 'Dinos cuántos días tienes y te decimos cuáles pedir para librar más.', icono: 'magia', grupo: 'Planifica' },
+  { href: '/puente-diciembre-2026', titulo: 'Puente de diciembre 2026', texto: 'Dónde es festivo el lunes 7 y quién tiene puente de 4 días.', icono: 'puente', grupo: 'Planifica' },
   { href: '/puentes-2027', titulo: 'Puentes de 2027', texto: 'Todos los puentes ordenados: cuántos días pides y cuántos libras.', icono: 'puente', grupo: 'Planifica' },
   { href: '/parejas', titulo: 'Vacaciones en pareja', texto: 'Si vivís o trabajáis en comunidades distintas: los días que libráis juntos.', icono: 'pareja', grupo: 'Planifica' },
   { href: '/calendario-escolar', titulo: 'Vacaciones del cole', texto: 'Cuántos días tienes que pedir para cubrir las vacaciones de tus hijos.', icono: 'mochila', grupo: 'Planifica' },

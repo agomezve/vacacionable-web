@@ -15,7 +15,7 @@ const breadcrumbs = [
   { name: t.comunidad.corto, href: `/calendario-laboral-2027/${t.comunidad.slug}` },
   { name: t.nombre },
 ];
-const locales = t.locales ? `, con sus fiestas locales (${t.locales.dias.map((d) => d.nombre).join(' y ')})` : '';
+const locales = t.locales ? `, con sus fiestas locales (${t.locales.dias.map((d) => (d.nombre === 'Fiesta local' ? new Date(`${d.fecha}T12:00:00`).toLocaleDateString('es-ES', { day: 'numeric', month: 'long' }) : d.nombre)).join(' y ')})` : '';
 const title = cabe(
   [`Calendario laboral ${ANIO} ${t.nombre}: festivos locales y puentes`, `Calendario laboral ${ANIO} ${t.nombre}: festivos y puentes`, `Calendario laboral ${ANIO} ${t.nombre}`, `Festivos ${ANIO} ${t.nombre}`],
   0,

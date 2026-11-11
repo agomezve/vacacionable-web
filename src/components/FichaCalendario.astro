@@ -116,7 +116,7 @@ const preguntas = [
       </div>
       <p class="fuente mt-3">
         Fuente: <a href={fuente.url} rel="noopener">BOE, {fuente.id}</a>.
-        {t.locales && <> Fiestas locales: <a href={t.locales.fuente.url} rel="noopener">{t.locales.fuente.texto}</a> (aprobadas por el pleno; pendientes de publicarse en el boletín oficial).</>}
+        {t.locales && <> Fiestas locales: <a href={t.locales.fuente.url} rel="noopener">{t.locales.fuente.texto}</a> ({t.locales.estado === 'boletin' ? 'publicadas en el boletín oficial' : 'aprobadas por el ayuntamiento; pendientes de publicarse en el boletín oficial'}).</>}
         {t.capital?.isla && <> Fiesta insular: nota 1 de la misma resolución del BOE.</>}
       </p>
     </div>

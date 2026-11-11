@@ -106,14 +106,124 @@ export interface FestivosLocales {
  */
 export const LOCALES: FestivosLocales[] = [
   {
-    municipio: 'Sevilla', slug: 'sevilla', comunidad: 'andalucia', capital: 'sevilla', anio: 2027, estado: 'pleno',
-    dias: [{ fecha: '2027-04-14', nombre: 'Feria de Abril' }, { fecha: '2027-05-27', nombre: 'Corpus Christi' }],
-    fuente: { texto: 'Andalucía Información, 18-jun-2026: el Pleno aprueba el 14 de abril y el 27 de mayo', url: 'https://www.andaluciainformacion.es/articulo/sevilla/andalucia-sevilla-pleno-aprueba-14-abril-27-mayo-2027-como-fiestas-locales-feria-corpus/202606181342263406253.html' },
+    municipio: 'Almería', slug: 'almeria', comunidad: 'andalucia', capital: 'almeria', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-06-24', nombre: 'Fiesta local' }, { fecha: '2027-08-28', nombre: 'Fiesta local' }],
+    fuente: { texto: 'BOJA n.º 210, 29-oct-2026: relación de fiestas locales de 2027 en Andalucía', url: 'https://www.juntadeandalucia.es/boja/2026/210/25' },
   },
   {
-    municipio: 'Málaga', slug: 'malaga', comunidad: 'andalucia', capital: 'malaga', anio: 2027, estado: 'pleno',
+    municipio: 'Cádiz', slug: 'cadiz', comunidad: 'andalucia', capital: 'cadiz', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-08', nombre: 'Fiesta local' }, { fecha: '2027-10-07', nombre: 'Fiesta local' }],
+    fuente: { texto: 'BOJA n.º 210, 29-oct-2026: relación de fiestas locales de 2027 en Andalucía', url: 'https://www.juntadeandalucia.es/boja/2026/210/25' },
+  },
+  {
+    municipio: 'Córdoba', slug: 'cordoba', comunidad: 'andalucia', capital: 'cordoba', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-09-08', nombre: 'Fiesta local' }, { fecha: '2027-10-25', nombre: 'Fiesta local' }],
+    fuente: { texto: 'BOJA n.º 210, 29-oct-2026: relación de fiestas locales de 2027 en Andalucía', url: 'https://www.juntadeandalucia.es/boja/2026/210/25' },
+  },
+  {
+    municipio: 'Granada', slug: 'granada', comunidad: 'andalucia', capital: 'granada', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-05-03', nombre: 'Día de la Cruz' }, { fecha: '2027-05-27', nombre: 'Corpus Christi' }],
+    fuente: { texto: 'BOJA n.º 210, 29-oct-2026: relación de fiestas locales de 2027 en Andalucía', url: 'https://www.juntadeandalucia.es/boja/2026/210/25' },
+  },
+  {
+    municipio: 'Huelva', slug: 'huelva', comunidad: 'andalucia', capital: 'huelva', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-08-03', nombre: 'Fiesta local' }, { fecha: '2027-09-08', nombre: 'Fiesta local' }],
+    fuente: { texto: 'BOJA n.º 210, 29-oct-2026: relación de fiestas locales de 2027 en Andalucía', url: 'https://www.juntadeandalucia.es/boja/2026/210/25' },
+  },
+  {
+    municipio: 'Jaén', slug: 'jaen', comunidad: 'andalucia', capital: 'jaen', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-06-11', nombre: 'Fiesta local' }, { fecha: '2027-10-18', nombre: 'Fiesta local' }],
+    fuente: { texto: 'BOJA n.º 210, 29-oct-2026: relación de fiestas locales de 2027 en Andalucía', url: 'https://www.juntadeandalucia.es/boja/2026/210/25' },
+  },
+  {
+    municipio: 'Madrid', slug: 'madrid-capital', comunidad: 'madrid', capital: 'madrid-capital', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-05-15', nombre: 'San Isidro' }, { fecha: '2027-11-09', nombre: 'Virgen de la Almudena' }],
+    fuente: { texto: 'elDiario.es, 29-sep-2026: el Pleno de Madrid aprueba San Isidro y la Almudena como festivos de 2027', url: 'https://www.eldiario.es/madrid/somos/ayuntamiento-madrid-aprueba-festivos-locales-2027-caeran-sabado-martes_1_13546052.html' },
+  },
+  {
+    municipio: 'Valencia', slug: 'valencia-capital', comunidad: 'comunitat-valenciana', capital: 'valencia-capital', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-01-22', nombre: 'San Vicente Mártir' }, { fecha: '2027-04-05', nombre: 'San Vicente Ferrer' }],
+    fuente: { texto: 'Ayuntamiento de València, 23-jul-2026: el Pleno aprueba los festivos locales de 2027', url: 'https://www.valencia.es/es/-/fiestas-locales-val%C3%A8ncia-2027' },
+  },
+  {
+    municipio: 'Castellón de la Plana', slug: 'castellon-de-la-plana', comunidad: 'comunitat-valenciana', capital: 'castellon-de-la-plana', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-03-01', nombre: 'Lunes de la Magdalena' }, { fecha: '2027-06-29', nombre: 'San Pedro' }],
+    fuente: { texto: 'El Periòdic, 16-jul-2026: el Pleno de Castelló fija sus festivos locales de 2027', url: 'https://www.elperiodic.com/val/castellon/castello-fixa-seus-festius-locals-2027-aquestes-dates-triades_1084833' },
+  },
+  {
+    municipio: 'Murcia', slug: 'murcia-capital', comunidad: 'murcia', capital: 'murcia-capital', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-03-30', nombre: 'Bando de la Huerta' }, { fecha: '2027-09-14', nombre: 'Feria de Septiembre' }],
+    fuente: { texto: 'Murcianoticias, 4-nov-2026: el BORM publica los festivos locales de 2027 de los 45 municipios', url: 'https://www.murcianoticias.es/laboral/festivos-locales-2027-region-de-murcia-45-municipios-borm/' },
+  },
+  {
+    municipio: 'Las Palmas de Gran Canaria', slug: 'las-palmas-de-gran-canaria', comunidad: 'canarias', capital: 'las-palmas-de-gran-canaria', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-09', nombre: 'Martes de Carnaval' }, { fecha: '2027-06-24', nombre: 'Fundación de la ciudad' }],
+    fuente: { texto: 'Atlántico Hoy, 21-ago-2026: el BOC publica los festivos locales de 2027 de los 88 municipios', url: 'https://www.atlanticohoy.com/sociedad/canarias-ya-tiene-sus-festivos-locales-2027-consulta-fechas-88-municipios_1565927_102.html' },
+  },
+  {
+    municipio: 'Santa Cruz de Tenerife', slug: 'santa-cruz-de-tenerife', comunidad: 'canarias', capital: 'santa-cruz-de-tenerife', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-23', nombre: 'Martes de Carnaval' }, { fecha: '2027-05-03', nombre: 'Día de la Cruz' }],
+    fuente: { texto: 'Atlántico Hoy, 21-ago-2026: el BOC publica los festivos locales de 2027 de los 88 municipios', url: 'https://www.atlanticohoy.com/sociedad/canarias-ya-tiene-sus-festivos-locales-2027-consulta-fechas-88-municipios_1565927_102.html' },
+  },
+  {
+    municipio: 'A Coruña', slug: 'a-coruna', comunidad: 'galicia', capital: 'a-coruna', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-09', nombre: 'Martes de Carnaval' }, { fecha: '2027-06-24', nombre: 'San Juan' }],
+    fuente: { texto: 'DOG, 26-oct-2026: Resolución de 15 de octubre de 2026 con las fiestas locales de 2027 en Galicia', url: 'https://www.xunta.gal/dog/Publicados/2026/20261026/AnuncioG0767-161026-0001_es.html' },
+  },
+  {
+    municipio: 'Lugo', slug: 'lugo', comunidad: 'galicia', capital: 'lugo', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-09', nombre: 'Martes de Carnaval' }, { fecha: '2027-10-05', nombre: 'San Froilán' }],
+    fuente: { texto: 'DOG, 26-oct-2026: Resolución de 15 de octubre de 2026 con las fiestas locales de 2027 en Galicia', url: 'https://www.xunta.gal/dog/Publicados/2026/20261026/AnuncioG0767-161026-0001_es.html' },
+  },
+  {
+    municipio: 'Ourense', slug: 'ourense', comunidad: 'galicia', capital: 'ourense', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-09', nombre: 'Martes de Carnaval' }, { fecha: '2027-11-11', nombre: 'San Martín' }],
+    fuente: { texto: 'DOG, 26-oct-2026: Resolución de 15 de octubre de 2026 con las fiestas locales de 2027 en Galicia', url: 'https://www.xunta.gal/dog/Publicados/2026/20261026/AnuncioG0767-161026-0001_es.html' },
+  },
+  {
+    municipio: 'Pontevedra', slug: 'pontevedra', comunidad: 'galicia', capital: 'pontevedra', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-10', nombre: 'Miércoles de Ceniza' }, { fecha: '2027-03-29', nombre: 'San Cibrán' }],
+    fuente: { texto: 'DOG, 26-oct-2026: Resolución de 15 de octubre de 2026 con las fiestas locales de 2027 en Galicia', url: 'https://www.xunta.gal/dog/Publicados/2026/20261026/AnuncioG0767-161026-0001_es.html' },
+  },
+  {
+    municipio: 'Badajoz', slug: 'badajoz', comunidad: 'extremadura', capital: 'badajoz', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-09', nombre: 'Fiesta local' }, { fecha: '2027-06-24', nombre: 'Fiesta local' }],
+    fuente: { texto: 'DOE, 27-oct-2026: fiestas locales de 2027 en Extremadura', url: 'https://doe.juntaex.es/pdfs/doe/2026/2070o/26062650.pdf' },
+  },
+  {
+    municipio: 'Cáceres', slug: 'caceres', comunidad: 'extremadura', capital: 'caceres', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-04-23', nombre: 'Fiesta local' }, { fecha: '2027-05-28', nombre: 'Fiesta local' }],
+    fuente: { texto: 'DOE, 27-oct-2026: fiestas locales de 2027 en Extremadura', url: 'https://doe.juntaex.es/pdfs/doe/2026/2070o/26062650.pdf' },
+  },
+  {
+    municipio: 'León', slug: 'leon', comunidad: 'castilla-y-leon', capital: 'leon', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-06-24', nombre: 'San Juan' }, { fecha: '2027-10-05', nombre: 'San Froilán' }],
+    fuente: { texto: 'Diario de León, 29-may-2026: el Pleno aprueba San Juan y San Froilán como fiestas locales de 2027', url: 'https://www.diariodeleon.es/leon/260529/2086548/leon-sumara-puentes-calendario-festivo-2027.html' },
+  },
+  {
+    municipio: 'Burgos', slug: 'burgos', comunidad: 'castilla-y-leon', capital: 'burgos', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-06-04', nombre: 'Curpillos' }, { fecha: '2027-06-29', nombre: 'San Pedro y San Pablo' }],
+    fuente: { texto: 'El Correo de Burgos, 10-sep-2026: la Junta de Gobierno aprueba los festivos locales de 2027', url: 'https://www.elcorreodeburgos.com/burgos/260910/245529/curpillos-2027-fecha-4-junio-festivo-san-pedro-cae-martes.html' },
+  },
+  {
+    municipio: 'Valladolid', slug: 'valladolid', comunidad: 'castilla-y-leon', capital: 'valladolid', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-05-13', nombre: 'San Pedro Regalado' }, { fecha: '2027-09-08', nombre: 'Virgen de San Lorenzo' }],
+    fuente: { texto: 'BOP de Valladolid, 23-oct-2026: Resolución de la Oficina Territorial de Trabajo con las fiestas locales de 2027', url: 'https://bop.sede.diputaciondevalladolid.es/boletines/2026/octubre/23/BOPVA-A-2026-03085.pdf' },
+  },
+  {
+    municipio: 'Salamanca', slug: 'salamanca', comunidad: 'castilla-y-leon', capital: 'salamanca', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-06-12', nombre: 'San Juan de Sahagún' }, { fecha: '2027-09-08', nombre: 'Virgen de la Vega' }],
+    fuente: { texto: 'BOP de Salamanca n.º 129, 8-jul-2026: fiestas locales de 2027 (Oficina Territorial de Trabajo)', url: 'https://sede.diputaciondesalamanca.gob.es/documentacion/bop/2026/20260708/BOP-SA-20260708-001.pdf' },
+  },
+  {
+    municipio: 'Sevilla', slug: 'sevilla', comunidad: 'andalucia', capital: 'sevilla', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-04-14', nombre: 'Feria de Abril' }, { fecha: '2027-05-27', nombre: 'Corpus Christi' }],
+    fuente: { texto: 'BOJA n.º 210, 29-oct-2026: relación de fiestas locales de 2027 en Andalucía', url: 'https://www.juntadeandalucia.es/boja/2026/210/25' },
+  },
+  {
+    municipio: 'Málaga', slug: 'malaga', comunidad: 'andalucia', capital: 'malaga', anio: 2027, estado: 'boletin',
     dias: [{ fecha: '2027-08-19', nombre: 'Incorporación de Málaga a la Corona de Castilla' }, { fecha: '2027-09-08', nombre: 'Virgen de la Victoria' }],
-    fuente: { texto: 'Andalucía Información, 28-may-2026: el Pleno aprueba las fiestas locales de 2027', url: 'https://www.andaluciainformacion.es/articulo/malaga-local/son-fechas/202605281648373393703.html' },
+    fuente: { texto: 'BOJA n.º 210, 29-oct-2026: relación de fiestas locales de 2027 en Andalucía', url: 'https://www.juntadeandalucia.es/boja/2026/210/25' },
   },
   {
     municipio: 'Alicante', slug: 'alicante', comunidad: 'comunitat-valenciana', capital: 'alicante', anio: 2027, estado: 'pleno',

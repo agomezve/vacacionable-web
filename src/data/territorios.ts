@@ -255,4 +255,34 @@ export const LOCALES: FestivosLocales[] = [
     dias: [{ fecha: '2027-01-29', nombre: 'San Valero' }, { fecha: '2027-09-14', nombre: 'Santo Cristo de Santiago' }],
     fuente: { texto: 'Ayuntamiento de Cariñena: aprobadas las fiestas locales de 2027', url: 'https://carinena.es/festivos-locales-2027/' },
   },
+  {
+    municipio: 'Oviedo', slug: 'oviedo', comunidad: 'asturias', capital: 'oviedo', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-05-18', nombre: 'Martes de Campo' }, { fecha: '2027-09-21', nombre: 'San Mateo' }],
+    fuente: { texto: 'BOPA, 10-jun-2026: calendario de fiestas locales de 2027 en Asturias (cód. 2026-04656)', url: 'https://www.asturias.es/bopa/2026/06/10/2026-04656.pdf' },
+  },
+  {
+    municipio: 'Palma', slug: 'palma', comunidad: 'baleares', capital: 'palma', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-01-20', nombre: 'San Sebastián' }, { fecha: '2027-06-24', nombre: 'San Juan' }],
+    fuente: { texto: 'BOIB n.º 83, 2-jul-2026: acuerdo del Pleno de Palma de 25-jun-2026 sobre las fiestas locales de 2027', url: 'https://www.caib.es/eboibfront/pdf/es/2026/83/1223136' },
+  },
+  {
+    municipio: 'Bilbao', slug: 'bilbao', comunidad: 'pais-vasco', capital: 'bilbao', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-07-31', nombre: 'San Ignacio de Loyola (todo Bizkaia)' }, { fecha: '2027-08-27', nombre: 'Viernes de la Semana Grande' }],
+    fuente: { texto: 'BOB n.º 181, 22-sep-2026: fiestas locales de Bizkaia para 2027 (copia del boletín)', url: 'https://lsb-uso.com/docs/calendariolaboral/2027/FiestasLaboralesBizkaia2027.pdf' },
+  },
+  {
+    municipio: 'Vitoria-Gasteiz', slug: 'vitoria-gasteiz', comunidad: 'pais-vasco', capital: 'vitoria-gasteiz', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-04-28', nombre: 'San Prudencio (todo Álava)' }, { fecha: '2027-08-05', nombre: 'Virgen Blanca' }],
+    fuente: { texto: 'BOTHA n.º 116, 9-oct-2026: fiestas locales de Álava para 2027', url: 'https://www.araba.eus/botha/Boletines/2026/116/2026_116_02851_C.pdf' },
+  },
+  {
+    municipio: 'Donostia / San Sebastián', slug: 'donostia-san-sebastian', comunidad: 'pais-vasco', capital: 'donostia-san-sebastian', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-01-20', nombre: 'San Sebastián' }, { fecha: '2027-07-31', nombre: 'San Ignacio de Loyola (todo Gipuzkoa)' }],
+    fuente: { texto: 'BOG, 1-oct-2026: calendario de fiestas locales de Gipuzkoa para 2027', url: 'https://egoitza.gipuzkoa.eus/gao-bog/castell/bog/2026/10/01/c2606250.pdf' },
+  },
+  {
+    municipio: 'Zamora', slug: 'zamora', comunidad: 'castilla-y-leon', capital: 'zamora', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-05-17', nombre: 'La Hiniesta' }, { fecha: '2027-06-29', nombre: 'San Pedro' }],
+    fuente: { texto: 'BOP de Zamora n.º 88, 31-jul-2026: fiestas locales de 2027 de Zamora capital y provincia', url: 'https://www.diputaciondezamora.es/opencms/export/sites/dipu-zamora/servicios/BOP/.Archivos/documentos/BOP/anuncios/2026/88/202601897.pdf' },
+  },
 ];

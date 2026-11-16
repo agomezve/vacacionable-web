@@ -5,6 +5,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CabeceraPagina from '../components/CabeceraPagina.astro';
 import SelectorTerritorio from '../components/SelectorTerritorio.astro';
 import CuentaAtras from '../components/CuentaAtras.astro';
+import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, festivosComunes, resumenFestivos, laborables, fmtLargo } from '../lib/festivos';
+
+// Datos estáticos de 2027 (no dependen del día en que se mira la página).
+const comunes = festivosComunes(ANIO);
+const ranking = COMUNIDADES.map((c) => {
+  const lista = festivos(c.slug, ANIO);
+  const r = resumenFestivos(lista);
+  return { c, total: r.total, entreSemana: r.laborables, finde: r.enFinde.length, lab: laborables(ANIO, lista).total };
+}).sort((a, b) => b.entreSemana - a.entreSemana || a.lab - b.lab);
+const maxES = ranking[0].entreSemana;
+const minES = ranking.at(-1)!.entreSemana;
+const lista = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} y ${xs.at(-1)}` : xs[0] ?? '');
 
 const titulo = '¿Cuánto falta para el próximo festivo?';
 const breadcrumbs = [{ name: 'Cuenta atrás' }];
@@ -20,6 +32,41 @@ const breadcrumbs = [{ name: 'Cuenta atrás' }];
     <section>
       <h2 class="text-xl font-bold text-slate-900">Los siguientes</h2>
       <ol class="mt-3 space-y-2" data-lista></ol>
+    </section>
+
+    <section class="space-y-3 text-slate-700">
+      <h2 class="text-xl font-bold text-slate-900">Los festivos de {ANIO} que tiene toda España</h2>
+      <p>Estos {comunes.length} días son festivos en los 19 territorios del calendario laboral del BOE. Los demás cambian de una comunidad a otra, por eso la cuenta atrás te pide la tuya.</p>
+      <ul class="grid gap-2 sm:grid-cols-2">
+        {comunes.map((f) => <li class="rounded-xl bg-white p-3 ring-1 ring-slate-200"><strong class="text-slate-900">{f.nombre}</strong><span class="block text-sm text-slate-500">{fmtLargo(f.fecha)}</span></li>)}
+      </ul>
+    </section>
+
+    <section class="space-y-3 text-slate-700">
+      <h2 class="text-xl font-bold text-slate-900">Qué comunidad tiene más festivos entre semana en {ANIO}</h2>
+      <p>
+        Un festivo que cae en sábado o domingo no da un día libre a quien trabaja de lunes a viernes. Contando solo los que caen entre semana, {lista(ranking.filter((r) => r.entreSemana === maxES).map((r) => r.c.corto))} {ranking.filter((r) => r.entreSemana === maxES).length > 1 ? 'tienen' : 'tiene'} {maxES}, y {lista(ranking.filter((r) => r.entreSemana === minES).map((r) => r.c.corto))}, {minES}.
+      </p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead><tr class="border-b border-slate-200 text-slate-500"><th class="py-2 pr-3">Territorio</th><th class="py-2 pr-3">Festivos</th><th class="py-2 pr-3">Entre semana</th><th class="py-2 pr-3">En fin de semana</th><th class="py-2">Días laborables</th></tr></thead>
+          <tbody>
+            {ranking.map((r) => (
+              <tr class="border-b border-slate-100">
+                <td class="py-2 pr-3"><a class="font-semibold text-indigo-700 hover:underline" href={`/calendario-laboral-2027/${r.c.slug}`}>{r.c.nombre}</a></td>
+                <td class="py-2 pr-3">{r.total}</td><td class="py-2 pr-3 font-semibold">{r.entreSemana}</td><td class="py-2 pr-3">{r.finde}</td><td class="py-2">{r.lab}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="fuente">Festivos nacionales y autonómicos del <a href={FUENTE_BOE[ANIO].url} rel="noopener">BOE {FUENTE_BOE[ANIO].id}</a>, sin las dos fiestas locales de cada municipio. Días laborables de lunes a viernes.</p>
+    </section>
+
+    <section class="space-y-2 text-slate-700">
+      <h2 class="text-xl font-bold text-slate-900">Cómo funciona la cuenta atrás</h2>
+      <p>Cuenta hasta las 00:00, hora de Madrid, del próximo festivo de tu comunidad. Si eliges municipio, suma sus fiestas locales cuando las tenemos con fuente oficial; en Canarias, también la fiesta de tu isla. La lista de abajo enseña los 12 siguientes, con cuántos días faltan.</p>
+      <p>¿Quieres saber qué días pedir para juntar festivos? Mira los <a class="font-semibold text-indigo-700 underline" href="/puentes-2027">puentes de 2027</a> o el <a class="font-semibold text-indigo-700 underline" href="/vacaciones">optimizador de vacaciones</a>.</p>
     </section>
   </div>
 </BaseLayout>

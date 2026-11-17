@@ -5,7 +5,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CabeceraPagina from '../components/CabeceraPagina.astro';
 import SelectorTerritorio from '../components/SelectorTerritorio.astro';
 import Faq from '../components/Faq.astro';
-import { ANIOS, COMUNIDADES, festivos, hoyMadrid, sumarDias, fmtLargo } from '../lib/festivos';
+import { ANIOS, COMUNIDADES, festivos, hoyMadrid, sumarDias, fmtLargo, diaSemana } from '../lib/festivos';
 
 const titulo = '¿Mañana es festivo?';
 
@@ -46,6 +46,24 @@ const descripcion =
   corta.length >= 120 && corta.length <= 155
     ? corta
     : '¿Mañana es festivo? Mira en qué comunidades es fiesta mañana y compruébalo al momento en tu comunidad o tu municipio, con los festivos oficiales del BOE.';
+// Lo mismo que pinta el script, ya escrito en el HTML (para quien no ejecute JavaScript).
+const listaHtml = (fecha: string, quien: string) => {
+  if (!ANIOS.includes(Number(fecha.slice(0, 4)))) return 'Aún no hay calendario oficial de ese año.';
+  const con = dondeEs(fecha);
+  return !con.length
+    ? `<strong>En ninguna</strong>: ${quien.toLowerCase()} no es festivo nacional ni autonómico. Puede haber fiestas locales en algunos municipios.`
+    : con.length === COMUNIDADES.length && con.every((x) => x.f!.tipo === 'nacional')
+      ? `<strong>En toda España</strong>: ${con[0].f!.nombre}.`
+      : `<ul class="list-disc space-y-1 pl-5">${con.map((x) => `<li><strong>${x.c.nombre}</strong>: ${x.f!.nombre}</li>`).join('')}</ul>`;
+};
+const hoy = hoyMadrid();
+const viernes = sumarDias(hoy, (5 - diaSemana(hoy) + 7) % 7);
+// Los próximos 8 días con algún festivo nacional o autonómico (BOE), desde mañana
+const proximos = Array.from({ length: 200 }, (_, i) => sumarDias(manana, i))
+  .map((fecha) => ({ fecha, lista: dondeEs(fecha) }))
+  .filter((x) => x.lista.length)
+  .slice(0, 8);
+const nombres = (lista: typeof enManana) => [...new Set(lista.map((x) => x.f!.nombre))].join(' / ');
 const breadcrumbs = [{ name: '¿Es festivo mañana?' }];
 const preguntas = [
   { q: '¿En qué comunidades es festivo mañana?', a: 'La lista de arriba lo dice cada día, con los festivos nacionales y autonómicos del BOE. Las fiestas locales cambian de un municipio a otro: elige el tuyo en el buscador.' },
@@ -79,16 +97,49 @@ const preguntas = [
 
     <section class="tarjeta" aria-live="polite">
       <h2 class="text-xl font-bold text-slate-900">¿En qué comunidades es festivo mañana?</h2>
-      <p class="mt-1 text-sm text-slate-500" data-donde-fecha></p>
-      <p class="mt-3 text-lg" data-donde>…</p>
+      <p class="mt-1 text-sm text-slate-500" data-donde-fecha>{`Mañana, ${fmtLargo(manana)}`}</p>
+      <div class="mt-3 text-lg" data-donde set:html={listaHtml(manana, 'Mañana')} />
       <p class="mt-2 text-sm text-slate-500">Festivos nacionales y autonómicos del BOE. Las fiestas locales dependen de tu municipio.</p>
     </section>
 
     <section class="tarjeta" aria-live="polite">
       <h2 class="text-xl font-bold text-slate-900">¿Este viernes es festivo?</h2>
-      <p class="mt-1 text-sm text-slate-500" data-viernes-fecha></p>
-      <p class="mt-3 text-lg" data-viernes>…</p>
+      <p class="mt-1 text-sm text-slate-500" data-viernes-fecha>{`Este viernes, ${fmtLargo(viernes)}`}</p>
+      <div class="mt-3 text-lg" data-viernes set:html={listaHtml(viernes, 'Este viernes')} />
     </section>
+
+    {
+      proximos.length > 0 && (
+        <section class="tarjeta">
+          <h2 class="text-xl font-bold text-slate-900">Próximos festivos: en qué comunidades es fiesta</h2>
+          <p class="mt-1 text-sm text-slate-500">Los {proximos.length} próximos días con festivo nacional o autonómico, según el BOE. No incluye las fiestas locales.</p>
+          <div class="mt-4 overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="text-slate-500">
+                <tr>
+                  <th class="py-2 pr-3 font-semibold">Día</th>
+                  <th class="py-2 pr-3 font-semibold">Festivo</th>
+                  <th class="py-2 font-semibold">Dónde</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                {proximos.map((x) => (
+                  <tr class="align-top">
+                    <td class="py-2 pr-3 font-semibold text-slate-900 mayuscula">{fmtLargo(x.fecha)}{x.fecha.slice(0, 4) !== hoy.slice(0, 4) && ` de ${x.fecha.slice(0, 4)}`}</td>
+                    <td class="py-2 pr-3 text-slate-700">{nombres(x.lista)}</td>
+                    <td class="py-2 text-slate-700">
+                      {x.lista.length === COMUNIDADES.length
+                        ? 'Toda España'
+                        : `${x.lista.length} ${x.lista.length === 1 ? 'comunidad' : 'comunidades'}: ${x.lista.map((y) => y.c.nombre).join(', ')}`}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )
+    }
 
     <p class="text-slate-700">¿Preparas el puente de la Constitución? Mira <a class="font-semibold text-indigo-700 hover:underline" href="/puente-diciembre-2026">en qué comunidades es festivo el lunes 7 de diciembre</a>.</p>
 

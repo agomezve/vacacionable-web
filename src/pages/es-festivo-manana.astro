@@ -103,6 +103,12 @@ const preguntas = [
     </section>
 
     <section class="tarjeta" aria-live="polite">
+      <h2 class="text-xl font-bold text-slate-900">¿En qué comunidades es fiesta hoy?</h2>
+      <p class="mt-1 text-sm text-slate-500" data-hoy-fecha>{`Hoy, ${fmtLargo(hoy)}`}</p>
+      <div class="mt-3 text-lg" data-hoy set:html={listaHtml(hoy, 'Hoy')} />
+    </section>
+
+    <section class="tarjeta" aria-live="polite">
       <h2 class="text-xl font-bold text-slate-900">¿Este viernes es festivo?</h2>
       <p class="mt-1 text-sm text-slate-500" data-viernes-fecha>{`Este viernes, ${fmtLargo(viernes)}`}</p>
       <div class="mt-3 text-lg" data-viernes set:html={listaHtml(viernes, 'Este viernes')} />
@@ -215,6 +221,7 @@ const preguntas = [
         : `<ul class="list-disc space-y-1 pl-5">${con.map(li).join('')}</ul>`;
   };
   pintarDonde(sumarDias(hoyMadrid(), 1), 'donde', 'Mañana');
+  pintarDonde(hoyMadrid(), 'hoy', 'Hoy');
   // Si la página se construyó otro día, la frase de arriba ya no vale: se rehace con el día de hoy
   {
     const dondeEs = (f: string) =>

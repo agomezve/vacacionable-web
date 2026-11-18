@@ -1,10 +1,13 @@
 ---
 // Ruta: src/components/Footer.astro
-import { SITE, CURRENT_PROJECT, HERRAMIENTAS, LEGAL_LINKS, PROJECTS, SITE_LINKS, CHANNEL } from '../config/site';
+import { SITE, HERRAMIENTAS, LEGAL_LINKS, PROJECTS, SITE_LINKS, CHANNEL } from '../config/site';
 import { COMUNIDADES } from '../lib/festivos';
 
 const year = new Date().getFullYear();
-const otherProjects = PROJECTS.filter((p) => p.id !== CURRENT_PROJECT);
+const otherProjects = [
+  ...PROJECTS.filter((p) => p.id === 'viajes'),
+  { id: 'iaencrudo', name: 'Todas las webs de IA en Crudo', url: 'https://iaencrudo.es/', description: 'Gasolina, luz, festivos, viajes y elecciones' },
+];
 ---
 
 <footer class="mt-16 bg-slate-950 text-slate-300">

@@ -81,6 +81,20 @@ const cols = [
       </div>
       <p class="fuente mt-2">Fuente: <a href={FUENTE_BOE[ANIO].url} rel="noopener">BOE {FUENTE_BOE[ANIO].id}</a>. Días laborables: de lunes a viernes sin festivos nacionales ni autonómicos.</p>
     </section>
+    <section class="texto">
+      <h2>Cómo se calcula cada columna</h2>
+      <ul>
+        <li><strong>Festivos entre semana:</strong> los festivos nacionales y autonómicos de {ANIO} que caen de lunes a viernes.</li>
+        <li><strong>En fin de semana:</strong> los que caen en sábado o domingo y, por tanto, no dan un día libre a quien trabaja de lunes a viernes.</li>
+        <li><strong>Puentes:</strong> festivos, o grupos de festivos cercanos, que dejan un bloque de días libres seguidos con el fin de semana, gratis o pidiendo hasta 4 días.</li>
+        <li><strong>Días laborables:</strong> lunes a viernes del año menos los festivos entre semana.</li>
+        <li><strong>Libras con 22 días:</strong> el optimizador prueba todos los bloques de 4 a 16 días seguidos y elige los que no se solapan y suman más días libres sin pasar de 22 días pedidos. Cuenta los fines de semana y festivos que quedan dentro de cada bloque.</li>
+      </ul>
+      <p>
+        La diferencia entre la primera y la última es de {max - min} días libres con las mismas vacaciones: sale de cuántos festivos caen pegados a un fin de semana, no solo de cuántos hay.
+        Las fiestas locales no entran porque cada municipio tiene las suyas; con ellas, el resultado mejora en casi todas las ciudades.
+      </p>
+    </section>
   </div>
 </BaseLayout>
 

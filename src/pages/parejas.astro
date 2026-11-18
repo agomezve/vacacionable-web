@@ -5,8 +5,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import CabeceraPagina from '../components/CabeceraPagina.astro';
 import SelectorTerritorio from '../components/SelectorTerritorio.astro';
 import Faq from '../components/Faq.astro';
-import { ANIO } from '../lib/festivos';
+import { ANIO, FUENTE_BOE, festivos, esFinde, comunidad, fmtLargo } from '../lib/festivos';
 
+// Ejemplo fijo, calculado con el BOE: las mismas comunidades que trae el formulario al abrirlo.
+const [ca, cb] = ['madrid', 'castilla-la-mancha'];
+const entreSemana = (slug: string) => festivos(slug, ANIO).filter((f) => !esFinde(f.fecha, 'lv'));
+const fa = entreSemana(ca), fb = entreSemana(cb);
+const comunesEj = fa.filter((f) => fb.some((g) => g.fecha === f.fecha));
+const soloA = fa.filter((f) => !fb.some((g) => g.fecha === f.fecha));
+const soloB = fb.filter((f) => !fa.some((g) => g.fecha === f.fecha));
+const nombres = (l: typeof fa) => l.map((f) => `${f.nombre} (${fmtLargo(f.fecha)})`).join(', ');
 const titulo = `Vacaciones en pareja ${ANIO}: los días que libráis juntos`;
 const breadcrumbs = [{ name: 'Vacaciones en pareja' }];
 const preguntas = [
@@ -61,6 +69,20 @@ const preguntas = [
         </ul>
       </div>
       <div class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" data-anio></div>
+    </section>
+    <section class="texto">
+      <h2>Un ejemplo: {comunidad(ca)!.nombre} y {comunidad(cb)!.nombre}</h2>
+      <p>
+        Sin fiestas locales, en {ANIO} comparten {comunesEj.length} festivos entre semana.
+        {soloA.length > 0 ? `Solo libra quien trabaja en ${comunidad(ca)!.corto}: ${nombres(soloA)}.` : `Quien trabaja en ${comunidad(ca)!.corto} no tiene ningún festivo propio entre semana.`}
+        {soloB.length > 0 ? ` Solo libra quien trabaja en ${comunidad(cb)!.corto}: ${nombres(soloB)}.` : ` Quien trabaja en ${comunidad(cb)!.corto} no tiene ningún festivo propio entre semana.`}
+        En esos días, uno trabaja y el otro no: si queréis libraros juntos, el que trabaja tiene que pedirlo.
+      </p>
+      <h2>Cómo se calcula</h2>
+      <p>
+        Los festivos de cada persona salen de la columna de su comunidad en la <a href={FUENTE_BOE[ANIO].url} rel="noopener">resolución del BOE {FUENTE_BOE[ANIO].id}</a>, más las fiestas locales de su capital cuando las tenemos con fuente oficial.
+        Después buscamos bloques de días seguidos en los que los dos estáis libres o podéis pedir el día, y contamos para cada uno los laborables que tiene que pedir. El cálculo se hace en tu navegador: no guardamos ni enviamos lo que eliges.
+      </p>
     </section>
     <Faq preguntas={preguntas} />
   </div>

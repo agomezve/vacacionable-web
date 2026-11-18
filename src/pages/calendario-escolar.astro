@@ -56,7 +56,21 @@ const preguntas = [
       </div>
     </section>
   </div>
-  <div class="mx-auto max-w-6xl px-4 sm:px-6"><Faq preguntas={preguntas} /></div>
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <section class="texto max-w-3xl">
+      <h2>Cómo se calcula</h2>
+      <p>
+        Para cada periodo sin cole contamos los días de lunes a viernes que caen dentro y quitamos los festivos de donde trabajas: los nacionales y autonómicos de la tabla del BOE de cada año y, si eliges tu capital, sus fiestas locales cuando las tenemos con fuente oficial. Lo que queda son los días que tienes que pedir para estar en casa todo el periodo.
+      </p>
+      <p>
+        Los sábados y domingos no cuentan, y un festivo que cae dentro del periodo te ahorra un día. Por eso, con las mismas vacaciones escolares, una familia puede tener que pedir un día más o uno menos según la comunidad en la que trabaje. Si en casa sois dos, podéis repartir los días: el total que hay que cubrir es el mismo.
+      </p>
+      <p>
+        No ponemos las fechas escolares nosotros: las publica cada consejería de educación y cada colegio puede añadir días no lectivos propios. El cálculo se hace en tu navegador y no guardamos ni enviamos las fechas que pones.
+      </p>
+    </section>
+    <Faq preguntas={preguntas} />
+  </div>
 </BaseLayout>
 
 <script>

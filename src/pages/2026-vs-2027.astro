@@ -18,6 +18,12 @@ const dif = (n: number) => (n > 0 ? `+${n}` : String(n));
 const color = (n: number, bueno: 'mas' | 'menos') => (n === 0 ? 'text-slate-500' : (n > 0) === (bueno === 'mas') ? 'text-emerald-700' : 'text-rose-700');
 const ganan = filas.filter((f) => f.es27 > f.es26).length;
 const pierden = filas.filter((f) => f.es27 < f.es26).length;
+const mejora = filas[0];
+const empeora = filas.at(-1)!;
+const iguales = filas.length - ganan - pierden;
+const labTotal = (k: 'lab26' | 'lab27') => filas.reduce((a, f) => a + f[k], 0) / filas.length;
+const media26 = Math.round(labTotal('lab26') * 10) / 10, media27 = Math.round(labTotal('lab27') * 10) / 10;
+const coma = (n: number) => String(n).replace('.', ',');
 const titulo = '2026 frente a 2027: ¿cuál tiene más festivos entre semana?';
 const breadcrumbs = [{ name: '2026 frente a 2027' }];
 ---
@@ -62,5 +68,24 @@ const breadcrumbs = [{ name: '2026 frente a 2027' }];
       Sin fiestas locales. Fuentes: <a href={FUENTE_BOE[2026].url} rel="noopener">BOE {FUENTE_BOE[2026].id}</a> (2026) y <a href={FUENTE_BOE[2027].url} rel="noopener">BOE {FUENTE_BOE[2027].id}</a> (2027).
     </p>
     <a href="/vacaciones" class="boton">✨ Planifica 2027 con el optimizador</a>
+    <section class="texto">
+      <h2>Qué dice la tabla</h2>
+      <p>
+        {mejora.es27 > mejora.es26
+          ? `La comunidad que más mejora es ${mejora.c.nombre}: pasa de ${mejora.es26} a ${mejora.es27} festivos entre semana (${dif(mejora.es27 - mejora.es26)}).`
+          : 'Ninguna comunidad tiene más festivos entre semana en 2027 que en 2026.'}
+        {empeora.es27 < empeora.es26 && ` La que más pierde es ${empeora.c.nombre}, de ${empeora.es26} a ${empeora.es27} (${dif(empeora.es27 - empeora.es26)}).`}
+        {iguales > 0 && `En ${iguales} se quedan igual.`}
+        De media, un año laboral tiene {coma(media26)} días de trabajo en 2026 y {coma(media27)} en 2027.
+      </p>
+      <h2>Cómo se calcula</h2>
+      <p>
+        Para cada comunidad tomamos su columna de la tabla de fiestas laborales del BOE de cada año. Un festivo cuenta «entre semana» si cae de lunes a viernes: los que caen en sábado o domingo no dan un día libre a quien trabaja de lunes a viernes, salvo que la comunidad lo pase al lunes (y entonces el BOE ya trae el lunes).
+        Los días laborables son los de lunes a viernes del año menos esos festivos. Un «puente» es un festivo (o un grupo de festivos cercanos) que deja al menos un bloque de días libres seguidos con fin de semana, gratis o pidiendo hasta 4 días.
+      </p>
+      <p>
+        No contamos las fiestas locales: cada municipio tiene dos y cambian cada año. Para verlas con las de tu ciudad, entra en el <a href="/calendario-laboral-2027">calendario laboral 2027</a> de tu comunidad y elige tu capital.
+      </p>
+    </section>
   </div>
 </BaseLayout>

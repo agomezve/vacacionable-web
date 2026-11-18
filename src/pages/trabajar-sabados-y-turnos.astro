@@ -4,10 +4,14 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CabeceraPagina from '../components/CabeceraPagina.astro';
 import Faq from '../components/Faq.astro';
-import { ANIO, festivosComunes, fmtLargo, diaSemana } from '../lib/festivos';
+import { ANIO, COMUNIDADES, FUENTE_BOE, festivos, festivosComunes, laborables, fmtLargo, diaSemana } from '../lib/festivos';
 
 const sabados = festivosComunes(ANIO).filter((f) => diaSemana(f.fecha) === 6);
 const domingos = festivosComunes(ANIO).filter((f) => diaSemana(f.fecha) === 0);
+const filas = COMUNIDADES.map((c) => {
+  const l = festivos(c.slug, ANIO);
+  return { c, lv: laborables(ANIO, l, 'lv').total, ls: laborables(ANIO, l, 'ls').total };
+});
 const titulo = `Si trabajas los sábados o a turnos: tus festivos de ${ANIO}`;
 const breadcrumbs = [{ name: 'Sábados y turnos' }];
 const preguntas = [
@@ -31,6 +35,24 @@ const preguntas = [
       <p>Como el sábado es día de trabajo, cada puente te cuesta un día más de vacaciones. Por eso el optimizador cambia sus propuestas cuando eliges esa jornada.</p>
       <h2>A turnos</h2>
       <p>Si tus días libres rotan, que un festivo te caiga en libranza o en turno depende del cuadrante. Si te toca trabajarlo, tienes derecho a un descanso compensatorio o a cobrar esas horas con recargo: lo explicamos en <a href="/trabajar-en-festivo">¿Me pagan si trabajo un festivo?</a>.</p>
+      <h2>Cuántos días trabajas al año según tu jornada</h2>
+      <p>Con los festivos nacionales y autonómicos de {ANIO}, sin fiestas locales ni vacaciones:</p>
+    </div>
+    <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
+      <table class="tabla">
+        <thead><tr><th>Comunidad</th><th class="text-right">Lunes a viernes</th><th class="text-right">Lunes a sábado</th><th class="text-right">Diferencia</th></tr></thead>
+        <tbody>
+          {filas.map((f) => (
+            <tr><td><a class="font-semibold hover:text-indigo-700" href={`/calendario-laboral-2027/${f.c.slug}`}>{f.c.corto}</a></td><td class="text-right tabular-nums">{f.lv}</td><td class="text-right tabular-nums">{f.ls}</td><td class="text-right font-semibold tabular-nums">+{f.ls - f.lv}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div class="texto">
+      <p>
+        Cómo se calcula: contamos los días de {ANIO} que no son domingo (o, de lunes a viernes, que no son sábado ni domingo) y restamos los festivos que caen en esos días, con la tabla de la <a href={FUENTE_BOE[ANIO].url} rel="noopener">resolución del BOE {FUENTE_BOE[ANIO].id}</a>.
+        Son días de calendario, no horas: tu jornada anual máxima la fija tu convenio.
+      </p>
       <p class="fuente">Información general. Lo que te corresponde lo concreta tu convenio colectivo.</p>
     </div>
     <Faq preguntas={preguntas} />

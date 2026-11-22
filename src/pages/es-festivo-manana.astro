@@ -7,7 +7,7 @@ import SelectorTerritorio from '../components/SelectorTerritorio.astro';
 import Faq from '../components/Faq.astro';
 import { ANIOS, COMUNIDADES, festivos, hoyMadrid, sumarDias, fmtLargo, diaSemana } from '../lib/festivos';
 
-const titulo = '¿Mañana es festivo?';
+const titulo = '¿Mañana es festivo? En qué comunidades es fiesta';
 
 // La respuesta de mañana ya va escrita en el HTML (y en el título y la descripción que ve Google).
 // El despliegue programado reconstruye la web cada noche; el script de abajo la corrige si va con retraso.
@@ -77,6 +77,9 @@ const preguntas = [
   <CabeceraPagina titulo={titulo} etiqueta="Al momento" breadcrumbs={breadcrumbs}>
     <p class="text-lg font-semibold" data-respuesta>{respuesta}</p>
     <p>Elige tu comunidad y te decimos si mañana es festivo. Abajo tienes en qué comunidades es fiesta mañana, y puedes preguntar por cualquier otro día.</p>
+    {hoy <= '2026-12-08' && (
+      <p>¿Preparas el puente de diciembre? Mira <a class="font-semibold text-indigo-700 hover:underline" href="/puente-diciembre-2026">en qué comunidades es festivo el lunes 7 de diciembre</a>.</p>
+    )}
   </CabeceraPagina>
 
   <div class="mx-auto max-w-4xl space-y-8 px-4 py-10 sm:px-6">

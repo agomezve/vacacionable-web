@@ -78,11 +78,11 @@ export const CHANNEL = {
 export const AUTHOR = {
   name: OWNER.name,
   href: '/sobre-mi',
-  jobTitle: 'Programador backend',
+  jobTitle: 'Ingeniero informático y desarrollador full-stack',
   initials: 'AG',
   /** Perfiles del autor en otras webs (schema.org sameAs). */
   sameAs: [CHANNEL.url],
-  bio: `Soy ${OWNER.name}, programador backend. He construido ${SITE.name} con ayuda de IA y lo cuento en mi canal ${CHANNEL.name}. Los festivos no los escribe ninguna IA: salen tal cual de la resolución del BOE y de los acuerdos de cada ayuntamiento, con su fuente.`,
+  bio: `Soy ${OWNER.name}, ingeniero informático y desarrollador full-stack. He construido ${SITE.name} con ayuda de IA y lo cuento en mi canal ${CHANNEL.name}. Los festivos no los escribe ninguna IA: salen tal cual de la resolución del BOE y de los acuerdos de cada ayuntamiento, con su fuente.`,
 } as const;
 
 /** Página que explica qué hace la IA, qué reviso yo y de dónde salen los datos. */

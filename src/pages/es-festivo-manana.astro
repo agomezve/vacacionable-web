@@ -17,7 +17,6 @@ const dondeEs = (fecha: string) =>
     : [];
 const manana = sumarDias(hoyMadrid(), 1);
 const enManana = dondeEs(manana);
-const enTodas = enManana.length === COMUNIDADES.length;
 const proximo = Array.from({ length: 120 }, (_, i) => sumarDias(manana, i + 1)).find((f) => dondeEs(f).length);
 const enProximo = proximo ? dondeEs(proximo) : [];
 const frase = (lista: typeof enManana) =>
@@ -27,25 +26,29 @@ const frase = (lista: typeof enManana) =>
 const respuesta = enManana.length
   ? `Mañana, ${fmtLargo(manana)}, es ${frase(enManana)}.`
   : `Mañana, ${fmtLargo(manana)}, no es festivo en ninguna comunidad.${proximo ? ` El próximo festivo es el ${fmtLargo(proximo)}, ${frase(enProximo)}.` : ''}`;
-// El título, con la búsqueda que más impresiones trae: «en qué comunidades es festivo mañana»
-const pregunta = '¿En qué comunidades es festivo mañana?';
-const soloEn = enManana.length === 1 ? `${pregunta} Solo en ${enManana[0].c.nombre}` : '';
-const tituloSeo = !enManana.length
-  ? `${pregunta} Lista al día`
-  : enTodas
-    ? `${pregunta} En toda España`
-    : soloEn && soloEn.length <= 60
-      ? soloEn
-      : `${pregunta} En ${enManana.length}, mira cuáles`;
-// La descripción, corta (120-155 caracteres): cuántas comunidades, sin la lista
+// El título y la descripción no dicen «mañana es…» con fecha: Google los guarda varios días y una fecha
+// caducada (o un «no es festivo» de otro día) quita clics justo la víspera de cada festivo, que es cuando
+// llegan casi todas las búsquedas. Se anuncian los próximos días festivos, que siguen siendo ciertos
+// hasta que pasan.
+const tituloSeo = '¿En qué comunidades es festivo mañana? Lista al día';
 const cuantas = (n: number) => (n === COMUNIDADES.length ? 'en toda España' : `en ${n} ${n === 1 ? 'comunidad' : 'comunidades'}`);
-const corta = enManana.length
-  ? `Mañana, ${fmtLargo(manana)}, es festivo ${cuantas(enManana.length)}. Mira si lo es en la tuya o en tu municipio, con los festivos del BOE.`
-  : `Mañana, ${fmtLargo(manana)}, no es festivo en ninguna comunidad.${proximo ? ` Próximo festivo: ${fmtLargo(proximo)}.` : ''} Mira tu comunidad o municipio.`;
+const siguientes = Array.from({ length: 200 }, (_, i) => sumarDias(manana, i))
+  .map((fecha) => ({ fecha, n: dondeEs(fecha).length }))
+  .filter((x) => x.n)
+  .slice(0, 2);
+// «lunes 7 de diciembre, en 10 comunidades; martes 8, en toda España» (el mes no se repite si es el mismo)
+const anuncio = siguientes.map((x, i) => {
+  const fecha = i && x.fecha.slice(0, 7) === siguientes[0].fecha.slice(0, 7) ? fmtLargo(x.fecha).replace(/ de \S+$/, '') : fmtLargo(x.fecha);
+  return `${fecha}, ${cuantas(x.n)}`;
+});
+const candidatas = [
+  anuncio.length === 2 ? `Próximos festivos: ${anuncio[0]}; ${anuncio[1]}. Mira si mañana es fiesta en tu comunidad, según el BOE.` : '',
+  anuncio.length === 2 ? `Próximos festivos: ${anuncio[0]}; ${anuncio[1]}. Mira tu comunidad, según el BOE.` : '',
+  anuncio.length ? `Próximo festivo: ${anuncio[0]}. Mira si mañana es fiesta en tu comunidad o en tu municipio, con el calendario del BOE.` : '',
+];
 const descripcion =
-  corta.length >= 120 && corta.length <= 155
-    ? corta
-    : '¿Mañana es festivo? Mira en qué comunidades es fiesta mañana y compruébalo al momento en tu comunidad o tu municipio, con los festivos oficiales del BOE.';
+  candidatas.find((d) => d.length >= 120 && d.length <= 155) ??
+  '¿Mañana es festivo? Mira en qué comunidades es fiesta mañana y compruébalo al momento en tu comunidad o tu municipio, con los festivos oficiales del BOE.';
 // Lo mismo que pinta el script, ya escrito en el HTML (para quien no ejecute JavaScript).
 const listaHtml = (fecha: string, quien: string) => {
   if (!ANIOS.includes(Number(fecha.slice(0, 4)))) return 'Aún no hay calendario oficial de ese año.';

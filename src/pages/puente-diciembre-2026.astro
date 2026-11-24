@@ -38,7 +38,7 @@ const preguntas = [
 const descripcion = `El 6 de diciembre de ${ANIO_PUENTE} cae en domingo y el lunes 7 es festivo en ${conLunes.length} de ${COMUNIDADES.length} territorios. Dónde hay puente de 4 días, según el BOE.`;
 ---
 
-<BaseLayout title={`7 de diciembre: en qué comunidades es festivo (puente ${ANIO_PUENTE})`} description={descripcion} breadcrumbs={breadcrumbs}>
+<BaseLayout title={conLunes.length ? `¿El 7 de diciembre es festivo? Sí, en ${conLunes.length} comunidades (${ANIO_PUENTE})` : `¿El 7 de diciembre es festivo? Puente de diciembre ${ANIO_PUENTE}`} description={descripcion} breadcrumbs={breadcrumbs}>
   <CabeceraPagina titulo={`¿El 7 de diciembre es festivo? Puente de diciembre ${ANIO_PUENTE}`} etiqueta="Datos del BOE" breadcrumbs={breadcrumbs}>
     <p class="text-lg font-semibold">{conLunes.length ? `El lunes 7 de diciembre de ${ANIO_PUENTE} es festivo en ${conLunes.map((f) => f.c.nombre).join(', ')}.` : `El lunes 7 de diciembre de ${ANIO_PUENTE} no es festivo en ninguna comunidad.`}</p>
     <p>El Día de la Constitución cae en domingo y la Inmaculada en martes. El lunes 7 es festivo en {conLunes.length} de {COMUNIDADES.length} territorios: allí el puente va del sábado 5 al martes 8, 4 días sin pedir vacaciones. En los otros {sinLunes.length}, pidiendo el lunes 7 se consiguen los mismos 4 días.</p>

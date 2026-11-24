@@ -8,6 +8,16 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import basePathLinks from './integrations/base-path-links.mjs';
 import ogImages from './integrations/og-images.mjs';
+import { existsSync, readFileSync } from 'node:fs';
+
+// Las páginas con <meta name="robots" content="noindex…"> no van al sitemap. Se lee el HTML ya
+// construido (el sitemap se genera al final del build), así que nunca se desincroniza con las páginas.
+/** @param {string} page */
+const conNoindex = (page) => {
+  const ruta = new URL(page).pathname.replace(/\/$/, '');
+  const archivo = new URL(`./dist${ruta || '/index'}.html`, import.meta.url);
+  return existsSync(archivo) && /<meta name="robots" content="noindex/.test(readFileSync(archivo, 'utf8'));
+};
 
 
 // https://astro.build/config
@@ -39,7 +49,7 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      filter: (page) => !page.endsWith('/404') && !page.includes('/imprimir/'),
+      filter: (page) => !page.endsWith('/404') && !page.includes('/imprimir/') && !conNoindex(page),
     }),
     // Imagen Open Graph 1200×630 de cada página (colores de la marca).
     ogImages({ accent: '#a5b4fc', glow: '#312e81' }),

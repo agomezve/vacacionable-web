@@ -10,6 +10,10 @@ export function getStaticPaths() {
   return COMUNIDADES.flatMap((c) => c.capitales.map((k) => ({ params: { comunidad: c.slug, capital: k.slug } })));
 }
 const t = territorio(Astro.params.capital!)!;
+// Sin fiestas locales aprobadas, la ficha repite en un 85 % la de su comunidad (medido el 24-nov): noindex
+// y fuera del sitemap hasta que se añadan a LOCALES (src/data/territorios.ts); entonces se indexa sola.
+// La página sigue publicada y enlazada.
+const noindex = !t.locales;
 const breadcrumbs = [
   { name: 'Calendario laboral 2027', href: '/calendario-laboral-2027' },
   { name: t.comunidad.corto, href: `/calendario-laboral-2027/${t.comunidad.slug}` },
@@ -38,6 +42,7 @@ const description = cabe(
   title={title}
   description={description}
   breadcrumbs={breadcrumbs}
+  noindex={noindex}
 >
   <FichaCalendario t={t} breadcrumbs={breadcrumbs} />
 </BaseLayout>

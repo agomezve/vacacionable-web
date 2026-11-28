@@ -285,4 +285,59 @@ export const LOCALES: FestivosLocales[] = [
     dias: [{ fecha: '2027-05-17', nombre: 'La Hiniesta' }, { fecha: '2027-06-29', nombre: 'San Pedro' }],
     fuente: { texto: 'BOP de Zamora n.º 88, 31-jul-2026: fiestas locales de 2027 de Zamora capital y provincia', url: 'https://www.diputaciondezamora.es/opencms/export/sites/dipu-zamora/servicios/BOP/.Archivos/documentos/BOP/anuncios/2026/88/202601897.pdf' },
   },
+  {
+    municipio: 'Ávila', slug: 'avila', comunidad: 'castilla-y-leon', capital: 'avila', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-05-03', nombre: 'San Segundo' }, { fecha: '2027-10-15', nombre: 'Santa Teresa de Jesús' }],
+    fuente: { texto: 'BOP de Ávila n.º 129, 8-jul-2026: fiestas locales de 2027 en la provincia', url: 'https://www.diputacionavila.es/bops/2026/08-07-2026/08-07-2026_144826.pdf' },
+  },
+  {
+    municipio: 'Palencia', slug: 'palencia', comunidad: 'castilla-y-leon', capital: 'palencia', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-02-02', nombre: 'Fiesta local' }, { fecha: '2027-09-02', nombre: 'Fiesta local' }],
+    fuente: { texto: 'BOP de Palencia n.º 83, 13-jul-2026: fiestas locales de 2027 en la provincia', url: 'https://www.diputaciondepalencia.es/system/files/bop/2026/20260713-bop-83-Ordinario.pdf' },
+  },
+  {
+    municipio: 'Segovia', slug: 'segovia', comunidad: 'castilla-y-leon', capital: 'segovia', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-06-29', nombre: 'San Pedro' }, { fecha: '2027-10-25', nombre: 'San Frutos' }],
+    fuente: { texto: 'BOP de Segovia n.º 80, 6-jul-2026: fiestas locales de la provincia para 2027 (copia de la Junta de Castilla y León)', url: 'https://trabajoyprevencion.jcyl.es/web/jcyl/binarios/629/351/BOP%20Fiestas%20locales.pdf?blobheader=application%2Fpdf%3Bcharset%3DUTF-8&blobnocache=true' },
+  },
+  {
+    municipio: 'Soria', slug: 'soria', comunidad: 'castilla-y-leon', capital: 'soria', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-06-24', nombre: 'Fiesta local' }, { fecha: '2027-10-02', nombre: 'Fiesta local' }],
+    fuente: { texto: 'BOP de Soria n.º 81, 15-jul-2026: fiestas laborales de 2027 en la provincia', url: 'http://bop.dipsoria.es/index.php/mod.documentos/mem.descargar/fichero.documentos_1390_b8116e16%232E%23pdf' },
+  },
+  {
+    municipio: 'Albacete', slug: 'albacete', comunidad: 'castilla-la-mancha', capital: 'albacete', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-06-24', nombre: 'Fiesta local' }, { fecha: '2027-09-08', nombre: 'Fiesta local' }],
+    fuente: { texto: 'BOP de Albacete n.º 137, 25-nov-2026: fiestas locales de 2027 en la provincia', url: 'https://bop.dipualba.es/servicesajax/descargararchivopaginaBOP/300008' },
+  },
+  {
+    municipio: 'Cuenca', slug: 'cuenca', comunidad: 'castilla-la-mancha', capital: 'cuenca', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-06-01', nombre: 'Virgen de la Luz' }, { fecha: '2027-09-21', nombre: 'San Mateo' }],
+    fuente: { texto: 'Ayuntamiento de Cuenca, 26-oct-2026: el Pleno aprueba los festivos locales de 2027', url: 'https://ayuntamiento.cuenca.es/default.aspx?tabid=26140&rowid=3362597%2C61488' },
+  },
+  {
+    municipio: 'Ciudad Real', slug: 'ciudad-real', comunidad: 'castilla-la-mancha', capital: 'ciudad-real', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-05-17', nombre: 'Romería de Santa María de Alarcos' }, { fecha: '2027-07-31', nombre: 'Día de la Pandorga' }],
+    fuente: { texto: 'Ayuntamiento de Ciudad Real, 29-jul-2026: el Pleno de julio aprueba las fiestas locales de 2027', url: 'https://www.ciudadreal.es/noticias/gobierno/25272-el-pleno-reclamara-nuevamente-a-la-junta-mantener-la-uvi-movil-del-hgucr-y-una-segunda-unidad-adicional-para-ciudad-real.html' },
+  },
+  {
+    municipio: 'Guadalajara', slug: 'guadalajara', comunidad: 'castilla-la-mancha', capital: 'guadalajara', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-09-08', nombre: 'Virgen de la Antigua' }, { fecha: '2027-09-17', nombre: 'Ferias y Fiestas' }],
+    fuente: { texto: 'Ayuntamiento de Guadalajara, 30-oct-2026: el Pleno fija los festivos locales de 2027', url: 'https://www.guadalajara.es/el-pleno-municipal-se-inicia-con-un-minuto-de-silencio-por-las-victimas-de-urda-y-aprueba-dos-nuevos-planes-de-emergencia.html' },
+  },
+  {
+    municipio: 'Toledo', slug: 'toledo', comunidad: 'castilla-la-mancha', capital: 'toledo', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-03-19', nombre: 'San José' }, { fecha: '2027-03-29', nombre: 'Lunes de Pascua' }],
+    fuente: { texto: 'Ayuntamiento de Toledo, 15-jul-2026: la Junta de Gobierno Local fija las fiestas locales de 2027', url: 'https://www.toledo.es/el-ayuntamiento-saca-a-licitacion-la-reparacion-de-pavimentos-de-calles-en-diferentes-puntos-de-la-ciudad/' },
+  },
+  {
+    municipio: 'Santander', slug: 'santander', comunidad: 'cantabria', capital: 'santander', anio: 2027, estado: 'boletin',
+    dias: [{ fecha: '2027-05-17', nombre: 'Virgen del Mar' }, { fecha: '2027-08-30', nombre: 'Santos Mártires Emeterio y Celedonio' }],
+    fuente: { texto: 'BOC, 20-nov-2026: calendario de fiestas laborales de 2027 en Cantabria (comunicado del Gobierno de Cantabria)', url: 'https://www.cantabria.es/web/comunicados/w/el-gobierno-publica-el-calendario-de-fiestas-laborales-para-el-a%C3%B1o-2027' },
+  },
+  {
+    municipio: 'Melilla', slug: 'melilla-ciudad', comunidad: 'melilla', capital: 'melilla-ciudad', anio: 2027, estado: 'pleno',
+    dias: [{ fecha: '2027-09-08', nombre: 'Virgen de la Victoria' }, { fecha: '2027-09-17', nombre: 'Día de Melilla' }],
+    fuente: { texto: 'Ciudad Autónoma de Melilla: el Consejo de Gobierno del 24-sep-2026 aprueba las fiestas locales de 2027', url: 'https://www.melilla.es/melillaportal/contenedor.jsp?seccion=s_fact_d4_v1.jsp&contenido=46179&nivel=1400&tipo=2&anuncio=1' },
+  },
 ];
